@@ -1,0 +1,3209 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#0a0e1a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="متجري">
+<title>متجري Ultra Pro Max</title>
+<style>
+:root{--bg:#0a0e1a;--card:#151b2e;--card2:#1e2538;--card3:#252d44;--border:#2d3654;--primary:#6366f1;--primary-l:#818cf8;--primary-d:#4f46e5;--success:#10b981;--success-l:#34d399;--danger:#ef4444;--warning:#f59e0b;--purple:#a855f7;--gold:#fbbf24;--cyan:#06b6d4;--text:#f8fafc;--text2:#cbd5e1;--dim:#64748b;--sh:0 4px 20px rgba(0,0,0,.35);--glow:0 0 20px rgba(99,102,241,.4)}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'Segoe UI','SF Pro Display',Tahoma,Arial,sans-serif;background:var(--bg);background-image:radial-gradient(circle at 0% 0%,rgba(99,102,241,.12) 0%,transparent 50%),radial-gradient(circle at 100% 100%,rgba(168,85,247,.08) 0%,transparent 50%);background-attachment:fixed;color:var(--text);padding-bottom:85px;font-size:15px;overflow-x:hidden;line-height:1.5;-webkit-font-smoothing:antialiased}
+#loginScreen{position:fixed;inset:0;background:linear-gradient(135deg,#0a0e1a 0%,#1e1b4b 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;padding:20px}
+#loginScreen::before{content:'';position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(99,102,241,.3),transparent 70%);border-radius:50%;top:-200px;right:-200px;animation:float 8s ease-in-out infinite}
+#loginScreen::after{content:'';position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(168,85,247,.2),transparent 70%);border-radius:50%;bottom:-150px;left:-150px;animation:float 10s ease-in-out infinite reverse}
+@keyframes float{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(30px,-30px) scale(1.1)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUpFade{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideUpModal{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.65}}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes typing{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-8px);opacity:1}}
+@keyframes pulseLogo{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+@keyframes shine{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+#loginScreen .login-logo{font-size:90px;margin-bottom:15px;filter:drop-shadow(0 10px 30px rgba(99,102,241,.5));animation:pulseLogo 2.5s ease-in-out infinite;z-index:1}
+#loginScreen h1{font-size:32px;font-weight:800;background:linear-gradient(135deg,#818cf8,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:6px;letter-spacing:1px;z-index:1}
+#loginScreen .subtitle{color:var(--dim);margin-bottom:40px;font-size:13px;z-index:1;letter-spacing:2px}
+.login-box{background:rgba(21,27,46,.85);backdrop-filter:blur(20px);border:1px solid rgba(99,102,241,.2);padding:30px;border-radius:24px;width:100%;max-width:340px;box-shadow:0 20px 60px rgba(0,0,0,.6);z-index:1}
+.login-box label{display:block;text-align:center;font-size:13px;color:var(--text2);margin-bottom:12px;font-weight:600}
+#loginPassword{text-align:center;font-size:26px;letter-spacing:12px;padding:18px;border:2px solid var(--border);border-radius:16px;background:var(--bg);color:var(--text);width:100%;margin-bottom:20px;font-family:'Courier New',monospace}
+#loginPassword:focus{outline:none;border-color:var(--primary);box-shadow:var(--glow)}
+#loginScreen .hint{font-size:11px;color:var(--dim);text-align:center;margin-top:15px;line-height:1.8}
+.header{background:rgba(21,27,46,.9);backdrop-filter:blur(20px);padding:12px 15px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;border-bottom:1px solid var(--border);box-shadow:var(--sh)}
+.header-left{display:flex;align-items:center;gap:10px}
+.header-title{font-size:17px;font-weight:800;background:linear-gradient(135deg,#818cf8,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.header-time{font-size:11px;color:var(--dim);margin-top:2px;font-weight:500}
+.header-btn{width:40px;height:40px;border-radius:12px;border:1px solid var(--border);background:var(--card2);color:var(--text);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.header-btn:active{transform:scale(.92);background:var(--primary)}
+.rate-badge{padding:8px 14px;border-radius:12px;background:var(--card2);border:1px solid var(--border);font-size:12px;font-weight:700;display:flex;align-items:center;gap:6px;cursor:pointer;color:var(--gold)}
+.rate-badge.updated{background:rgba(16,185,129,.2);border-color:var(--success);color:var(--success-l)}
+.rate-badge.warning{background:rgba(245,158,11,.2);border-color:var(--warning);color:var(--warning);animation:pulse 2s infinite}
+.rate-badge.danger{background:rgba(239,68,68,.2);border-color:var(--danger);color:var(--danger);animation:pulse 1.2s infinite}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:rgba(21,27,46,.95);backdrop-filter:blur(20px);display:flex;padding:8px 0 max(8px,env(safe-area-inset-bottom));z-index:100;border-top:1px solid var(--border);box-shadow:0 -10px 40px rgba(0,0,0,.4)}
+.nav-btn{flex:1;background:none;border:none;color:var(--dim);font-size:10px;padding:8px 2px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;font-family:inherit;font-weight:600;position:relative}
+.nav-btn .icon{font-size:22px;filter:grayscale(.6) opacity(.7)}
+.nav-btn.active{color:var(--primary-l)}
+.nav-btn.active .icon{filter:grayscale(0) opacity(1);transform:translateY(-3px) scale(1.15)}
+.nav-btn.active::after{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:24px;height:3px;background:linear-gradient(90deg,var(--primary),var(--purple));border-radius:0 0 3px 3px;box-shadow:var(--glow)}
+.content{padding:14px;max-width:900px;margin:0 auto}
+.page{display:none;animation:slideUpFade .35s}
+.page.active{display:block}
+.card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px;margin-bottom:14px;box-shadow:var(--sh);position:relative}
+.card-title{font-size:15px;font-weight:800;margin-bottom:14px;display:flex;align-items:center;gap:10px;padding-bottom:12px;border-bottom:1px solid var(--border);color:var(--text)}
+.card-title .icon{font-size:20px}
+.quick-list{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
+.quick-row{display:flex;align-items:center;gap:10px;background:linear-gradient(90deg,var(--card2) 0%,var(--card3) 100%);border:1px solid var(--border);border-radius:12px;padding:10px 12px;cursor:pointer;position:relative;overflow:hidden;min-height:60px}
+.quick-row:active{transform:scale(.98);background:var(--primary);border-color:var(--primary)}
+.quick-row .qr-emoji{font-size:26px;flex-shrink:0;width:36px;text-align:center}
+.quick-row .qr-info{flex:1;min-width:0;text-align:right}
+.quick-row .qr-name{font-weight:700;font-size:14px;color:var(--text);margin-bottom:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.quick-row .qr-cat{font-size:10px;color:var(--dim);font-weight:500}
+.quick-row .qr-price{font-size:16px;font-weight:900;color:var(--success-l);white-space:nowrap}
+.quick-row .qr-stock{font-size:10px;font-weight:800;padding:3px 8px;border-radius:8px;background:rgba(99,102,241,.15);color:var(--primary-l);border:1px solid var(--primary);white-space:nowrap;min-width:36px;text-align:center}
+.quick-row .qr-stock.low{background:rgba(245,158,11,.15);color:var(--warning);border-color:var(--warning)}
+.quick-row .qr-stock.out{background:rgba(239,68,68,.15);color:var(--danger);border-color:var(--danger)}
+.quick-row.out{opacity:.5}
+.quick-row .qr-badge{position:absolute;top:4px;left:4px;background:var(--gold);color:#000;font-size:9px;font-weight:800;padding:2px 6px;border-radius:6px}
+.quick-grid-large{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.quick-btn-large{background:linear-gradient(135deg,var(--card2),var(--card3));border:1.5px solid var(--border);border-radius:14px;padding:12px 10px;color:var(--text);font-family:inherit;cursor:pointer;display:flex;flex-direction:column;gap:4px;position:relative;text-align:right;min-height:75px;justify-content:center}
+.quick-btn-large:active{transform:scale(.96);border-color:var(--primary);box-shadow:var(--glow)}
+.quick-btn-large .qbl-name{font-weight:800;font-size:13px;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.quick-btn-large .qbl-bottom{display:flex;justify-content:space-between;align-items:center;gap:6px}
+.quick-btn-large .qbl-price{font-size:16px;font-weight:900;color:var(--success-l)}
+.quick-btn-large .qbl-stock{font-size:10px;font-weight:800;padding:2px 7px;border-radius:6px;background:rgba(99,102,241,.15);color:var(--primary-l);border:1px solid var(--primary)}
+.quick-btn-large .qbl-stock.low{background:rgba(245,158,11,.15);color:var(--warning);border-color:var(--warning)}
+.quick-btn-large .qbl-stock.out{background:rgba(239,68,68,.15);color:var(--danger);border-color:var(--danger)}
+.quick-btn-large .qbl-x{position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:var(--danger);color:white;border:none;font-size:11px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0}
+.quick-btn-large:active .qbl-x{opacity:1}
+.quick-btn-large.empty{border-style:dashed;border-color:var(--dim);color:var(--dim);opacity:.5;align-items:center;justify-content:center;font-weight:700}
+input,select,textarea{width:100%;padding:13px 15px;border-radius:12px;border:1.5px solid var(--border);background:var(--bg);color:var(--text);font-size:15px;font-family:inherit;margin-bottom:10px;font-weight:500}
+input::placeholder,textarea::placeholder{color:var(--dim);font-weight:400}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--primary);box-shadow:var(--glow)}
+label{display:block;margin-bottom:6px;font-size:13px;color:var(--text2);font-weight:600}
+.label-req{color:var(--danger)}
+.input-group{display:flex;gap:8px}
+.input-group>*{flex:1;margin-bottom:10px}
+.btn{width:100%;padding:15px;border-radius:14px;border:none;font-size:15px;font-weight:700;color:white;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.3);position:relative;overflow:hidden}
+.btn::before{content:'';position:absolute;inset:0;background:linear-gradient(rgba(255,255,255,.1),transparent);pointer-events:none}
+.btn:active{transform:scale(.97);opacity:.92}
+.btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary-d))}
+.btn-success{background:linear-gradient(135deg,var(--success),#059669)}
+.btn-danger{background:linear-gradient(135deg,var(--danger),#b91c1c)}
+.btn-warning{background:linear-gradient(135deg,var(--warning),#d97706)}
+.btn-dark{background:linear-gradient(135deg,#475569,#334155)}
+.btn-purple{background:linear-gradient(135deg,var(--purple),#7c3aed)}
+.btn-gold{background:linear-gradient(135deg,var(--gold),#d97706);color:#000}
+.btn-cyan{background:linear-gradient(135deg,var(--cyan),#0891b2)}
+.btn-sm{padding:9px 14px;font-size:13px;width:auto;border-radius:10px}
+.search-box{position:relative;margin-bottom:14px}
+.search-box input{padding-right:48px;font-size:16px;padding-top:15px;padding-bottom:15px;margin-bottom:0}
+.search-box .icon{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:18px;color:var(--dim);pointer-events:none}
+.product{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px 16px;margin-bottom:10px;cursor:pointer;position:relative;overflow:hidden}
+.product::before{content:'';position:absolute;right:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,var(--primary),var(--purple))}
+.product:active{transform:scale(.98)}
+.product.low::before{background:linear-gradient(180deg,var(--warning),#d97706)}
+.product.out::before{background:linear-gradient(180deg,var(--danger),#b91c1c)}
+.product.out{opacity:.65}
+.product .top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;gap:8px}
+.product .name{font-size:16px;font-weight:700;flex:1}
+.product .price{color:var(--success-l);font-size:18px;font-weight:800;white-space:nowrap}
+.product .sub{font-size:12px;color:var(--dim);line-height:1.7;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.stock-badge{display:inline-block;background:var(--card2);padding:3px 10px;border-radius:8px;font-size:11px;font-weight:700;color:var(--text2);border:1px solid var(--border)}
+.stock-badge.low{background:rgba(245,158,11,.15);color:var(--warning);border-color:var(--warning)}
+.stock-badge.out{background:rgba(239,68,68,.15);color:var(--danger);border-color:var(--danger)}
+.usd-badge{display:inline-block;background:rgba(251,191,36,.15);color:var(--gold);padding:3px 10px;border-radius:8px;font-size:11px;font-weight:800;border:1px solid var(--gold)}
+.weight-badge{display:inline-block;background:rgba(6,182,212,.15);color:var(--cyan);padding:3px 10px;border-radius:8px;font-size:11px;font-weight:800;border:1px solid var(--cyan)}
+.cart-item{background:var(--card2);border-radius:14px;padding:14px;margin-bottom:10px;border:1px solid var(--border)}
+.cart-item .head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.cart-item .name{font-weight:700;font-size:14px;flex:1}
+.cart-item .type{font-size:10px;padding:3px 10px;border-radius:8px;background:var(--primary);font-weight:800}
+.cart-item .type.box{background:var(--purple)}
+.cart-item .type.weight{background:var(--cyan)}
+.cart-item .info{font-size:13px;color:var(--dim);margin-bottom:10px}
+.qty{display:flex;align-items:center;gap:8px;background:var(--bg);padding:5px;border-radius:22px;width:fit-content;border:1px solid var(--border)}
+.qty button{width:36px;height:36px;border-radius:50%;border:none;background:var(--primary);color:white;font-size:20px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.qty button:active{transform:scale(.9)}
+.qty button.minus{background:var(--danger)}
+.qty span{min-width:32px;text-align:center;font-weight:800;font-size:16px}
+.total-box{background:linear-gradient(135deg,#059669,#10b981);padding:22px;border-radius:18px;text-align:center;margin-bottom:14px;box-shadow:0 10px 30px rgba(16,185,129,.3);position:relative;overflow:hidden}
+.total-box::before{content:'';position:absolute;top:-50%;right:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,255,255,.15),transparent 60%);animation:shine 4s infinite linear}
+.total-box .label{font-size:13px;opacity:.95;font-weight:600;position:relative}
+.total-box .amount{font-size:38px;font-weight:900;margin-top:6px;position:relative;text-shadow:0 3px 10px rgba(0,0,0,.2)}
+.profit-box{background:rgba(16,185,129,.15);border:1.5px solid var(--success);padding:14px;border-radius:14px;text-align:center;margin-bottom:14px;font-size:14px;font-weight:600;color:var(--success-l)}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.stat{background:var(--card);padding:18px 12px;border-radius:16px;text-align:center;border:1px solid var(--border);position:relative;overflow:hidden}
+.stat::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--primary)}
+.stat.green::before{background:var(--success)}
+.stat.orange::before{background:var(--warning)}
+.stat.purple::before{background:var(--purple)}
+.stat.red::before{background:var(--danger)}
+.stat.gold::before{background:var(--gold)}
+.stat.cyan::before{background:var(--cyan)}
+.stat .v{font-size:22px;font-weight:900;color:var(--success-l);line-height:1.2}
+.stat .l{font-size:11px;color:var(--dim);margin-top:6px;font-weight:600}
+.chart-wrap{display:flex;align-items:flex-end;gap:8px;height:180px;padding:20px 0 30px;overflow-x:auto;scrollbar-width:none}
+.chart-wrap::-webkit-scrollbar{display:none}
+.chart-bar{flex:1;min-width:36px;background:linear-gradient(to top,var(--primary),var(--primary-l));border-radius:8px 8px 0 0;position:relative;min-height:8px;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;padding-bottom:6px}
+.chart-bar.best{background:linear-gradient(to top,var(--success),var(--success-l))}
+.chart-bar .val{font-size:10px;color:white;font-weight:800}
+.chart-bar .lbl{position:absolute;bottom:-25px;font-size:10px;color:var(--dim);white-space:nowrap;transform:rotate(-45deg);font-weight:700}
+.invoice{background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:10px}
+.invoice .top{display:flex;justify-content:space-between;align-items:center;padding-bottom:10px;border-bottom:1px solid var(--border);margin-bottom:10px}
+.invoice .total{color:var(--success-l);font-weight:800;font-size:18px}
+.invoice-item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px dotted var(--border);font-size:13px}
+.invoice-item:last-child{border-bottom:none}
+.invoice-item .name{font-weight:700;color:var(--text)}
+.invoice-item .detail{font-size:11px;color:var(--dim);margin-top:2px}
+.invoice-item .price{color:var(--success-l);font-weight:800;font-size:14px}
+.alert{display:flex;align-items:flex-start;gap:12px;padding:14px;border-radius:14px;margin-bottom:10px;border:1.5px solid}
+.alert-icon{font-size:24px;flex-shrink:0;animation:bounce 2s infinite}
+.alert-content{flex:1}
+.alert-title{font-weight:800;font-size:14px;margin-bottom:4px}
+.alert-text{font-size:12px;opacity:.85;line-height:1.6}
+.alert-danger{background:rgba(239,68,68,.12);border-color:var(--danger);color:var(--danger)}
+.alert-warning{background:rgba(245,158,11,.12);border-color:var(--warning);color:var(--warning)}
+.alert-success{background:rgba(16,185,129,.12);border-color:var(--success);color:var(--success-l)}
+.alert-info{background:rgba(99,102,241,.12);border-color:var(--primary);color:var(--primary-l)}
+.alert-gold{background:rgba(251,191,36,.12);border-color:var(--gold);color:var(--gold)}
+.log-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);align-items:flex-start}
+.log-item:last-child{border-bottom:none}
+.log-icon{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.log-icon.create{background:rgba(16,185,129,.15)}
+.log-icon.update{background:rgba(99,102,241,.15)}
+.log-icon.delete{background:rgba(239,68,68,.15)}
+.log-icon.sell{background:rgba(251,191,36,.15)}
+.log-icon.purchase{background:rgba(168,85,247,.15)}
+.log-icon.backup{background:rgba(6,182,212,.15)}
+.log-body{flex:1;min-width:0}
+.log-title{font-weight:700;font-size:13px;margin-bottom:3px}
+.log-desc{font-size:11px;color:var(--dim);line-height:1.5}
+.log-time{font-size:10px;color:var(--dim);margin-top:3px}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(8px);z-index:200;align-items:flex-end;justify-content:center}
+.modal.show{display:flex}
+.modal-box{background:var(--card);border-radius:24px 24px 0 0;padding:24px 20px max(20px,env(safe-area-inset-bottom));width:100%;max-width:600px;max-height:92vh;overflow-y:auto;animation:slideUpModal .35s;border-top:2px solid var(--primary);box-shadow:0 -20px 60px rgba(0,0,0,.6)}
+.modal-title{font-size:19px;font-weight:800;text-align:center;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.modal-close{position:absolute;top:15px;left:15px;width:36px;height:36px;border-radius:50%;background:var(--danger);color:white;border:none;font-size:18px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10}
+.modal-btns{display:flex;gap:10px;margin-top:18px}
+.modal-btns button{flex:1;padding:15px;border:none;border-radius:14px;font-weight:800;font-size:15px;cursor:pointer;font-family:inherit}
+.modal-btns button:active{transform:scale(.97)}
+.toast{position:fixed;top:85px;left:50%;transform:translateX(-50%) translateY(-200px);background:linear-gradient(135deg,var(--success),#059669);color:white;padding:14px 26px;border-radius:16px;font-weight:700;z-index:300;transition:transform .4s;box-shadow:0 10px 30px rgba(16,185,129,.5);max-width:90%;text-align:center;font-size:14px}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.error{background:linear-gradient(135deg,var(--danger),#b91c1c)}
+.toast.warning{background:linear-gradient(135deg,var(--warning),#d97706)}
+.empty{text-align:center;padding:60px 20px;color:var(--dim)}
+.empty .icon{font-size:70px;margin-bottom:20px;opacity:.4}
+.empty .text{font-size:15px;font-weight:600;margin-bottom:6px}
+.empty .hint{font-size:12px;opacity:.7}
+.type-toggle{display:flex;gap:4px;margin-bottom:14px;background:var(--bg);padding:5px;border-radius:14px;border:1px solid var(--border)}
+.type-toggle button{flex:1;padding:12px 8px;background:none;border:none;color:var(--dim);font-weight:700;cursor:pointer;border-radius:10px;font-family:inherit;font-size:13px}
+.type-toggle button.active{background:linear-gradient(135deg,var(--primary),var(--primary-d));color:white}
+.type-toggle.currency button.active{background:linear-gradient(135deg,var(--gold),#d97706);color:#000}
+.type-toggle.three button{font-size:12px}
+.cat-scroll{display:flex;gap:8px;overflow-x:auto;padding:4px 0 10px;margin-bottom:12px;scrollbar-width:none}
+.cat-scroll::-webkit-scrollbar{display:none}
+.cat-btn{padding:10px 18px;border-radius:20px;border:1.5px solid var(--border);background:var(--card2);color:var(--text2);font-size:13px;white-space:nowrap;cursor:pointer;font-family:inherit;font-weight:700}
+.cat-btn.active{background:linear-gradient(135deg,var(--primary),var(--primary-d));color:white;border-color:var(--primary)}
+.tabs-inner{display:flex;gap:4px;background:var(--card);padding:5px;border-radius:14px;margin-bottom:14px;overflow-x:auto;scrollbar-width:none;border:1px solid var(--border)}
+.tabs-inner::-webkit-scrollbar{display:none}
+.tab-inner{flex:1;padding:11px 14px;border:none;background:none;color:var(--dim);font-family:inherit;font-size:13px;cursor:pointer;border-radius:10px;font-weight:700;white-space:nowrap}
+.tab-inner.active{background:linear-gradient(135deg,var(--primary),var(--primary-d));color:white}
+.info-row{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--border);font-size:14px;align-items:center}
+.info-row:last-child{border-bottom:none}
+.info-row b{color:var(--success-l);font-weight:700}
+.box-info{background:var(--bg);border:2px dashed var(--primary);border-radius:14px;padding:14px;margin-top:14px;font-size:13px}
+.box-info .row{display:flex;justify-content:space-between;padding:6px 0}
+.box-info .row b{color:var(--success-l);font-weight:700}
+.box-info .row b.negative{color:var(--danger)}
+.box-info .row b.positive{color:var(--success-l)}
+.box-info.gold{border-color:var(--gold)}
+.product-input-wrap{position:relative}
+.suggestions{position:absolute;top:100%;left:0;right:0;background:var(--card2);border:2px solid var(--primary);border-radius:12px;max-height:250px;overflow-y:auto;z-index:50;margin-top:-6px;display:none;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+.suggestions.show{display:block}
+.suggestion-item{padding:12px 14px;cursor:pointer;border-bottom:1px solid var(--border);font-size:14px;font-weight:600}
+.suggestion-item:last-child{border-bottom:none}
+.suggestion-item:active{background:var(--primary);color:white}
+.suggestion-item .sub{font-size:11px;color:var(--dim);margin-top:4px;font-weight:500}
+.suggestion-item.new{background:rgba(16,185,129,.15);color:var(--success-l);font-weight:800}
+.assistant-fab{position:fixed;bottom:100px;left:20px;width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--primary));color:white;border:none;font-size:26px;cursor:pointer;z-index:90;box-shadow:0 10px 30px rgba(168,85,247,.5);animation:float 3s ease-in-out infinite;display:flex;align-items:center;justify-content:center}
+.assistant-fab:active{transform:scale(.9)}
+.assistant-window{position:fixed;inset:0;background:var(--bg);z-index:500;display:none;flex-direction:column}
+.assistant-window.show{display:flex}
+.assistant-header{padding:16px 20px;background:var(--card);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;box-shadow:var(--sh)}
+.assistant-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--primary));display:flex;align-items:center;justify-content:center;font-size:22px}
+.assistant-name{font-weight:800;font-size:15px}
+.assistant-status{font-size:11px;color:var(--success-l);display:flex;align-items:center;gap:4px}
+.assistant-status::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--success);box-shadow:0 0 10px var(--success);animation:pulse 2s infinite}
+.assistant-messages{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:12px}
+.msg{max-width:85%;padding:14px 16px;border-radius:18px;font-size:14px;line-height:1.6;animation:slideUpFade .3s;word-wrap:break-word}
+.msg.bot{background:var(--card);border:1px solid var(--border);align-self:flex-start;border-bottom-right-radius:4px;color:var(--text)}
+.msg.user{background:linear-gradient(135deg,var(--primary),var(--primary-d));align-self:flex-end;border-bottom-left-radius:4px;color:white;font-weight:600}
+.msg-time{font-size:10px;opacity:.6;margin-top:6px;display:block}
+.msg b{color:var(--gold)}
+.quick-questions{display:flex;gap:8px;padding:10px 20px;overflow-x:auto;scrollbar-width:none;border-top:1px solid var(--border)}
+.quick-questions::-webkit-scrollbar{display:none}
+.quick-q{padding:10px 16px;border-radius:20px;background:var(--card2);border:1.5px solid var(--border);color:var(--text2);font-size:12px;white-space:nowrap;cursor:pointer;font-family:inherit;font-weight:600}
+.quick-q:active{background:var(--primary);color:white}
+.assistant-input-wrap{padding:12px 16px max(12px,env(safe-area-inset-bottom));background:var(--card);border-top:1px solid var(--border);display:flex;gap:10px;align-items:center}
+.assistant-input{flex:1;padding:13px 16px;border-radius:24px;border:1.5px solid var(--border);background:var(--bg);color:var(--text);font-family:inherit;font-size:14px;margin:0}
+.assistant-input:focus{outline:none;border-color:var(--purple)}
+.assistant-send{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--primary));color:white;border:none;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.typing{display:flex;gap:4px;padding:14px 18px}
+.typing span{width:8px;height:8px;border-radius:50%;background:var(--primary-l);animation:typing 1.4s infinite}
+.typing span:nth-child(2){animation-delay:.2s}
+.typing span:nth-child(3){animation-delay:.4s}
+.comparison-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.comparison-card{background:var(--card2);padding:16px 12px;border-radius:14px;text-align:center;border:1px solid var(--border)}
+.comparison-card.current{border-color:var(--primary)}
+.comparison-card.previous{border-color:var(--dim);opacity:.85}
+.comparison-card .label{font-size:11px;color:var(--dim);margin-bottom:6px;font-weight:600}
+.comparison-card .value{font-size:20px;font-weight:900}
+.diff-badge{display:inline-block;padding:6px 14px;border-radius:20px;font-size:13px;font-weight:800;margin:8px auto 0}
+.diff-badge.positive{background:rgba(16,185,129,.15);color:var(--success-l);border:1px solid var(--success)}
+.diff-badge.negative{background:rgba(239,68,68,.15);color:var(--danger);border:1px solid var(--danger)}
+.diff-badge.neutral{background:rgba(100,116,139,.15);color:var(--dim);border:1px solid var(--dim)}
+.dead-item{background:var(--card2);border-right:4px solid var(--warning);border-radius:12px;padding:14px;margin-bottom:10px}
+.dead-item .name{font-weight:800;margin-bottom:6px;font-size:14px}
+.dead-item .info{font-size:12px;color:var(--dim);line-height:1.7}
+.dead-item .days{display:inline-block;background:rgba(245,158,11,.15);color:var(--warning);padding:3px 10px;border-radius:8px;font-size:11px;font-weight:800;margin-top:6px}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border)}
+.toggle-row:last-child{border-bottom:none}
+.toggle-label{font-size:14px;font-weight:600}
+.toggle-desc{font-size:11px;color:var(--dim);margin-top:3px}
+.switch{position:relative;width:52px;height:30px;flex-shrink:0}
+.switch input{opacity:0;width:0;height:0}
+.switch .slider{position:absolute;cursor:pointer;inset:0;background:var(--card3);border-radius:30px;transition:.3s;border:1px solid var(--border)}
+.switch .slider::before{content:'';position:absolute;height:22px;width:22px;left:4px;bottom:3px;background:white;border-radius:50%;transition:.3s}
+.switch input:checked+.slider{background:linear-gradient(135deg,var(--success),#059669);border-color:var(--success)}
+.switch input:checked+.slider::before{transform:translateX(22px)}
+.debt-item{background:var(--card);border-radius:14px;padding:14px;margin-bottom:10px;border-right:4px solid var(--danger)}
+.debt-item.paid{border-right-color:var(--success);opacity:.7}
+.weight-input-group{display:flex;align-items:center;gap:6px}
+.weight-input-group input{flex:1;font-size:20px;text-align:center;font-weight:800;margin:0}
+.weight-input-group .unit{padding:12px 14px;background:var(--cyan);color:white;border-radius:10px;font-weight:800;font-size:14px}
+.weight-quick-btns{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:12px 0}
+.weight-quick-btns button{padding:10px 4px;background:var(--card2);border:1.5px solid var(--border);border-radius:10px;color:var(--text);font-family:inherit;font-weight:700;font-size:12px;cursor:pointer}
+.weight-quick-btns button:active{background:var(--cyan);color:white;border-color:var(--cyan)}
+.invoice-filters{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;scrollbar-width:none;padding-bottom:6px}
+.invoice-filters::-webkit-scrollbar{display:none}
+.invoice-filters button{padding:8px 14px;background:var(--card2);border:1.5px solid var(--border);border-radius:20px;color:var(--text2);font-family:inherit;font-weight:700;font-size:12px;white-space:nowrap;cursor:pointer}
+.invoice-filters button.active{background:var(--primary);color:white;border-color:var(--primary)}
+.backup-reminder{position:fixed;bottom:155px;right:12px;left:12px;background:linear-gradient(135deg,var(--warning),#d97706);color:white;padding:12px 16px;border-radius:14px;font-weight:700;font-size:13px;box-shadow:0 8px 24px rgba(245,158,11,.4);z-index:95;cursor:pointer;animation:slideUpFade .5s;display:none;text-align:center}
+.backup-reminder.show{display:block}
+.backup-reminder.danger{background:linear-gradient(135deg,var(--danger),#b91c1c);animation:pulse 1.5s infinite}
+@media(min-width:768px){.stats{grid-template-columns:repeat(4,1fr)}.content{padding:20px}}
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-track{background:var(--card)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:var(--primary)}
+</style>
+</head>
+<body>
+
+<div id="loginScreen">
+    <div class="login-logo">🏪</div>
+    <h1>متجري</h1>
+    <div class="subtitle">ULTRA PRO MAX</div>
+    <div class="login-box">
+        <label>أدخل كلمة المرور</label>
+        <input type="password" id="loginPassword" placeholder="••••" maxlength="10" inputmode="numeric">
+        <button class="btn btn-primary" onclick="tryLogin()">🔓 دخول</button>
+        <div class="hint">كلمة المرور الافتراضية: <b style="color:var(--gold)">1234</b></div>
+    </div>
+</div>
+
+<div class="header">
+    <div class="header-left">
+        <button class="header-btn" onclick="toggleMenu()">☰</button>
+        <div>
+            <div class="header-title">متجري Ultra</div>
+            <div class="header-time" id="headerTime"></div>
+        </div>
+    </div>
+    <div class="rate-badge" id="rateBadge" onclick="openRateModal()">
+        <span>💵</span><span id="rateValue">اضبط</span>
+    </div>
+</div>
+
+<div class="backup-reminder" id="backupReminder" onclick="showBackupOptions()">
+    <span id="backupReminderText"></span>
+</div>
+
+<div class="modal" id="mainMenu" style="align-items:flex-start;padding-top:70px">
+    <div class="modal-box" style="border-radius:20px;max-height:80vh">
+        <div class="modal-title" style="margin-bottom:14px">⚙️ القائمة</div>
+        <button class="btn btn-success" onclick="closeModal('mainMenu');showBackupOptions()">💾 نسخة احتياطية</button>
+        <button class="btn btn-primary" onclick="closeModal('mainMenu');document.getElementById('importFile').click()">📂 استيراد نسخة</button>
+        <button class="btn btn-dark" onclick="showPage('alerts');closeModal('mainMenu')">🔔 التنبيهات الذكية</button>
+        <button class="btn btn-dark" onclick="showPage('deadstock');closeModal('mainMenu')">📉 الأصناف الراكدة</button>
+        <button class="btn btn-dark" onclick="showPage('logs');closeModal('mainMenu')">📜 سجل التغييرات</button>
+        <button class="btn btn-dark" onclick="showPage('settings');closeModal('mainMenu')">⚙️ الإعدادات</button>
+        <button class="btn btn-danger" onclick="logout()">🚪 خروج</button>
+    </div>
+</div>
+
+<div class="content">
+
+<div class="page active" id="page-sell">
+    <div class="card" id="quickSaleCard">
+        <div class="card-title">
+            <span class="icon">⚡</span>
+            <span>البيع السريع</span>
+            <div style="margin-right:auto;display:flex;gap:4px">
+                <button class="btn btn-dark btn-sm" style="margin-bottom:0;padding:6px 10px;font-size:11px" onclick="openQuickEdit()">⚙️ إعدادات</button>
+            </div>
+        </div>
+        <div class="tabs-inner" style="margin-bottom:10px;padding:3px">
+            <button class="tab-inner active" id="qsModeAuto" onclick="setQuickMode('auto',this)" style="padding:8px 10px;font-size:11px">⭐ الأكثر مبيعاً</button>
+            <button class="tab-inner" id="qsModeManual" onclick="setQuickMode('manual',this)" style="padding:8px 10px;font-size:11px">📌 يدوي</button>
+            <button class="tab-inner" id="qsModeCategory" onclick="setQuickMode('category',this)" style="padding:8px 10px;font-size:11px">🏷️ تصنيف</button>
+        </div>
+        <div id="quickAutoContainer"></div>
+        <div id="quickManualContainer" style="display:none"><div id="quickGridManual"></div></div>
+        <div id="quickCategoryContainer" style="display:none">
+            <div class="cat-scroll" id="quickCatScroll" style="margin-bottom:8px"></div>
+            <div id="quickGridCategory"></div>
+        </div>
+    </div>
+    <div class="search-box">
+        <span class="icon">🔍</span>
+        <input type="text" id="searchSell" placeholder="ابحث عن منتج..." oninput="renderSell()" autocomplete="off">
+    </div>
+    <div class="cat-scroll" id="catButtons"></div>
+    <div id="productsSell"></div>
+    <div id="cartSection" style="display:none;margin-top:20px">
+        <div class="card">
+            <div class="card-title"><span class="icon">🧺</span><span>السلة</span></div>
+            <div id="cartList"></div>
+        </div>
+        <div class="total-box">
+            <div class="label">الإجمالي المطلوب</div>
+            <div class="amount" id="cartTotal">0</div>
+        </div>
+        <div class="profit-box">💰 الربح: <b id="cartProfit">0</b> ل.س<div style="font-size:12px;margin-top:4px;opacity:.85" id="cartProfitUsd"></div></div>
+        <button class="btn btn-success" onclick="completeSale()">✅ إتمام البيع</button>
+        <button class="btn btn-danger" onclick="clearCart()">🗑️ إفراغ السلة</button>
+    </div>
+</div>
+
+<div class="page" id="page-products">
+    <div style="display:flex;gap:8px;margin-bottom:14px">
+        <button class="btn btn-success" style="flex:1;margin-bottom:0" onclick="openAddProduct()">➕ منتج جديد</button>
+        <button class="btn btn-purple" style="flex:1;margin-bottom:0" onclick="openCategoriesManager()">🏷️ التصنيفات</button>
+    </div>
+    <div class="search-box"><span class="icon">🔍</span><input type="text" id="searchProducts" placeholder="ابحث..." oninput="renderProducts()"></div>
+    <div id="productsList"></div>
+</div>
+
+<div class="page" id="page-purchases">
+    <div class="card">
+        <div class="card-title"><span class="icon">📥</span><span>تسجيل بضاعة</span></div>
+        <p style="font-size:13px;color:var(--dim);margin-bottom:14px;line-height:1.7">اكتب اسم المنتج. موجود → يُحدَّث، جديد → يُضاف.</p>
+        <button class="btn btn-success" onclick="openPurchaseModal()">➕ تسجيل بضاعة</button>
+    </div>
+    <div class="card">
+        <div class="card-title"><span class="icon">💵</span><span>مشتريات الدولار</span></div>
+        <div class="total-box" style="background:linear-gradient(135deg,#d97706,var(--gold));color:#000">
+            <div class="label" style="color:#000">المجموع بالدولار</div>
+            <div class="amount" id="totalUsdPurchases" style="color:#000">$0</div>
+            <div style="font-size:13px;margin-top:6px" id="totalUsdPurchasesLira"></div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-title"><span class="icon">📋</span><span>السجل</span></div>
+        <div id="purchasesList"></div>
+    </div>
+</div>
+
+<div class="page" id="page-currency">
+    <div class="card">
+        <div class="card-title"><span class="icon">💵</span><span>سعر الصرف</span></div>
+        <div style="text-align:center;padding:20px 0">
+            <div style="font-size:13px;color:var(--dim);margin-bottom:8px">1 دولار =</div>
+            <div style="font-size:52px;font-weight:900;background:linear-gradient(135deg,var(--gold),#d97706);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text" id="currentRateDisplay">0</div>
+            <div style="font-size:14px;color:var(--dim);margin-top:8px;font-weight:600">ليرة سورية</div>
+            <div style="font-size:11px;color:var(--dim);margin-top:14px" id="lastUpdateDisplay"></div>
+        </div>
+        <button class="btn btn-gold" onclick="openRateModal()">✏️ تعديل السعر</button>
+    </div>
+    <div id="rateAlertBox"></div>
+    <div class="card">
+        <div class="card-title"><span class="icon">📊</span><span>إحصائيات الشهر</span></div>
+        <div class="stats">
+            <div class="stat gold"><div class="v" id="monthUsdPurchases">$0</div><div class="l">مشتريات بالدولار</div></div>
+            <div class="stat"><div class="v" id="monthLiraPurchases">0</div><div class="l">ما يعادلها بالليرة</div></div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-title"><span class="icon">📈</span><span>التاريخ</span></div>
+        <div id="rateHistory"></div>
+    </div>
+</div>
+
+<div class="page" id="page-debts">
+    <div class="card">
+        <div class="card-title"><span class="icon">💸</span><span>إجمالي الديون</span></div>
+        <div class="stat red" style="margin:0">
+            <div class="v" id="totalDebts" style="color:var(--danger);font-size:32px">0</div>
+            <div class="l">ل.س - ما لك عند الناس</div>
+        </div>
+    </div>
+    <button class="btn btn-primary" onclick="openAddDebt()">➕ إضافة دين</button>
+    <div class="tabs-inner">
+        <button class="tab-inner active" onclick="showDebtsTab('unpaid',this)">🔴 غير مسددة</button>
+        <button class="tab-inner" onclick="showDebtsTab('paid',this)">✅ مسددة</button>
+    </div>
+    <div id="debtsList"></div>
+</div>
+
+<div class="page" id="page-reports">
+    <div class="tabs-inner">
+        <button class="tab-inner active" onclick="showReportTab('today',this)">اليوم</button>
+        <button class="tab-inner" onclick="showReportTab('week',this)">الأسبوع</button>
+        <button class="tab-inner" onclick="showReportTab('month',this)">الشهر</button>
+        <button class="tab-inner" onclick="showReportTab('compare',this)">📊 مقارنة</button>
+        <button class="tab-inner" onclick="showReportTab('product',this)">المنتجات</button>
+        <button class="tab-inner" onclick="showReportTab('invoices',this)">📄 الفواتير</button>
+    </div>
+    <div id="reportContent"></div>
+</div>
+
+<div class="page" id="page-alerts">
+    <div class="card">
+        <div class="card-title"><span class="icon">🔔</span><span>التنبيهات الذكية</span></div>
+        <div id="alertsContent"></div>
+    </div>
+</div>
+
+<div class="page" id="page-deadstock">
+    <div class="card">
+        <div class="card-title"><span class="icon">📉</span><span>الأصناف الراكدة</span></div>
+        <p style="font-size:13px;color:var(--dim);margin-bottom:14px;line-height:1.7">منتجات لم تُبع منذ 30 يوم أو أكثر.</p>
+        <div id="deadStockContent"></div>
+    </div>
+</div>
+
+<div class="page" id="page-logs">
+    <div class="card">
+        <div class="card-title">
+            <span class="icon">📜</span><span>سجل التغييرات</span>
+            <button class="btn btn-danger btn-sm" style="margin-right:auto;margin-bottom:0" onclick="clearLogs()">🗑️ حذف</button>
+        </div>
+        <div id="logsContent"></div>
+    </div>
+</div>
+
+<div class="page" id="page-settings">
+    <div class="card">
+        <div class="card-title"><span class="icon">🏪</span><span>معلومات المحل</span></div>
+        <label>اسم المحل</label>
+        <input type="text" id="shopName" placeholder="محل الغذائيات">
+        <label>رقم الهاتف</label>
+        <input type="text" id="shopPhone" placeholder="09xxxxxxxx">
+        <button class="btn btn-success" onclick="saveShopInfo()">💾 حفظ</button>
+    </div>
+    <div class="card">
+        <div class="card-title"><span class="icon">🔐</span><span>كلمة المرور</span></div>
+        <label>كلمة المرور الحالية</label>
+        <input type="password" id="currentPass" placeholder="••••" maxlength="10" inputmode="numeric">
+        <label>كلمة المرور الجديدة</label>
+        <input type="password" id="newPass" placeholder="••••" maxlength="10" inputmode="numeric">
+        <button class="btn btn-warning" onclick="changePassword()">🔑 تغيير</button>
+    </div>
+    <div class="card">
+        <div class="card-title"><span class="icon">🔔</span><span>التنبيهات</span></div>
+        <div class="toggle-row">
+            <div><div class="toggle-label">التنبيهات الذكية</div><div class="toggle-desc">تنبيهات المخزون والدولار</div></div>
+            <label class="switch"><input type="checkbox" id="alertsEnabled" onchange="saveAlertsSetting()"><span class="slider"></span></label>
+        </div>
+        <div class="toggle-row">
+            <div><div class="toggle-label">تنبيه صوتي</div><div class="toggle-desc">صوت عند البيع</div></div>
+            <label class="switch"><input type="checkbox" id="soundEnabled" onchange="saveSoundSetting()"><span class="slider"></span></label>
+        </div>
+        <div class="toggle-row">
+            <div><div class="toggle-label">تذكير النسخ الاحتياطي</div><div class="toggle-desc">تنبيه عند تأخر النسخ</div></div>
+            <label class="switch"><input type="checkbox" id="backupReminderEnabled" onchange="saveBackupSetting()"><span class="slider"></span></label>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-title"><span class="icon">⚠️</span><span>منطقة الخطر</span></div>
+        <button class="btn btn-danger" onclick="resetData()">🗑️ حذف كل البيانات</button>
+    </div>
+    <div class="card" style="text-align:center">
+        <div style="font-size:13px;color:var(--dim);line-height:2">
+            <b style="color:var(--primary-l);font-size:16px">متجري Ultra Pro Max</b><br>
+            الإصدار 9.0<br>جميع البيانات محفوظة على جوالك<br>لا يحتاج إنترنت ✓
+        </div>
+    </div>
+</div>
+
+</div>
+
+<div class="bottom-nav">
+    <button class="nav-btn active" onclick="showPage('sell',this)"><span class="icon">🛒</span><span>البيع</span></button>
+    <button class="nav-btn" onclick="showPage('products',this)"><span class="icon">📦</span><span>المنتجات</span></button>
+    <button class="nav-btn" onclick="showPage('purchases',this)"><span class="icon">📥</span><span>المشتريات</span></button>
+    <button class="nav-btn" onclick="showPage('reports',this)"><span class="icon">📊</span><span>التقارير</span></button>
+    <button class="nav-btn" onclick="showPage('debts',this)"><span class="icon">💸</span><span>الديون</span></button>
+</div>
+
+<button class="assistant-fab" onclick="openAssistant()">🤖</button>
+
+<div class="assistant-window" id="assistantWindow">
+    <div class="assistant-header">
+        <div style="display:flex;align-items:center;gap:12px">
+            <div class="assistant-avatar">🤖</div>
+            <div><div class="assistant-name">المساعد الذكي</div><div class="assistant-status">متصل</div></div>
+        </div>
+        <button class="header-btn" onclick="closeAssistant()">✕</button>
+    </div>
+    <div class="assistant-messages" id="assistantMessages"></div>
+    <div class="quick-questions">
+        <button class="quick-q" onclick="askAssistant('تحليل شامل')">📋 تحليل</button>
+        <button class="quick-q" onclick="askAssistant('كم بعت اليوم؟')">📊 اليوم</button>
+        <button class="quick-q" onclick="askAssistant('كم ربحت هذا الشهر؟')">💰 الشهر</button>
+        <button class="quick-q" onclick="askAssistant('ما أفضل منتج؟')">🏆 الأفضل</button>
+        <button class="quick-q" onclick="askAssistant('ما المنتجات التي قربت تخلص؟')">⚠️ نقص</button>
+        <button class="quick-q" onclick="askAssistant('كم الدين الإجمالي؟')">💸 ديون</button>
+        <button class="quick-q" onclick="askAssistant('كيف حال الدولار؟')">💵 دولار</button>
+        <button class="quick-q" onclick="askAssistant('قارن الأسبوعين')">📈 مقارنة</button>
+        <button class="quick-q" onclick="askAssistant('أعطني نصائح')">💡 نصائح</button>
+    </div>
+    <div class="assistant-input-wrap">
+        <input type="text" class="assistant-input" id="assistantInput" placeholder="اكتب سؤالك..." onkeydown="if(event.key==='Enter')sendAssistant()">
+        <button class="assistant-send" onclick="sendAssistant()">➤</button>
+    </div>
+</div>
+
+<div class="modal" id="rateModal">
+    <div class="modal-box">
+        <div class="modal-title">💵 سعر صرف الدولار</div>
+        <label>سعر 1 دولار بالليرة السورية</label>
+        <input type="number" id="newRateInput" placeholder="13500" inputmode="numeric">
+        <div style="font-size:12px;color:var(--dim);text-align:center;margin-top:10px">آخر سعر: <span id="lastRateDisplay">-</span></div>
+        <div class="modal-btns">
+            <button style="background:var(--card2);color:white" onclick="closeModal('rateModal')">إلغاء</button>
+            <button style="background:var(--gold);color:black" onclick="saveRate()">💾 حفظ</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="quickEditModal">
+    <div class="modal-box">
+        <div class="modal-title">📌 تخصيص الأزرار اليدوية</div>
+        <p style="font-size:13px;color:var(--dim);margin-bottom:14px;text-align:center">اختر حتى 12 منتجاً للوضع اليدوي</p>
+        <div class="search-box"><span class="icon">🔍</span><input type="text" id="quickSearch" placeholder="ابحث..." oninput="renderQuickEditList()"></div>
+        <div id="quickEditList"></div>
+        <div class="modal-btns"><button style="background:var(--card2);color:white" onclick="closeModal('quickEditModal')">إغلاق</button></div>
+    </div>
+</div>
+
+<div class="modal" id="categoriesModal">
+    <div class="modal-box">
+        <div class="modal-title">🏷️ إدارة التصنيفات</div>
+        <div class="card" style="margin-bottom:14px">
+            <div class="card-title" style="border:none;padding-bottom:0;margin-bottom:10px"><span class="icon">➕</span><span>إضافة تصنيف</span></div>
+            <div class="input-group">
+                <input type="text" id="newCategoryName" placeholder="مثال: معلبات" style="margin-bottom:0" onkeydown="if(event.key==='Enter')addNewCategory()">
+                <button class="btn btn-success" style="width:auto;margin-bottom:0;padding:13px 20px" onclick="addNewCategory()">➕</button>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-title"><span class="icon">📋</span><span>التصنيفات</span></div>
+            <div id="categoriesManagerList"></div>
+        </div>
+        <div class="modal-btns"><button style="background:var(--card2);color:white" onclick="closeModal('categoriesModal')">إغلاق</button></div>
+    </div>
+</div>
+
+<div class="modal" id="productModal">
+    <div class="modal-box">
+        <div class="modal-title" id="productModalTitle">➕ منتج جديد</div>
+        <input type="hidden" id="editId">
+        <label>اسم المنتج <span class="label-req">*</span></label>
+        <input type="text" id="pName" placeholder="مثال: بسكوت أوريو">
+        <label>التصنيف <button type="button" onclick="quickAddCategory()" style="background:var(--purple);color:white;border:none;border-radius:8px;padding:3px 10px;font-size:11px;font-weight:700;cursor:pointer;margin-right:8px;font-family:inherit">➕ جديد</button></label>
+        <select id="pCategory"></select>
+        <label>طريقة البيع <span class="label-req">*</span></label>
+        <div class="type-toggle three">
+            <button type="button" id="sellTypePiece" onclick="setProductSellType('piece')" class="active">🔹 قطعة</button>
+            <button type="button" id="sellTypeBox" onclick="setProductSellType('box')">📦 طرد</button>
+            <button type="button" id="sellTypeWeight" onclick="setProductSellType('weight')">⚖️ كيلو</button>
+        </div>
+        <label>العملة</label>
+        <div class="type-toggle currency">
+            <button type="button" id="currLira" onclick="setCurrency('lira')" class="active">🇸🇾 ليرة</button>
+            <button type="button" id="currUsd" onclick="setCurrency('usd')">🇺🇸 دولار</button>
+        </div>
+        
+        <div id="pieceFields">
+            <label id="buyLabel">سعر الشراء (ل.س)</label>
+            <input type="number" id="pBuy" placeholder="0" inputmode="decimal">
+            <label>سعر البيع (ل.س) <span class="label-req">*</span></label>
+            <input type="number" id="pSell" placeholder="0" inputmode="decimal">
+            <label>الكمية</label>
+            <input type="number" id="pQty" placeholder="0" inputmode="numeric">
+        </div>
+        
+        <div id="boxFields" style="display:none">
+            <label>عدد القطع في الطرد</label>
+            <input type="number" id="pPiecesPerBox" placeholder="24" inputmode="numeric" oninput="calcBox()">
+            <label id="boxBuyLabel">سعر شراء الطرد (ل.س)</label>
+            <input type="number" id="pBoxBuy" placeholder="0" inputmode="decimal" oninput="calcBox()">
+            <label>سعر بيع القطعة (ل.س) <span class="label-req">*</span></label>
+            <input type="number" id="pPieceSell" placeholder="450" inputmode="decimal" oninput="calcBox()">
+            <label>عدد الطرود</label>
+            <input type="number" id="pBoxCount" placeholder="0" inputmode="numeric" oninput="calcBox()">
+            <div class="box-info">
+                <div style="font-weight:800;margin-bottom:10px;color:var(--primary-l)">📊 الحساب التلقائي</div>
+                <div class="row"><span>شراء القطعة:</span><b id="calcBuyPerPiece">0</b></div>
+                <div class="row"><span>ربح القطعة:</span><b id="calcProfitPerPiece">0</b></div>
+                <div class="row"><span>إجمالي القطع:</span><b id="calcTotalPieces">0</b></div>
+                <div class="row"><span>ربح الطرد:</span><b id="calcProfitPerBox">0</b></div>
+                <div class="row" id="usdRow" style="display:none;border-top:1px dashed var(--gold);padding-top:8px;margin-top:8px">
+                    <span style="color:var(--gold)">💵 ربح بالدولار:</span><b id="calcProfitPerBoxUsd" style="color:var(--gold)">$0</b>
+                </div>
+            </div>
+        </div>
+        
+        <div id="weightFields" style="display:none">
+            <label id="weightBuyLabel">سعر شراء الكيلو (ل.س)</label>
+            <input type="number" id="pWeightBuy" placeholder="0" inputmode="decimal" oninput="calcWeight()">
+            <label>سعر بيع الكيلو (ل.س) <span class="label-req">*</span></label>
+            <input type="number" id="pWeightSell" placeholder="8000" inputmode="decimal" oninput="calcWeight()">
+            <label>الكمية المتوفرة (كيلو)</label>
+            <input type="number" id="pWeightQty" placeholder="10" inputmode="decimal" step="0.001" oninput="calcWeight()">
+            <div class="box-info" style="border-color:var(--cyan)">
+                <div style="font-weight:800;margin-bottom:10px;color:var(--cyan)">⚖️ معلومات</div>
+                <div class="row"><span>ربح الكيلو:</span><b id="calcWeightProfit">0</b></div>
+                <div class="row"><span>إجمالي القيمة:</span><b id="calcWeightTotal">0</b></div>
+            </div>
+        </div>
+        
+        <div class="modal-btns">
+            <button style="background:var(--card2);color:white" onclick="closeModal('productModal')">إلغاء</button>
+            <button style="background:var(--success);color:white" onclick="saveProduct()">💾 حفظ</button>
+        </div>
+        <button class="btn btn-danger" id="deleteBtn" style="display:none;margin-top:10px" onclick="deleteProduct()">🗑️ حذف</button>
+    </div>
+</div>
+
+<div class="modal" id="sellTypeModal">
+    <div class="modal-box">
+        <div class="modal-title" id="sellTypeTitle">طريقة البيع</div>
+        <input type="hidden" id="sellTypeId">
+        <button class="btn btn-primary" onclick="addByPiece()" id="pieceSellBtn">🔹 بيع بالقطعة<div style="font-size:12px;opacity:.9;font-weight:normal;margin-top:4px" id="pieceInfo"></div></button>
+        <button class="btn btn-purple" onclick="addByBox()" id="boxSellBtn">📦 بيع طرد كامل<div style="font-size:12px;opacity:.9;font-weight:normal;margin-top:4px" id="boxInfo"></div></button>
+        <button class="btn btn-dark" onclick="closeModal('sellTypeModal')">إلغاء</button>
+    </div>
+</div>
+
+<div class="modal" id="weightModal">
+    <div class="modal-box">
+        <div class="modal-title">⚖️ بيع بالكيلو</div>
+        <input type="hidden" id="weightProductId">
+        <div id="weightProductInfo" style="text-align:center;padding:14px;background:var(--bg);border-radius:12px;margin-bottom:14px"></div>
+        <label>الكمية (كيلو)</label>
+        <div class="weight-input-group">
+            <input type="number" id="weightAmount" placeholder="0" inputmode="decimal" step="0.001" oninput="calcWeightPrice()">
+            <div class="unit">كغ</div>
+        </div>
+        <div class="weight-quick-btns">
+            <button onclick="setWeightAmount(0.25)">¼ كغ</button>
+            <button onclick="setWeightAmount(0.5)">½ كغ</button>
+            <button onclick="setWeightAmount(0.75)">¾ كغ</button>
+            <button onclick="setWeightAmount(1)">1 كغ</button>
+        </div>
+        <div class="weight-quick-btns">
+            <button onclick="setWeightAmount(1.5)">1.5 كغ</button>
+            <button onclick="setWeightAmount(2)">2 كغ</button>
+            <button onclick="setWeightAmount(3)">3 كغ</button>
+            <button onclick="setWeightAmount(5)">5 كغ</button>
+        </div>
+        <div id="weightCalcBox" class="box-info" style="border-color:var(--cyan)">
+            <div style="font-weight:800;margin-bottom:10px;color:var(--cyan)">📊 الحساب</div>
+            <div class="row"><span>سعر الكيلو:</span><b id="weightUnitPrice">0</b></div>
+            <div class="row"><span>الكمية:</span><b id="weightQtyCalc">0 كغ</b></div>
+            <div class="row" style="border-top:1px solid var(--border);padding-top:8px;margin-top:8px">
+                <span style="font-size:15px;font-weight:800">الإجمالي:</span>
+                <b id="weightTotal" style="font-size:18px;color:var(--cyan)">0</b>
+            </div>
+        </div>
+        <div class="modal-btns">
+            <button style="background:var(--card2);color:white" onclick="closeModal('weightModal')">إلغاء</button>
+            <button style="background:var(--cyan);color:white" onclick="confirmWeightSale()">✅ إضافة للسلة</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="purchaseModal">
+    <div class="modal-box">
+        <div class="modal-title">📥 تسجيل بضاعة</div>
+        <label>اسم المنتج <span class="label-req">*</span></label>
+        <div class="product-input-wrap">
+            <input type="text" id="purchaseProductName" placeholder="اكتب الاسم..." autocomplete="off" oninput="showSuggestions()" onfocus="showSuggestions()">
+            <div class="suggestions" id="productSuggestions"></div>
+        </div>
+        <div id="purchaseProductInfo" style="display:none;font-size:12px;padding:10px;background:var(--bg);border-radius:10px;margin-bottom:10px"></div>
+        <label>التصنيف <button type="button" onclick="quickAddPurchaseCategory()" style="background:var(--purple);color:white;border:none;border-radius:8px;padding:3px 10px;font-size:11px;font-weight:700;cursor:pointer;margin-right:8px;font-family:inherit">➕ جديد</button></label>
+        <select id="purchaseCategory"><option value="">-- بدون تصنيف --</option></select>
+        <label>العملة</label>
+        <div class="type-toggle currency">
+            <button type="button" id="purchaseLira" onclick="setPurchaseCurrency('lira')" class="active">🇸🇾 ليرة</button>
+            <button type="button" id="purchaseUsd" onclick="setPurchaseCurrency('usd')">🇺🇸 دولار</button>
+        </div>
+        <label>طريقة الشراء</label>
+        <div class="type-toggle three">
+            <button type="button" id="purchaseTypePiece" onclick="setPurchaseType('piece')" class="active">🔹 قطعة</button>
+            <button type="button" id="purchaseTypeBox" onclick="setPurchaseType('box')">📦 طرد</button>
+            <button type="button" id="purchaseTypeWeight" onclick="setPurchaseType('weight')">⚖️ كيلو</button>
+        </div>
+        <div id="purchasePiecesPerBoxField" style="display:none">
+            <label>عدد القطع في الطرد</label>
+            <input type="number" id="purchasePiecesPerBox" placeholder="24" inputmode="numeric" oninput="calcPurchase()">
+        </div>
+        <div id="purchaseBoxField" style="display:none">
+            <label>عدد الطرود</label>
+            <input type="number" id="purchaseBoxCount" placeholder="0" inputmode="numeric" oninput="calcPurchase()">
+        </div>
+        <div id="purchasePieceField">
+            <label>عدد القطع</label>
+            <input type="number" id="purchasePieceCount" placeholder="0" inputmode="numeric" oninput="calcPurchase()">
+        </div>
+        <div id="purchaseWeightField" style="display:none">
+            <label>عدد الكيلوغرامات</label>
+            <input type="number" id="purchaseWeightCount" placeholder="10" inputmode="decimal" step="0.001" oninput="calcPurchase()">
+        </div>
+        <label id="purchaseSellPriceLabel">سعر البيع للقطعة (ل.س) <span class="label-req">*</span></label>
+        <input type="number" id="purchaseSellPrice" placeholder="450" inputmode="decimal" oninput="calcPurchase()">
+        <label id="purchaseTotalLabel">سعر الشراء الإجمالي (ل.س) <span class="label-req">*</span></label>
+        <input type="number" id="purchaseTotal" placeholder="0" inputmode="decimal" oninput="calcPurchase()">
+        <div id="purchaseCalcBox" class="box-info gold" style="display:none">
+            <div style="font-weight:800;margin-bottom:10px;color:var(--gold)">📊 الحساب</div>
+            <div class="row"><span>سعر الصرف:</span><b id="purchaseRate">-</b></div>
+            <div class="row"><span>سعر الوحدة:</span><b id="purchasePieceCost">-</b></div>
+            <div class="row"><span>ربح الوحدة:</span><b id="purchasePieceProfit">-</b></div>
+            <div class="row"><span>إجمالي الوحدات:</span><b id="purchaseTotalPieces">-</b></div>
+        </div>
+        <label>المورد (اختياري)</label>
+        <input type="text" id="purchaseSupplier" placeholder="اسم المورد">
+        <label>ملاحظات (اختياري)</label>
+        <textarea id="purchaseNotes" rows="2" placeholder="..."></textarea>
+        <div class="modal-btns">
+            <button style="background:var(--card2);color:white" onclick="closeModal('purchaseModal')">إلغاء</button>
+            <button style="background:var(--success);color:white" onclick="savePurchase()">💾 حفظ</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="quickPriceModal">
+    <div class="modal-box">
+        <div class="modal-title">⚡ تعديل سعر البيع</div>
+        <input type="hidden" id="quickPriceId">
+        <div id="quickPriceInfo" style="text-align:center;padding:14px;background:var(--bg);border-radius:12px;margin-bottom:14px"></div>
+        <label>السعر الجديد (ل.س)</label>
+        <input type="number" id="quickPriceNew" placeholder="0" inputmode="decimal">
+        <div class="modal-btns">
+            <button style="background:var(--card2);color:white" onclick="closeModal('quickPriceModal')">إلغاء</button>
+            <button style="background:var(--success);color:white" onclick="saveQuickPrice()">💾 حفظ</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="debtModal">
+    <div class="modal-box">
+        <div class="modal-title">➕ دين جديد</div>
+        <label>اسم الشخص <span class="label-req">*</span></label>
+        <input type="text" id="debtCustomer" placeholder="أبو محمد">
+        <label>المبلغ (ل.س) <span class="label-req">*</span></label>
+        <input type="number" id="debtAmount" placeholder="0" inputmode="decimal">
+        <label>ملاحظات</label>
+        <textarea id="debtNotes" rows="2" placeholder="..."></textarea>
+        <div class="modal-btns">
+            <button style="background:var(--card2);color:white" onclick="closeModal('debtModal')">إلغاء</button>
+            <button style="background:var(--success);color:white" onclick="saveDebt()">💾 حفظ</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="payDebtModal">
+    <div class="modal-box">
+        <div class="modal-title">💵 تسديد دفعة</div>
+        <input type="hidden" id="payDebtId">
+        <div id="payDebtInfo" style="text-align:center;padding:16px;background:var(--bg);border-radius:12px;margin-bottom:16px"></div>
+        <label>المبلغ المسدد (ل.س)</label>
+        <input type="number" id="payDebtAmount" placeholder="0" inputmode="decimal">
+        <div class="modal-btns">
+            <button style="background:var(--card2);color:white" onclick="closeModal('payDebtModal')">إلغاء</button>
+            <button style="background:var(--success);color:white" onclick="savePayDebt()">💾 حفظ</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="productDetailsModal">
+    <div class="modal-box">
+        <div class="modal-title" id="productDetailsTitle">تفاصيل المنتج</div>
+        <div id="productDetailsContent"></div>
+        <div class="modal-btns">
+            <button style="background:var(--card2);color:white" onclick="closeModal('productDetailsModal')">إغلاق</button>
+            <button style="background:var(--primary);color:white" onclick="editFromDetails()">✏️ تعديل</button>
+        </div>
+    </div>
+</div>
+
+<input type="file" id="importFile" style="display:none" accept=".json" onchange="importData(event)">
+<div class="toast" id="toast"></div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     JavaScript في الرد التالي — قل "2"
+     ═══════════════════════════════════════════════════════════════ -->
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// ══════════════ قاعدة البيانات ══════════════
+// ═══════════════════════════════════════════════════════════════
+const STORAGE_KEY='my_shop_ultra_v9';
+let data={
+    products:[],invoices:[],debts:[],purchases:[],rateHistory:[],logs:[],quickButtons:[],
+    currentRate:0,rateLastUpdated:null,
+    categories:['مشروبات','شيبس ومقرمشات','بسكوت وحلويات','منظفات','معلبات','مواد غذائية','أخرى'],
+    settings:{shopName:'محل الغذائيات',shopPhone:'',password:'1234',alertsEnabled:true,soundEnabled:true,backupReminderEnabled:true}
+};
+let cart=[],currentCategory='الكل',currentBuyType='piece',currentCurrency='lira';
+let currentPurchaseType='piece',currentPurchaseCurrency='lira';
+let currentDebtTab='unpaid',currentReportTab='today',selectedPurchaseProductId=null;
+let assistantHistory=[],quickMode='auto',quickCategoryFilter='الكل';
+let currentInvoiceFilter='all';
+
+// ══════════════ تحميل/حفظ ══════════════
+function load(){
+    const s=localStorage.getItem(STORAGE_KEY);
+    if(s){
+        try{
+            const p=JSON.parse(s);
+            data={...data,...p};
+            data.settings={...data.settings,...(p.settings||{})};
+            data.categories=p.categories||data.categories;
+            data.logs=p.logs||[];
+            data.quickButtons=p.quickButtons||[];
+        }catch(e){}
+    }
+}
+function save(){
+    try{localStorage.setItem(STORAGE_KEY,JSON.stringify(data))}catch(e){}
+}
+
+// ══════════════ الأصوات ══════════════
+function playSound(t='success'){
+    if(!data.settings.soundEnabled)return;
+    try{
+        const ctx=new(window.AudioContext||window.webkitAudioContext)();
+        const osc=ctx.createOscillator(),gain=ctx.createGain();
+        osc.connect(gain);gain.connect(ctx.destination);
+        if(t==='success'){
+            osc.frequency.setValueAtTime(800,ctx.currentTime);
+            osc.frequency.setValueAtTime(1200,ctx.currentTime+.08);
+            osc.frequency.setValueAtTime(1500,ctx.currentTime+.15);
+        }else if(t==='error'){
+            osc.frequency.setValueAtTime(300,ctx.currentTime);
+            osc.frequency.setValueAtTime(200,ctx.currentTime+.1);
+        }else osc.frequency.setValueAtTime(600,ctx.currentTime);
+        gain.gain.setValueAtTime(.15,ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(.01,ctx.currentTime+.25);
+        osc.start();osc.stop(ctx.currentTime+.25);
+    }catch(e){}
+}
+
+// ══════════════ أدوات مساعدة ══════════════
+function esc(s){if(!s)return'';return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c])}
+function getRate(){return data.currentRate||0}
+function getTotalPieces(p){
+    if(p.sellType==='weight')return p.weightQty||0;
+    if(p.hasBox)return(p.boxCount||0)*p.piecesPerBox+(p.loosePieces||0);
+    return p.qty||0;
+}
+function getStockDisplay(p){
+    const t=getTotalPieces(p);
+    if(p.sellType==='weight')return`⚖️ ${t.toFixed(3)} كغ`;
+    if(p.hasBox){
+        const fb=Math.floor(t/p.piecesPerBox),lp=t%p.piecesPerBox;
+        return`📦 ${fb} طرد + ${lp} قطعة`;
+    }
+    return`🔹 ${t} قطعة`;
+}
+function toast(msg,type){
+    const t=document.getElementById('toast');
+    t.textContent=msg;
+    t.className='toast show'+(type?' '+type:'');
+    setTimeout(()=>t.className='toast',2200);
+}
+function closeModal(id){document.getElementById(id).classList.remove('show')}
+document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('show')}));
+function formatDateTime(s){
+    const d=new Date(s);
+    return d.toLocaleDateString('ar-EG',{day:'numeric',month:'short'})+' • '+d.toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'});
+}
+
+// ══════════════ السجل ══════════════
+function addLog(type,title,description){
+    data.logs.push({id:Date.now()+Math.random(),type,title,description,date:new Date().toISOString()});
+    if(data.logs.length>500)data.logs=data.logs.slice(-500);
+}
+function renderLogs(){
+    const c=document.getElementById('logsContent');if(!c)return;
+    if(data.logs.length===0){c.innerHTML='<div class="empty"><div class="icon">📜</div><div class="text">لا توجد سجلات</div></div>';return}
+    const icons={create:'➕',update:'✏️',delete:'🗑️',sell:'💰',purchase:'📥',backup:'💾'};
+    c.innerHTML=data.logs.slice().reverse().slice(0,100).map(l=>`
+        <div class="log-item">
+            <div class="log-icon ${l.type}">${icons[l.type]||'📌'}</div>
+            <div class="log-body">
+                <div class="log-title">${esc(l.title)}</div>
+                <div class="log-desc">${esc(l.description)}</div>
+                <div class="log-time">${formatDateTime(l.date)}</div>
+            </div>
+        </div>`).join('');
+}
+function clearLogs(){if(!confirm('حذف جميع السجلات؟'))return;data.logs=[];save();renderLogs();toast('✓ تم الحذف')}
+
+// ══════════════ تسجيل الدخول ══════════════
+function tryLogin(){
+    const p=document.getElementById('loginPassword').value;
+    if(p===data.settings.password){
+        document.getElementById('loginScreen').style.display='none';
+        init();
+        playSound('success');
+    }else{
+        toast('كلمة المرور خاطئة!','error');
+        playSound('error');
+        document.getElementById('loginPassword').value='';
+    }
+}
+document.getElementById('loginPassword').addEventListener('keydown',e=>{if(e.key==='Enter')tryLogin()});
+function logout(){
+    if(!confirm('تسجيل الخروج؟'))return;
+    closeModal('mainMenu');
+    document.getElementById('loginScreen').style.display='flex';
+    document.getElementById('loginPassword').value='';
+}
+function changePassword(){
+    const c=document.getElementById('currentPass').value;
+    const n=document.getElementById('newPass').value.trim();
+    if(c!==data.settings.password){toast('كلمة المرور الحالية خاطئة!','error');return}
+    if(n.length<4||n.length>10){toast('4-10 أرقام!','error');return}
+    const confirmPass=prompt('أكّد كلمة المرور الجديدة:');
+    if(confirmPass!==n){toast('كلمتا المرور غير متطابقتين!','error');return}
+    data.settings.password=n;
+    addLog('update','تغيير كلمة المرور','');
+    save();
+    document.getElementById('currentPass').value='';
+    document.getElementById('newPass').value='';
+    toast('✓ تم التغيير');
+}
+
+// ══════════════ التنقل ══════════════
+function showPage(page,btn){
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    const el=document.getElementById('page-'+page);
+    if(el)el.classList.add('active');
+    document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+    if(btn)btn.classList.add('active');
+    else{
+        const m={sell:'البيع',products:'المنتجات',purchases:'المشتريات',reports:'التقارير',debts:'الديون'};
+        document.querySelectorAll('.nav-btn').forEach(b=>{if(b.textContent.includes(m[page]))b.classList.add('active')});
+    }
+    window.scrollTo(0,0);
+    const r={
+        sell:()=>{renderQuickButtons();renderCategories();renderSell()},
+        products:renderProducts,
+        purchases:renderPurchases,
+        currency:renderCurrencyPage,
+        debts:renderDebts,
+        reports:renderReports,
+        alerts:renderAlerts,
+        deadstock:renderDeadStock,
+        logs:renderLogs,
+        settings:renderSettings
+    };
+    if(r[page])r[page]();
+}
+function toggleMenu(){document.getElementById('mainMenu').classList.add('show')}
+
+// ══════════════ سعر الصرف ══════════════
+function openRateModal(){
+    document.getElementById('newRateInput').value=data.currentRate||'';
+    const l=data.rateLastUpdated?formatDateTime(data.rateLastUpdated):'لم يُحدد';
+    document.getElementById('lastRateDisplay').textContent=data.currentRate?`${data.currentRate.toLocaleString()} ل.س (${l})`:'لم يُحدد';
+    document.getElementById('rateModal').classList.add('show');
+    setTimeout(()=>document.getElementById('newRateInput').select(),300);
+}
+function saveRate(){
+    const rate=parseFloat(document.getElementById('newRateInput').value);
+    if(!rate||rate<=0){toast('أدخل سعر صحيح!','error');return}
+    const old=data.currentRate,today=new Date().toISOString().split('T')[0];
+    const idx=data.rateHistory.findIndex(r=>r.date===today);
+    if(idx>=0)data.rateHistory[idx].rate=rate;
+    else data.rateHistory.push({date:today,rate});
+    data.currentRate=rate;
+    data.rateLastUpdated=new Date().toISOString();
+    addLog('update','تحديث الدولار',old?`من ${old.toLocaleString()} إلى ${rate.toLocaleString()}`:`تم تحديد ${rate.toLocaleString()}`);
+    save();
+    updateRateDisplay();
+    closeModal('rateModal');
+    if(old&&old!==rate){
+        const diff=rate-old,pct=((diff/old)*100).toFixed(1);
+        if(diff>0)setTimeout(()=>showRateAlert(old,rate,pct),300);
+        else toast(`✓ الدولار انخفض ${Math.abs(pct)}%`);
+    }else toast('✓ تم الحفظ');
+    if(document.getElementById('page-currency').classList.contains('active'))renderCurrencyPage();
+}
+function showRateAlert(old,newR,pct){
+    const diff=newR-old,usdP=data.products.filter(p=>p.boughtInUsd);
+    let loss=0;
+    usdP.forEach(p=>{
+        if(p.buyPriceUsd&&p.buyPrice){
+            const oldC=p.buyPriceUsd*old,newC=p.buyPriceUsd*newR;
+            loss+=(newC-oldC)*getTotalPieces(p);
+        }
+    });
+    let m=`⚠️ الدولار ارتفع!\n\nمن ${old.toLocaleString()} إلى ${newR.toLocaleString()}\nالزيادة: ${diff.toLocaleString()} ل.س (${pct}%)\n\n`;
+    if(usdP.length>0)m+=`📦 ${usdP.length} منتج مشترى بالدولار\n💰 قيمة الزيادة: ${loss.toLocaleString()} ل.س\n\nمراجعة الأسعار؟`;
+    if(confirm(m)){if(usdP.length>0)showPage('currency')}
+}
+function updateRateDisplay(){
+    const badge=document.getElementById('rateBadge'),value=document.getElementById('rateValue');
+    badge.classList.remove('updated','warning','danger');
+    if(data.currentRate>0){
+        value.textContent=data.currentRate.toLocaleString();
+        if(data.rateLastUpdated){
+            const days=Math.floor((Date.now()-new Date(data.rateLastUpdated).getTime())/86400000);
+            if(days>=3)badge.classList.add('danger');
+            else if(days>=1)badge.classList.add('warning');
+            else badge.classList.add('updated');
+        }else badge.classList.add('warning');
+    }else{value.textContent='اضبط';badge.classList.add('danger')}
+    const d=document.getElementById('currentRateDisplay');
+    if(d)d.textContent=data.currentRate?data.currentRate.toLocaleString():'0';
+    const l=document.getElementById('lastUpdateDisplay');
+    if(l){
+        if(data.rateLastUpdated){
+            const days=Math.floor((Date.now()-new Date(data.rateLastUpdated).getTime())/86400000);
+            if(days===0)l.textContent='✓ محدّث اليوم';
+            else if(days===1)l.textContent='⚠️ آخر تحديث أمس';
+            else l.textContent=`🔴 منذ ${days} أيام`;
+        }else l.textContent='لم يتم التحديث';
+    }
+}
+function updateClock(){
+    const d=new Date();
+    const date=d.toLocaleDateString('ar-EG',{weekday:'short',day:'numeric',month:'short'});
+    const time=d.toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'});
+    const el=document.getElementById('headerTime');
+    if(el)el.textContent=`${date} • ${time}`;
+}
+
+// ══════════════ حساب الدولار من الفواتير ══════════════
+function calcUsdFromInvoices(invoices,field='total'){
+    let usd=0;
+    invoices.forEach(inv=>{
+        const rate=inv.rateAtSale||getRate();
+        if(rate>0)usd+=(inv[field]||0)/rate;
+    });
+    return usd;
+}
+function usdLine(usdAmount){
+    if(usdAmount<=0)return'';
+    return`<div style="font-size:11px;color:var(--gold);margin-top:4px;font-weight:700">≈ $${usdAmount.toFixed(2)}</div>`;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ══════════════ نظام الحفظ الذكي ══════════════
+// ═══════════════════════════════════════════════════════════════
+
+function saveToWhatsApp(){
+    const today=new Date().toISOString().split('T')[0];
+    const backup={...data,exportDate:new Date().toISOString(),version:'9.0',backupType:'whatsapp'};
+    const text=JSON.stringify(backup);
+    
+    if(navigator.clipboard){
+        navigator.clipboard.writeText(text).then(()=>{
+            localStorage.setItem('last_backup_date',today);
+            addLog('backup','نسخة احتياطية',`واتساب - ${today}`);
+            setTimeout(()=>{
+                alert(`✅ تم نسخ البيانات!\n\n📱 الخطوات:\n1. سيُفتح واتساب\n2. اختر "محادثة مع نفسك"\n3. اضغط مطولاً → "لصق"\n4. أرسل\n\n💡 الأفضل: محادثة مع نفسك`);
+                window.open('https://wa.me/?text=📊%20نسخة%20احتياطية%20-%20متجري%20-%20' + today,'_blank');
+            },500);
+        }).catch(()=>autoBackup());
+    }else autoBackup();
+}
+
+function saveToEmail(){
+    const today=new Date().toISOString().split('T')[0];
+    const backup={...data,exportDate:new Date().toISOString(),version:'9.0',backupType:'email'};
+    const text=JSON.stringify(backup);
+    
+    if(navigator.clipboard){
+        navigator.clipboard.writeText(text).then(()=>{
+            localStorage.setItem('last_backup_date',today);
+            addLog('backup','نسخة احتياطية',`إيميل - ${today}`);
+            const subject=encodeURIComponent(`نسخة احتياطية - متجري - ${today}`);
+            const body=encodeURIComponent(`📊 نسخة احتياطية\n📅 ${today}\n🏪 ${data.settings.shopName||'محل الغذائيات'}\n📦 ${data.products.length} منتج\n💰 ${data.invoices.length} فاتورة\n\n━━━━━━━━━━━━━━\n\n⚠️ الصق البيانات إلى الأسفل\n\n━━━━━━━━━━━━━━\n\n`);
+            setTimeout(()=>{
+                alert(`✅ تم نسخ البيانات!\n\n📧 الخطوات:\n1. سيُفتح Gmail\n2. الصق (اضغط مطولاً في المحتوى)\n3. أرسل لنفسك\n\n💡 أنشئ مجلد "نسخ احتياطية"`);
+                window.open(`https://mail.google.com/mail/?view=cm&fs=1&su=${subject}&body=${body}`,'_blank');
+            },500);
+        }).catch(()=>autoBackup());
+    }else autoBackup();
+}
+
+function saveToDrive(){
+    const today=new Date().toISOString().split('T')[0];
+    const obj={...data,exportDate:new Date().toISOString(),version:'9.0',backupType:'drive'};
+    const blob=new Blob([JSON.stringify(obj,null,2)],{type:'application/json'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;
+    a.download=`متجري_${today}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    localStorage.setItem('last_backup_date',today);
+    addLog('backup','نسخة احتياطية',`تنزيل - ${today}`);
+    setTimeout(()=>{
+        const openDrive=confirm(`✅ تم تنزيل الملف!\n\n📁 متجري_${today}.json\n📂 في مجلد التنزيلات\n\n☁️ هل تفتح Google Drive لرفعه؟`);
+        if(openDrive)window.open('https://drive.google.com/drive/my-drive','_blank');
+    },500);
+}
+
+function autoBackup(){
+    const today=new Date().toISOString().split('T')[0];
+    const obj={...data,exportDate:new Date().toISOString(),version:'9.0',backupType:'local'};
+    const blob=new Blob([JSON.stringify(obj,null,2)],{type:'application/json'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;
+    a.download=`متجري_backup_${today}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    localStorage.setItem('last_backup_date',today);
+    toast('✅ تم تنزيل النسخة');
+    addLog('backup','نسخة احتياطية',`محلي - ${today}`);
+}
+
+function showBackupOptions(){
+    const modal=document.createElement('div');
+    modal.className='modal show';
+    modal.style.zIndex='9999';
+    modal.id='backupChoiceModal';
+    modal.innerHTML=`
+        <div class="modal-box">
+            <div class="modal-title">🔒 حفظ نسخة احتياطية</div>
+            <p style="text-align:center;color:var(--dim);font-size:13px;margin-bottom:16px">اختر مكان الحفظ</p>
+            <button class="btn btn-success" onclick="closeBackupChoice();saveToWhatsApp()">
+                📱 حفظ على واتساب
+                <div style="font-size:11px;opacity:.8;font-weight:normal;margin-top:4px">الأسرع</div>
+            </button>
+            <button class="btn btn-primary" onclick="closeBackupChoice();saveToEmail()">
+                📧 حفظ على إيميل
+                <div style="font-size:11px;opacity:.8;font-weight:normal;margin-top:4px">نسخة آمنة</div>
+            </button>
+            <button class="btn btn-gold" onclick="closeBackupChoice();saveToDrive()">
+                ☁️ Google Drive
+                <div style="font-size:11px;opacity:.8;font-weight:normal;margin-top:4px">في السحابة</div>
+            </button>
+            <button class="btn btn-dark" onclick="closeBackupChoice();autoBackup()">
+                💾 تنزيل ملف محلي
+                <div style="font-size:11px;opacity:.8;font-weight:normal;margin-top:4px">في التنزيلات</div>
+            </button>
+            <button class="btn btn-danger" onclick="closeBackupChoice()">إلغاء</button>
+        </div>`;
+    document.body.appendChild(modal);
+    modal.addEventListener('click',e=>{if(e.target===modal)closeBackupChoice()});
+}
+function closeBackupChoice(){
+    const m=document.getElementById('backupChoiceModal');
+    if(m)m.remove();
+}
+
+function checkBackupReminder(){
+    if(data.settings.backupReminderEnabled===false)return;
+    
+    const lastBackup=localStorage.getItem('last_backup_date');
+    const reminder=document.getElementById('backupReminder');
+    const reminderText=document.getElementById('backupReminderText');
+    
+    if(!lastBackup){
+        setTimeout(()=>{
+            reminderText.textContent='🔒 اعمل نسخة احتياطية أولى الآن!';
+            reminder.classList.add('show');
+        },4000);
+        return;
+    }
+    
+    const days=Math.floor((Date.now()-new Date(lastBackup).getTime())/86400000);
+    
+    if(days>=7){
+        reminderText.textContent=`🚨 منذ ${days} يوم بدون نسخة! اضغط الآن`;
+        reminder.classList.add('show','danger');
+    }else if(days>=3){
+        reminderText.textContent=`⚠️ منذ ${days} أيام بدون نسخة`;
+        reminder.classList.add('show');
+    }
+}
+
+function importData(event){
+    const file=event.target.files[0];if(!file)return;
+    const reader=new FileReader();
+    reader.onload=e=>{
+        try{
+            const imp=JSON.parse(e.target.result);
+            if(!imp.products)throw new Error('ملف غير صحيح');
+            if(!confirm(`✅ ملف صحيح!\n\n📦 ${imp.products.length||0} منتج\n💰 ${imp.invoices?.length||0} فاتورة\n\nسيتم استبدال البيانات الحالية.\nمتابعة؟`))return;
+            data={...data,...imp};
+            data.settings={...data.settings,...(imp.settings||{})};
+            save();
+            toast('✓ تم الاستيراد بنجاح');
+            setTimeout(()=>location.reload(),1000);
+        }catch(err){toast('ملف غير صحيح!','error')}
+    };
+    reader.readAsText(file);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ══════════════ البيع السريع ══════════════
+// ═══════════════════════════════════════════════════════════════
+function setQuickMode(mode,btn){
+    quickMode=mode;
+    document.querySelectorAll('#quickSaleCard .tab-inner').forEach(b=>b.classList.remove('active'));
+    if(btn)btn.classList.add('active');
+    document.getElementById('quickAutoContainer').style.display=mode==='auto'?'block':'none';
+    document.getElementById('quickManualContainer').style.display=mode==='manual'?'block':'none';
+    document.getElementById('quickCategoryContainer').style.display=mode==='category'?'block':'none';
+    renderQuickButtons();
+}
+
+function getTopSellingProducts(limit=15){
+    const salesMap={},last30=Date.now()-(30*24*60*60*1000);
+    data.invoices.forEach(inv=>{
+        const t=new Date(inv.date).getTime();
+        if(t<last30)return;
+        inv.items.forEach(item=>{
+            if(!salesMap[item.id])salesMap[item.id]=0;
+            salesMap[item.id]+=item.qty;
+        });
+    });
+    const sorted=Object.entries(salesMap).sort((a,b)=>b[1]-a[1]).map(([id])=>parseInt(id));
+    const all=[...data.products].filter(p=>getTotalPieces(p)>0).sort((a,b)=>getTotalPieces(b)-getTotalPieces(a));
+    const result=[];
+    sorted.forEach(id=>{
+        const p=data.products.find(x=>x.id===id);
+        if(p&&getTotalPieces(p)>0&&!result.find(r=>r.id===p.id))result.push(p);
+    });
+    all.forEach(p=>{if(result.length<limit&&!result.find(r=>r.id===p.id))result.push(p)});
+    data.products.forEach(p=>{if(result.length<limit&&!result.find(r=>r.id===p.id))result.push(p)});
+    return result.slice(0,limit);
+}
+
+function renderQuickAuto(){
+    const c=document.getElementById('quickAutoContainer');if(!c)return;
+    const ps=getTopSellingProducts(15);
+    if(ps.length===0){
+        c.innerHTML='<div class="empty" style="padding:30px 20px"><div class="icon" style="font-size:50px">📦</div><div class="text">لا توجد منتجات</div><div class="hint">أضف منتجات أولاً</div></div>';
+        return;
+    }
+    c.innerHTML=`<div class="quick-list">${ps.map(p=>quickRowHTML(p,'auto')).join('')}</div><div style="font-size:11px;color:var(--dim);text-align:center;padding:6px">💡 تتحدث تلقائياً حسب الأكثر مبيعاً</div>`;
+}
+
+function quickRowHTML(p,mode='auto'){
+    const total=getTotalPieces(p);
+    let sc='';
+    if(total<=0)sc='out';
+    else if(p.sellType==='weight'){if(total<=1)sc='low'}
+    else if(total<=5)sc='low';
+    const isTop=mode==='auto'&&data.quickButtons.includes(p.id);
+    let stText;
+    if(p.sellType==='weight')stText=total.toFixed(2)+'كغ';
+    else stText=total>999?'999+':total;
+    return`<div class="quick-row ${total<=0?'out':''}" onclick="quickAddV2(${p.id})">
+        ${isTop?'<div class="qr-badge">⭐ مميز</div>':''}
+        <div class="qr-emoji">${getEmoji(p)}</div>
+        <div class="qr-info">
+            <div class="qr-name">${esc(p.name)}</div>
+            ${p.category?`<div class="qr-cat">📁 ${esc(p.category)}${p.sellType==='weight'?' • ⚖️ كيلو':''}</div>`:''}
+        </div>
+        <div class="qr-price">${p.sellPrice.toLocaleString()}</div>
+        <div class="qr-stock ${sc}">${stText}</div>
+    </div>`;
+}
+
+function renderQuickManual(){
+    const c=document.getElementById('quickGridManual');if(!c)return;
+    const buttons=data.quickButtons.slice(0,12);
+    let html='<div class="quick-grid-large">';
+    buttons.forEach(pid=>{
+        const p=data.products.find(x=>x.id===pid);
+        if(!p)return;
+        const total=getTotalPieces(p);
+        let sc='';
+        if(total<=0)sc='out';
+        else if(p.sellType==='weight'){if(total<=1)sc='low'}
+        else if(total<=5)sc='low';
+        let stText=p.sellType==='weight'?total.toFixed(1)+'كغ':total;
+        html+=`<button class="quick-btn-large" onclick="quickAddV2(${p.id})">
+            <button class="qbl-x" onclick="event.stopPropagation();removeQuick(${p.id})">×</button>
+            <div class="qbl-name">${getEmoji(p)} ${esc(p.name)}</div>
+            <div class="qbl-bottom">
+                <div class="qbl-price">${p.sellPrice.toLocaleString()}</div>
+                <div class="qbl-stock ${sc}">${stText}</div>
+            </div>
+        </button>`;
+    });
+    for(let i=buttons.length;i<12;i++){
+        html+=`<button class="quick-btn-large empty" onclick="openQuickEdit()">➕ إضافة منتج</button>`;
+    }
+    html+='</div>';
+    c.innerHTML=html;
+}
+
+function renderQuickCategory(){
+    const cs=document.getElementById('quickCatScroll'),c=document.getElementById('quickGridCategory');
+    if(!cs||!c)return;
+    const cats=['الكل',...data.categories];
+    cs.innerHTML=cats.map(cat=>`<button class="cat-btn ${quickCategoryFilter===cat?'active':''}" onclick="setQuickCategory('${String(cat).replace(/'/g,"\\'")}')">${esc(cat)}</button>`).join('');
+    let ps=data.products;
+    if(quickCategoryFilter!=='الكل')ps=ps.filter(p=>p.category===quickCategoryFilter);
+    ps=[...ps].sort((a,b)=>getTotalPieces(b)-getTotalPieces(a));
+    if(ps.length===0){
+        c.innerHTML='<div class="empty" style="padding:30px 20px"><div class="icon" style="font-size:50px">📦</div><div class="text">لا توجد منتجات</div></div>';
+        return;
+    }
+    c.innerHTML=`<div class="quick-list">${ps.slice(0,30).map(p=>quickRowHTML(p,'category')).join('')}</div>`;
+}
+
+function setQuickCategory(cat){quickCategoryFilter=cat;renderQuickCategory()}
+
+function renderQuickButtons(){
+    if(quickMode==='auto')renderQuickAuto();
+    else if(quickMode==='manual')renderQuickManual();
+    else if(quickMode==='category')renderQuickCategory();
+}
+
+function quickAddV2(pid){
+    const p=data.products.find(x=>x.id===pid);if(!p)return;
+    const total=getTotalPieces(p);
+    if(total<=0){toast('غير متوفر!','error');playSound('error');return}
+    if(p.sellType==='weight'){openWeightModalForProduct(pid);return}
+    if(p.hasBox&&total>=p.piecesPerBox){openSellType(pid);return}
+    addToCartByPiece(p);
+}
+function quickAdd(pid){quickAddV2(pid)}
+
+function openQuickEdit(){renderQuickEditList();document.getElementById('quickEditModal').classList.add('show')}
+function renderQuickEditList(){
+    const c=document.getElementById('quickEditList');if(!c)return;
+    const kw=(document.getElementById('quickSearch').value||'').toLowerCase().trim();
+    let list=data.products;
+    if(kw)list=list.filter(p=>p.name.toLowerCase().includes(kw));
+    if(list.length===0){c.innerHTML='<div class="empty" style="padding:30px"><div class="text">لا توجد منتجات</div></div>';return}
+    c.innerHTML=list.map(p=>{
+        const sel=data.quickButtons.includes(p.id);
+        return`<div class="suggestion-item" onclick="toggleQuick(${p.id})" style="display:flex;justify-content:space-between;align-items:center;padding:12px;background:${sel?'rgba(99,102,241,.15)':''};border-radius:10px;margin-bottom:4px">
+            <div style="flex:1"><div style="font-weight:700">${esc(p.name)}</div><div class="sub">${p.sellPrice} ل.س • ${getStockDisplay(p)}</div></div>
+            <div style="font-size:24px">${sel?'✅':'⚪'}</div>
+        </div>`;
+    }).join('');
+}
+function toggleQuick(pid){
+    const i=data.quickButtons.indexOf(pid);
+    if(i>=0)data.quickButtons.splice(i,1);
+    else{if(data.quickButtons.length>=12){toast('الحد الأقصى 12!','error');return}data.quickButtons.push(pid)}
+    save();renderQuickEditList();renderQuickButtons();
+}
+function removeQuick(pid){
+    const i=data.quickButtons.indexOf(pid);
+    if(i>=0){data.quickButtons.splice(i,1);save();renderQuickButtons();toast('تم الحذف')}
+}
+function getEmoji(p){
+    const n=(p.name||'').toLowerCase(),c=(p.category||'').toLowerCase();
+    if(p.sellType==='weight'){
+        if(n.includes('سكر'))return'🍬';
+        if(n.includes('رز')||n.includes('أرز'))return'🍚';
+        if(n.includes('بهار')||n.includes('فلفل')||n.includes('كمون'))return'🌶️';
+        if(n.includes('شاي'))return'🍃';
+        if(n.includes('قهوة'))return'☕';
+        if(n.includes('دقيق')||n.includes('طحين'))return'🌾';
+        if(n.includes('عدس')||n.includes('فاصوليا')||n.includes('حمص'))return'🫘';
+        if(n.includes('ملح'))return'🧂';
+        if(n.includes('زيت'))return'🫒';
+        return'⚖️';
+    }
+    if(n.includes('شيبس')||c.includes('شيبس'))return'🍟';
+    if(n.includes('كولا')||n.includes('بيبسي')||c.includes('مشروب'))return'🥤';
+    if(n.includes('بسكوت')||n.includes('كيك')||c.includes('بسكوت')||c.includes('حلويات'))return'🍪';
+    if(n.includes('صابون')||n.includes('منظف')||c.includes('منظف'))return'🧴';
+    if(n.includes('شاي')||n.includes('قهوة'))return'☕';
+    if(n.includes('ماء'))return'💧';
+    if(n.includes('جبن'))return'🧀';
+    if(n.includes('لبن')||n.includes('حليب'))return'🥛';
+    if(n.includes('خبز'))return'🍞';
+    if(n.includes('بيض'))return'🥚';
+    if(n.includes('شوكولا'))return'🍫';
+    if(n.includes('عصير'))return'🧃';
+    if(n.includes('معلب')||c.includes('معلب'))return'🥫';
+    return'📦';
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ══════════════ صفحة البيع ══════════════
+// ═══════════════════════════════════════════════════════════════
+function renderSell(){
+    const si=document.getElementById('searchSell');if(!si)return;
+    const kw=si.value.toLowerCase().trim();
+    const c=document.getElementById('productsSell');
+    renderCategories();
+    let list=data.products;
+    if(currentCategory!=='الكل')list=list.filter(p=>p.category===currentCategory);
+    if(kw)list=list.filter(p=>p.name.toLowerCase().includes(kw)||(p.category&&p.category.toLowerCase().includes(kw)));
+    if(list.length===0){
+        c.innerHTML=`<div class="empty"><div class="icon">📦</div><div class="text">${data.products.length===0?'لا توجد منتجات':'لا نتائج'}</div></div>`;
+        renderCart();
+        return;
+    }
+    c.innerHTML=list.map(p=>{
+        const total=getTotalPieces(p);
+        let cls='product',bc='stock-badge';
+        if(total<=0){cls+=' out';bc+=' out'}
+        else if(p.sellType==='weight'){if(total<=1){cls+=' low';bc+=' low'}}
+        else if(total<=5){cls+=' low';bc+=' low'}
+        const stock=getStockDisplay(p);
+        const u=p.boughtInUsd&&data.currentRate>0?`<span class="usd-badge">💵 $${p.buyPriceUsd?.toFixed(2)||'?'}</span>`:'';
+        const w=p.sellType==='weight'?'<span class="weight-badge">⚖️ كيلو</span>':'';
+        return`<div class="${cls}" onclick="openSellType(${p.id})">
+            <div class="top">
+                <div class="name">${esc(p.name)}</div>
+                <div class="price">${p.sellPrice.toLocaleString()}</div>
+            </div>
+            <div class="sub"><span class="${bc}">${stock}</span>${w}${u}</div>
+        </div>`;
+    }).join('');
+    renderCart();
+}
+function renderCategories(){
+    const c=document.getElementById('catButtons');if(!c)return;
+    c.innerHTML=['الكل',...data.categories].map(cat=>`<button class="cat-btn ${currentCategory===cat?'active':''}" onclick="setCategory('${String(cat).replace(/'/g,"\\'")}')">${esc(cat)}</button>`).join('');
+}
+function setCategory(cat){currentCategory=cat;renderSell()}
+
+function openSellType(id){
+    const p=data.products.find(x=>x.id===id);if(!p)return;
+    const total=getTotalPieces(p);
+    if(total<=0){toast('غير متوفر!','error');playSound('error');return}
+    if(p.sellType==='weight'){openWeightModalForProduct(id);return}
+    if(!p.hasBox){addToCartByPiece(p);return}
+    document.getElementById('sellTypeId').value=id;
+    document.getElementById('sellTypeTitle').textContent=p.name;
+    const fb=Math.floor(total/p.piecesPerBox);
+    document.getElementById('pieceInfo').textContent=`${p.sellPrice.toLocaleString()} ل.س • ${total} قطعة`;
+    document.getElementById('boxInfo').textContent=`${(p.sellPrice*p.piecesPerBox).toLocaleString()} ل.س • ${fb} طرد`;
+    const bb=document.getElementById('boxSellBtn');
+    if(fb<1){bb.style.opacity='.5';bb.style.pointerEvents='none'}
+    else{bb.style.opacity='1';bb.style.pointerEvents='auto'}
+    document.getElementById('sellTypeModal').classList.add('show');
+}
+function addByPiece(){
+    const id=parseInt(document.getElementById('sellTypeId').value);
+    const p=data.products.find(x=>x.id===id);if(!p)return;
+    addToCartByPiece(p);
+    closeModal('sellTypeModal');
+}
+function addByBox(){
+    const id=parseInt(document.getElementById('sellTypeId').value);
+    const p=data.products.find(x=>x.id===id);if(!p)return;
+    const total=getTotalPieces(p);
+    if(total<p.piecesPerBox){toast('لا يوجد طرد كامل!','error');return}
+    const totalInCart=cart.filter(i=>i.id===id).reduce((s,i)=>s+(i.qty*(i.type==='box'?p.piecesPerBox:1)),0);
+    if(totalInCart+p.piecesPerBox>total){
+        toast(`⚠️ المتوفر ${total} قطعة فقط!`,'error');
+        playSound('error');
+        return;
+    }
+    const bp=p.sellPrice*p.piecesPerBox,bbp=p.buyPrice*p.piecesPerBox;
+    const ex=cart.find(i=>i.id===id&&i.type==='box');
+    if(ex)ex.qty++;
+    else cart.push({
+        id,name:p.name+' (طرد)',type:'box',
+        pieces:p.piecesPerBox,buy:bbp,sell:bp,qty:1,
+        buyUsd:p.boughtInUsd?p.buyPriceUsd*p.piecesPerBox:0
+    });
+    playSound('success');
+    toast('✓ طرد');
+    closeModal('sellTypeModal');
+    renderCart();
+}
+function addToCartByPiece(p){
+    const total=getTotalPieces(p);
+    if(total<=0){toast('غير متوفر!','error');playSound('error');return}
+    const totalInCart=cart.filter(i=>i.id===p.id).reduce((s,i)=>s+(i.qty*(i.type==='box'?p.piecesPerBox:1)),0);
+    if(totalInCart+1>total){
+        toast(`⚠️ المتوفر ${total} قطعة فقط!`,'error');
+        playSound('error');
+        return;
+    }
+    const ex=cart.find(i=>i.id===p.id&&i.type==='piece');
+    if(ex)ex.qty++;
+    else cart.push({
+        id:p.id,name:p.name,type:'piece',
+        pieces:1,buy:p.buyPrice,sell:p.sellPrice,qty:1,
+        buyUsd:p.boughtInUsd?p.buyPriceUsd:0
+    });
+    playSound('click');
+    toast('✓ '+p.name);
+    renderCart();
+    renderSell();
+}
+
+// ══════════════ البيع بالكيلو ══════════════
+function openWeightModalForProduct(id){
+    const p=data.products.find(x=>x.id===id);if(!p)return;
+    const total=getTotalPieces(p);
+    if(total<=0){toast('غير متوفر!','error');playSound('error');return}
+    document.getElementById('weightProductId').value=id;
+    document.getElementById('weightAmount').value='';
+    document.getElementById('weightProductInfo').innerHTML=`
+        <div style="font-weight:800;font-size:16px;margin-bottom:6px">⚖️ ${esc(p.name)}</div>
+        <div style="font-size:13px;color:var(--dim);margin-bottom:6px">سعر الكيلو: <b style="color:var(--success-l)">${p.sellPrice.toLocaleString()} ل.س</b></div>
+        <div style="font-size:13px;color:var(--dim)">المتوفر: <b style="color:var(--cyan)">${total.toFixed(3)} كغ</b></div>`;
+    document.getElementById('weightUnitPrice').textContent=p.sellPrice.toLocaleString()+' ل.س';
+    document.getElementById('weightQtyCalc').textContent='0 كغ';
+    document.getElementById('weightTotal').textContent='0 ل.س';
+    document.getElementById('weightModal').classList.add('show');
+    setTimeout(()=>document.getElementById('weightAmount').focus(),300);
+}
+function setWeightAmount(amount){
+    document.getElementById('weightAmount').value=amount;
+    calcWeightPrice();
+}
+function calcWeightPrice(){
+    const id=parseInt(document.getElementById('weightProductId').value);
+    const p=data.products.find(x=>x.id===id);if(!p)return;
+    const amount=parseFloat(document.getElementById('weightAmount').value)||0;
+    const total=amount*p.sellPrice;
+    document.getElementById('weightQtyCalc').textContent=amount.toFixed(3)+' كغ';
+    document.getElementById('weightTotal').textContent=total.toLocaleString(undefined,{maximumFractionDigits:0})+' ل.س';
+}
+function confirmWeightSale(){
+    const id=parseInt(document.getElementById('weightProductId').value);
+    const p=data.products.find(x=>x.id===id);if(!p)return;
+    const amount=parseFloat(document.getElementById('weightAmount').value);
+    if(!amount||amount<=0){toast('أدخل كمية صحيحة!','error');return}
+    const totalPieces=getTotalPieces(p);
+    if(amount>totalPieces){
+        toast(`⚠️ المتوفر ${totalPieces.toFixed(3)} كغ فقط!`,'error');
+        playSound('error');
+        return;
+    }
+    const totalInCart=cart.filter(i=>i.id===id&&i.type==='weight').reduce((s,i)=>s+i.qty,0);
+    if(totalInCart+amount>totalPieces){
+        toast(`⚠️ المتوفر ${totalPieces.toFixed(3)} كغ فقط!`,'error');
+        return;
+    }
+    const price=p.sellPrice;
+    const total=amount*price;
+    const ex=cart.find(i=>i.id===id&&i.type==='weight');
+    if(ex){
+        ex.qty+=amount;
+        ex.total=ex.qty*ex.sell;
+    }else{
+        cart.push({
+            id:p.id,name:p.name+' (كيلو)',type:'weight',
+            buy:p.buyPrice,sell:price,qty:amount,total:total,
+            buyUsd:p.boughtInUsd?p.buyPriceUsd:0
+        });
+    }
+    playSound('success');
+    toast(`✓ ${amount.toFixed(3)} كغ`);
+    closeModal('weightModal');
+    renderCart();
+    renderSell();
+}
+
+// ══════════════ السلة ══════════════
+function renderCart(){
+    const sec=document.getElementById('cartSection'),list=document.getElementById('cartList');
+    if(!sec||!list)return;
+    if(cart.length===0){sec.style.display='none';return}
+    sec.style.display='block';
+    list.innerHTML=cart.map((item,idx)=>{
+        const unit=item.type==='box'?'📦 طرد':item.type==='weight'?'⚖️ كيلو':'🔹 قطعة';
+        const typeCls=item.type==='box'?'box':item.type==='weight'?'weight':'';
+        let info='';
+        if(item.type==='weight'){
+            info=`${item.sell.toLocaleString()} × ${item.qty.toFixed(3)} كغ = ${(item.sell*item.qty).toLocaleString(undefined,{maximumFractionDigits:0})} ل.س`;
+        }else{
+            info=`${item.sell.toLocaleString()} × ${item.qty} = ${(item.sell*item.qty).toLocaleString()} ل.س`;
+        }
+        return`<div class="cart-item">
+            <div class="head">
+                <div class="name">${esc(item.name)}</div>
+                <div class="type ${typeCls}">${unit}</div>
+            </div>
+            <div class="info">${info}</div>
+            <div class="qty">
+                <button class="minus" onclick="changeQty(${idx},${item.type==='weight'?-0.1:-1})">−</button>
+                <span>${item.type==='weight'?item.qty.toFixed(2):item.qty}</span>
+                <button onclick="changeQty(${idx},${item.type==='weight'?0.1:1})">+</button>
+            </div>
+        </div>`;
+    }).join('');
+    const total=cart.reduce((s,i)=>s+i.sell*i.qty,0);
+    const profit=cart.reduce((s,i)=>s+(i.sell-i.buy)*i.qty,0);
+    document.getElementById('cartTotal').textContent=total.toLocaleString(undefined,{maximumFractionDigits:0});
+    document.getElementById('cartProfit').textContent=profit.toLocaleString(undefined,{maximumFractionDigits:0});
+    const r=getRate(),pu=document.getElementById('cartProfitUsd');
+    if(r>0&&profit>0)pu.textContent='≈ $'+(profit/r).toFixed(2);
+    else pu.textContent='';
+}
+function changeQty(idx,d){
+    const item=cart[idx];
+    const p=data.products.find(x=>x.id===item.id);
+    if(!p)return;
+    const n=item.qty+d;
+    if(n<=0){cart.splice(idx,1);renderCart();return}
+    const totalPieces=getTotalPieces(p);
+    const needed=n*(item.type==='box'?p.piecesPerBox:1);
+    if(needed>totalPieces+0.0001){
+        toast(`⚠️ المتوفر ${p.sellType==='weight'?totalPieces.toFixed(3)+' كغ':totalPieces+' قطعة'} فقط!`,'error');
+        playSound('error');
+        return;
+    }
+    item.qty=n;
+    renderCart();
+}
+function clearCart(){
+    if(cart.length===0)return;
+    if(!confirm('إفراغ السلة؟'))return;
+    cart=[];
+    renderCart();
+    renderSell();
+    toast('تم الإفراغ');
+}
+function completeSale(){
+    if(cart.length===0){toast('السلة فارغة!','error');playSound('error');return}
+    for(const item of cart){
+        const p=data.products.find(x=>x.id===item.id);
+        if(!p){toast(`⚠️ "${item.name}" محذوف!`,'error');return}
+        const totalPieces=getTotalPieces(p);
+        const needed=item.qty*(item.type==='box'?p.piecesPerBox:1);
+        if(needed>totalPieces+0.0001){
+            toast(`⚠️ "${p.name}": المتوفر ${totalPieces} فقط!`,'error');
+            playSound('error');
+            return;
+        }
+    }
+    const total=cart.reduce((s,i)=>s+i.sell*i.qty,0);
+    const profit=cart.reduce((s,i)=>s+(i.sell-i.buy)*i.qty,0);
+    const r=getRate(),pu=r>0?profit/r:0;
+    cart.forEach(item=>{
+        const p=data.products.find(x=>x.id===item.id);if(!p)return;
+        if(p.sellType==='weight'){
+            p.weightQty=(p.weightQty||0)-item.qty;
+            if(p.weightQty<0)p.weightQty=0;
+        }else{
+            const rm=item.qty*(item.type==='box'?p.piecesPerBox:1);
+            if(p.hasBox){
+                let t=getTotalPieces(p);
+                t-=rm;
+                p.boxCount=Math.floor(t/p.piecesPerBox);
+                p.loosePieces=t%p.piecesPerBox;
+            }else p.qty-=rm;
+        }
+    });
+    data.invoices.push({
+        id:Date.now(),
+        date:new Date().toISOString(),
+        items:JSON.parse(JSON.stringify(cart)),
+        total,profit,profitUsd:pu,rateAtSale:r
+    });
+    addLog('sell','بيع',`${total.toLocaleString(undefined,{maximumFractionDigits:0})} ل.س • ربح ${profit.toLocaleString(undefined,{maximumFractionDigits:0})} ل.س`);
+    save();
+    playSound('success');
+    toast(`✅ تم البيع! الربح: ${profit.toLocaleString(undefined,{maximumFractionDigits:0})} ل.س`);
+    cart=[];
+    renderCart();
+    renderSell();
+    renderQuickButtons();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ══════════════ إدارة المنتجات ══════════════
+// ═══════════════════════════════════════════════════════════════
+function renderProducts(){
+    const c=document.getElementById('productsList');if(!c)return;
+    const kw=(document.getElementById('searchProducts').value||'').toLowerCase().trim();
+    let list=data.products;
+    if(kw)list=list.filter(p=>p.name.toLowerCase().includes(kw)||(p.category&&p.category.toLowerCase().includes(kw)));
+    if(list.length===0){
+        c.innerHTML='<div class="empty"><div class="icon">📦</div><div class="text">لا توجد منتجات</div></div>';
+        return;
+    }
+    c.innerHTML=list.map(p=>{
+        const total=getTotalPieces(p);
+        let cls='product';
+        if(total<=0)cls+=' out';
+        else if(p.sellType==='weight'){if(total<=1)cls+=' low'}
+        else if(total<=5)cls+=' low';
+        const stock=getStockDisplay(p);
+        let bi=`شراء: ${p.buyPrice.toFixed(1)} ل.س`;
+        if(p.boughtInUsd&&p.buyPriceUsd)bi+=` ($${p.buyPriceUsd.toFixed(2)})`;
+        const w=p.sellType==='weight'?'<span class="weight-badge">⚖️ كيلو</span>':'';
+        return`<div class="${cls}">
+            <div class="top" onclick="showProductDetails(${p.id})">
+                <div class="name">${esc(p.name)}</div>
+                <div class="price">${p.sellPrice.toLocaleString()}</div>
+            </div>
+            <div class="sub" onclick="showProductDetails(${p.id})">
+                <span class="stock-badge">${stock}</span>${w}${p.boughtInUsd?'<span class="usd-badge">💵 دولار</span>':''}
+            </div>
+            <div class="sub" style="margin-top:6px;color:var(--dim)" onclick="showProductDetails(${p.id})">
+                💵 ${bi} ${p.category?`• 📁 ${esc(p.category)}`:''}
+            </div>
+            <div style="display:flex;gap:6px;margin-top:10px">
+                <button class="btn btn-primary btn-sm" style="flex:1" onclick="event.stopPropagation();openQuickPrice(${p.id})">⚡ سعر</button>
+                <button class="btn btn-warning btn-sm" style="flex:1" onclick="event.stopPropagation();openEditProduct(${p.id})">✏️ تعديل</button>
+            </div>
+        </div>`;
+    }).join('');
+}
+function setProductSellType(type){
+    currentBuyType=type;
+    document.getElementById('sellTypePiece').classList.toggle('active',type==='piece');
+    document.getElementById('sellTypeBox').classList.toggle('active',type==='box');
+    document.getElementById('sellTypeWeight').classList.toggle('active',type==='weight');
+    document.getElementById('pieceFields').style.display=type==='piece'?'block':'none';
+    document.getElementById('boxFields').style.display=type==='box'?'block':'none';
+    document.getElementById('weightFields').style.display=type==='weight'?'block':'none';
+    if(type==='box')calcBox();
+    if(type==='weight')calcWeight();
+}
+function calcWeight(){
+    const buyEl=document.getElementById('pWeightBuy');
+    const sellEl=document.getElementById('pWeightSell');
+    const qtyEl=document.getElementById('pWeightQty');
+    if(!buyEl||!sellEl||!qtyEl)return;
+    const buy=parseFloat(buyEl.value)||0;
+    const sell=parseFloat(sellEl.value)||0;
+    const qty=parseFloat(qtyEl.value)||0;
+    const r=getRate();
+    const u=currentCurrency==='usd';
+    let buyLira=buy;
+    if(u&&r>0)buyLira=buy*r;
+    const profit=sell-buyLira;
+    const total=profit*qty;
+    const profitEl=document.getElementById('calcWeightProfit');
+    const totalEl=document.getElementById('calcWeightTotal');
+    if(profitEl){
+        profitEl.textContent=profit.toFixed(1)+' ل.س';
+        profitEl.className=profit<0?'negative':'positive';
+    }
+    if(totalEl){
+        totalEl.textContent=total.toLocaleString(undefined,{maximumFractionDigits:0})+' ل.س';
+        totalEl.className=total<0?'negative':'positive';
+    }
+}
+function openAddProduct(){
+    document.getElementById('productModalTitle').textContent='➕ منتج جديد';
+    document.getElementById('editId').value='';
+    ['pName','pBuy','pSell','pQty','pPiecesPerBox','pBoxBuy','pPieceSell','pBoxCount','pWeightBuy','pWeightSell','pWeightQty'].forEach(id=>{
+        const el=document.getElementById(id);
+        if(el)el.value='';
+    });
+    document.getElementById('deleteBtn').style.display='none';
+    updateProductCategorySelect();
+    setCurrency('lira');
+    setProductSellType('piece');
+    const wp=document.getElementById('calcWeightProfit');
+    const wt=document.getElementById('calcWeightTotal');
+    if(wp){wp.textContent='0';wp.className=''}
+    if(wt){wt.textContent='0';wt.className=''}
+    document.getElementById('productModal').classList.add('show');
+}
+function openEditProduct(id){
+    const p=data.products.find(x=>x.id===id);if(!p)return;
+    document.getElementById('productModalTitle').textContent='✏️ تعديل';
+    document.getElementById('editId').value=p.id;
+    document.getElementById('pName').value=p.name;
+    document.getElementById('deleteBtn').style.display='block';
+    updateProductCategorySelect();
+    const cs=document.getElementById('pCategory');cs.value=p.category||'';
+    if(p.boughtInUsd)setCurrency('usd');else setCurrency('lira');
+    const sellType=p.sellType||(p.hasBox?'box':'piece');
+    setProductSellType(sellType);
+    if(sellType==='weight'){
+        if(p.boughtInUsd&&p.buyPriceUsd)document.getElementById('pWeightBuy').value=p.buyPriceUsd.toFixed(2);
+        else document.getElementById('pWeightBuy').value=p.buyPrice;
+        document.getElementById('pWeightSell').value=p.sellPrice;
+        document.getElementById('pWeightQty').value=p.weightQty||0;
+        calcWeight();
+    }else if(sellType==='box'){
+        document.getElementById('pPiecesPerBox').value=p.piecesPerBox;
+        if(p.boughtInUsd&&p.buyPriceUsd)document.getElementById('pBoxBuy').value=(p.buyPriceUsd*p.piecesPerBox).toFixed(2);
+        else document.getElementById('pBoxBuy').value=(p.buyPrice*p.piecesPerBox).toFixed(0);
+        document.getElementById('pPieceSell').value=p.sellPrice;
+        document.getElementById('pBoxCount').value=p.boxCount||0;
+        calcBox();
+    }else{
+        if(p.boughtInUsd&&p.buyPriceUsd)document.getElementById('pBuy').value=p.buyPriceUsd.toFixed(2);
+        else document.getElementById('pBuy').value=p.buyPrice;
+        document.getElementById('pSell').value=p.sellPrice;
+        document.getElementById('pQty').value=p.qty||0;
+    }
+    document.getElementById('productModal').classList.add('show');
+}
+function updateProductCategorySelect(){
+    const cs=document.getElementById('pCategory');
+    if(cs)cs.innerHTML='<option value="">-- بدون تصنيف --</option>'+data.categories.map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('');
+    const pcs=document.getElementById('purchaseCategory');
+    if(pcs)pcs.innerHTML='<option value="">-- بدون تصنيف --</option>'+data.categories.map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('');
+}
+function setCurrency(c){
+    currentCurrency=c;
+    document.getElementById('currLira').classList.toggle('active',c==='lira');
+    document.getElementById('currUsd').classList.toggle('active',c==='usd');
+    document.getElementById('buyLabel').textContent=c==='usd'?'سعر الشراء (دولار)':'سعر الشراء (ل.س)';
+    document.getElementById('boxBuyLabel').textContent=c==='usd'?'سعر شراء الطرد (دولار)':'سعر شراء الطرد (ل.س)';
+    document.getElementById('weightBuyLabel').textContent=c==='usd'?'سعر شراء الكيلو (دولار)':'سعر شراء الكيلو (ل.س)';
+    calcBox();
+    calcWeight();
+}
+function calcBox(){
+    const ppb=parseInt(document.getElementById('pPiecesPerBox').value)||0;
+    const bb=parseFloat(document.getElementById('pBoxBuy').value)||0;
+    const ps=parseFloat(document.getElementById('pPieceSell').value)||0;
+    const bc=parseInt(document.getElementById('pBoxCount').value)||0;
+    const r=getRate(),u=currentCurrency==='usd';
+    if(ppb<=0){
+        ['calcBuyPerPiece','calcProfitPerPiece','calcTotalPieces','calcProfitPerBox'].forEach(id=>{
+            const e=document.getElementById(id);if(e)e.textContent='0';
+        });
+        return;
+    }
+    let bpp;
+    if(u){
+        if(r<=0){document.getElementById('calcBuyPerPiece').textContent='حدد السعر!';return}
+        bpp=(bb/ppb)*r;
+    }else bpp=bb/ppb;
+    const pp=ps-bpp,tp=ppb*bc,pb=pp*ppb;
+    document.getElementById('calcBuyPerPiece').textContent=bpp.toFixed(1)+' ل.س';
+    document.getElementById('calcProfitPerPiece').textContent=pp.toFixed(1)+' ل.س';
+    document.getElementById('calcTotalPieces').textContent=tp+' قطعة';
+    document.getElementById('calcProfitPerBox').textContent=pb.toFixed(0)+' ل.س';
+    const ur=document.getElementById('usdRow');
+    if(u||r>0){
+        ur.style.display='flex';
+        document.getElementById('calcProfitPerBoxUsd').textContent=r>0?'$'+(pb/r).toFixed(2):'-';
+    }else ur.style.display='none';
+}
+function saveProduct(){
+    const eid=document.getElementById('editId').value;
+    const n=document.getElementById('pName').value.trim();
+    const cat=document.getElementById('pCategory').value;
+    const u=currentCurrency==='usd',r=getRate();
+    if(!n){toast('أدخل الاسم!','error');return}
+    if(u&&r<=0){toast('حدد سعر الصرف!','error');return}
+    let pr;
+    if(currentBuyType==='weight'){
+        const b=parseFloat(document.getElementById('pWeightBuy').value)||0;
+        const s=parseFloat(document.getElementById('pWeightSell').value)||0;
+        const q=parseFloat(document.getElementById('pWeightQty').value)||0;
+        if(s<=0){toast('أدخل سعر البيع!','error');return}
+        let bl,bu=0;
+        if(u){bu=b;bl=b*r}else{bl=b;if(r>0)bu=bl/r}
+        pr={id:eid?parseInt(eid):Date.now(),name:n,category:cat,sellType:'weight',buyPrice:bl,buyPriceUsd:bu,boughtInUsd:u,sellPrice:s,weightQty:q};
+    }else if(currentBuyType==='box'){
+        const ppb=parseInt(document.getElementById('pPiecesPerBox').value)||0;
+        const bb=parseFloat(document.getElementById('pBoxBuy').value)||0;
+        const ps=parseFloat(document.getElementById('pPieceSell').value)||0;
+        const bc=parseInt(document.getElementById('pBoxCount').value)||0;
+        if(ppb<=0){toast('أدخل عدد القطع!','error');return}
+        if(bb<=0){toast('أدخل سعر الشراء!','error');return}
+        if(ps<=0){toast('أدخل سعر البيع!','error');return}
+        let bpl,bu=0;
+        if(u){bu=bb/ppb;bpl=bu*r}else{bpl=bb/ppb;if(r>0)bu=bpl/r}
+        pr={id:eid?parseInt(eid):Date.now(),name:n,category:cat,sellType:'box',hasBox:true,piecesPerBox:ppb,buyPrice:bpl,buyPriceUsd:bu,boughtInUsd:u,sellPrice:ps,boxCount:bc,loosePieces:0};
+        if(eid){const op=data.products.find(x=>x.id===parseInt(eid));if(op&&op.hasBox)pr.loosePieces=op.loosePieces||0}
+    }else{
+        const b=parseFloat(document.getElementById('pBuy').value)||0;
+        const s=parseFloat(document.getElementById('pSell').value)||0;
+        const q=parseInt(document.getElementById('pQty').value)||0;
+        if(s<=0){toast('أدخل سعر البيع!','error');return}
+        let bl,bu=0;
+        if(u){bu=b;bl=b*r}else{bl=b;if(r>0)bu=bl/r}
+        pr={id:eid?parseInt(eid):Date.now(),name:n,category:cat,sellType:'piece',hasBox:false,buyPrice:bl,buyPriceUsd:bu,boughtInUsd:u,sellPrice:s,qty:q};
+    }
+    if(eid){
+        const i=data.products.findIndex(x=>x.id===parseInt(eid));
+        data.products[i]=pr;
+        addLog('update','تعديل منتج',n);
+        toast('✓ تم التعديل');
+    }else{
+        data.products.push(pr);
+        addLog('create','إضافة منتج',n);
+        toast('✓ تمت الإضافة');
+    }
+    save();
+    closeModal('productModal');
+    renderProducts();
+    renderSell();
+    renderQuickButtons();
+}
+function deleteProduct(){
+    const eid=document.getElementById('editId').value;if(!eid)return;
+    const p=data.products.find(x=>x.id===parseInt(eid));if(!p)return;
+    if(!confirm(`حذف "${p.name}"؟`))return;
+    data.products=data.products.filter(x=>x.id!==parseInt(eid));
+    cart=cart.filter(item=>item.id!==parseInt(eid));
+    renderCart();
+    const i=data.quickButtons.indexOf(parseInt(eid));
+    if(i>=0)data.quickButtons.splice(i,1);
+    addLog('delete','حذف منتج',p.name);
+    save();
+    closeModal('productModal');
+    renderProducts();
+    renderSell();
+    renderQuickButtons();
+    toast('تم الحذف');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ══════════════ إدارة التصنيفات ══════════════
+// ═══════════════════════════════════════════════════════════════
+function openCategoriesManager(){
+    renderCategoriesManager();
+    document.getElementById('newCategoryName').value='';
+    document.getElementById('categoriesModal').classList.add('show');
+    setTimeout(()=>document.getElementById('newCategoryName').focus(),300);
+}
+function renderCategoriesManager(){
+    const c=document.getElementById('categoriesManagerList');if(!c)return;
+    if(data.categories.length===0){c.innerHTML='<div class="empty" style="padding:30px"><div class="text">لا توجد تصنيفات</div></div>';return}
+    const counts={};
+    data.categories.forEach(cat=>counts[cat]=0);
+    data.products.forEach(p=>{if(p.category&&counts[p.category]!==undefined)counts[p.category]++});
+    c.innerHTML=data.categories.map((cat,i)=>{
+        const n=counts[cat]||0;
+        return`<div style="background:var(--card2);border-radius:12px;padding:12px;margin-bottom:8px;border:1px solid var(--border)">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+                <div style="flex:1"><div style="font-weight:700;font-size:15px">${esc(cat)}</div><div style="font-size:11px;color:var(--dim);margin-top:3px">${n} منتج</div></div>
+                <div style="display:flex;gap:4px">
+                    <button class="btn btn-primary btn-sm" onclick="editCategory(${i})" style="padding:8px 12px">✏️</button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteCategory(${i})" style="padding:8px 12px">🗑️</button>
+                </div>
+            </div>
+        </div>`;
+    }).join('');
+}
+function addNewCategory(){
+    const inp=document.getElementById('newCategoryName'),n=inp.value.trim();
+    if(!n){toast('أدخل الاسم!','error');return}
+    if(n.length>30){toast('الاسم طويل!','error');return}
+    if(data.categories.includes(n)){toast('موجود مسبقاً!','error');return}
+    data.categories.push(n);
+    addLog('create','إضافة تصنيف',n);
+    save();
+    inp.value='';
+    renderCategoriesManager();
+    updateProductCategorySelect();
+    renderCategories();
+    renderQuickCategory();
+    playSound('success');
+    toast('✓ تمت الإضافة');
+    inp.focus();
+}
+function editCategory(i){
+    const old=data.categories[i];
+    const nn=prompt(`تعديل اسم التصنيف:\n\nالاسم الحالي: ${old}`,old);
+    if(nn===null)return;
+    const t=nn.trim();
+    if(!t){toast('فارغ!','error');return}
+    if(t===old)return;
+    if(data.categories.includes(t)){toast('موجود!','error');return}
+    data.categories[i]=t;
+    let uc=0;
+    data.products.forEach(p=>{if(p.category===old){p.category=t;uc++}});
+    addLog('update','تعديل تصنيف',`${old} → ${t} (${uc})`);
+    save();
+    renderCategoriesManager();
+    updateProductCategorySelect();
+    renderCategories();
+    renderProducts();
+    renderSell();
+    renderQuickCategory();
+    toast('✓ تم التعديل');
+}
+function deleteCategory(i){
+    const n=data.categories[i];
+    const pc=data.products.filter(p=>p.category===n);
+    let m=`حذف تصنيف "${n}"؟`;
+    if(pc.length>0)m+=`\n\n⚠️ يوجد ${pc.length} منتج بهذا التصنيف.`;
+    if(!confirm(m))return;
+    data.categories.splice(i,1);
+    data.products.forEach(p=>{if(p.category===n)p.category=''});
+    if(currentCategory===n)currentCategory='الكل';
+    if(quickCategoryFilter===n)quickCategoryFilter='الكل';
+    addLog('delete','حذف تصنيف',n);
+    save();
+    renderCategoriesManager();
+    updateProductCategorySelect();
+    renderCategories();
+    renderProducts();
+    renderSell();
+    renderQuickButtons();
+    toast('✓ تم الحذف');
+}
+function quickAddCategory(){
+    const n=prompt('اسم التصنيف الجديد:');
+    if(!n||!n.trim())return;
+    const t=n.trim();
+    if(data.categories.includes(t)){toast('موجود!','error');return}
+    data.categories.push(t);
+    addLog('create','إضافة تصنيف',t);
+    save();
+    updateProductCategorySelect();
+    renderCategories();
+    const cs=document.getElementById('pCategory');
+    if(cs)cs.value=t;
+    toast('✓ تمت الإضافة');
+}
+function quickAddPurchaseCategory(){
+    const n=prompt('اسم التصنيف الجديد:');
+    if(!n||!n.trim())return;
+    const t=n.trim();
+    if(data.categories.includes(t)){toast('موجود!','error');return}
+    data.categories.push(t);
+    addLog('create','إضافة تصنيف',t);
+    save();
+    updateProductCategorySelect();
+    renderCategories();
+    const cs=document.getElementById('purchaseCategory');
+    if(cs)cs.value=t;
+    toast('✓ تمت الإضافة');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ══════════════ تعديل سعر سريع ══════════════
+// ═══════════════════════════════════════════════════════════════
+function openQuickPrice(id){
+    const p=data.products.find(x=>x.id===id);if(!p)return;
+    document.getElementById('quickPriceId').value=id;
+    const unit=p.sellType==='weight'?'للكيلو':p.sellType==='box'?'للقطعة (من الطرد)':'للقطعة';
+    let info=`<div style="font-weight:800;font-size:15px;margin-bottom:6px">${esc(p.name)}</div>
+              <div style="color:var(--dim);font-size:12px">السعر الحالي (${unit})</div>
+              <div style="color:var(--warning);font-weight:800;font-size:22px">${p.sellPrice.toLocaleString()} ل.س</div>`;
+    if(p.buyPrice&&data.currentRate>0)info+=`<div style="font-size:12px;color:var(--dim);margin-top:8px">الربح: ${(p.sellPrice-p.buyPrice).toFixed(1)} ل.س</div>`;
+    document.getElementById('quickPriceInfo').innerHTML=info;
+    document.getElementById('quickPriceNew').value=p.sellPrice;
+    document.getElementById('quickPriceModal').classList.add('show');
+    setTimeout(()=>document.getElementById('quickPriceNew').select(),300);
+}
+function saveQuickPrice(){
+    const id=parseInt(document.getElementById('quickPriceId').value);
+    const np=parseFloat(document.getElementById('quickPriceNew').value);
+    if(!np||np<=0){toast('سعر صحيح!','error');return}
+    const p=data.products.find(x=>x.id===id);if(!p)return;
+    const op=p.sellPrice;
+    p.sellPrice=np;
+    addLog('update','تعديل سعر',`${p.name}: ${op.toLocaleString()} → ${np.toLocaleString()}`);
+    save();
+    closeModal('quickPriceModal');
+    toast('✓ تم التعديل');
+    renderProducts();
+    renderSell();
+    renderQuickButtons();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ══════════════ تفاصيل منتج ══════════════
+// ═══════════════════════════════════════════════════════════════
+function showProductDetails(id){
+    const p=data.products.find(x=>x.id===id);if(!p)return;
+    let ts=0,tp=0,tpUsd=0,ls=null;
+    data.invoices.forEach(inv=>{
+        const rate=inv.rateAtSale||getRate();
+        inv.items.forEach(item=>{
+            if(item.id===p.id){
+                const pc=item.type==='weight'?item.qty:item.qty*(item.type==='box'?p.piecesPerBox:1);
+                const profit=(item.sell-item.buy)*item.qty;
+                ts+=pc;tp+=profit;
+                if(rate>0)tpUsd+=profit/rate;
+                if(!ls||inv.date>ls)ls=inv.date;
+            }
+        });
+    });
+    const total=getTotalPieces(p),r=getRate();
+    const unit=p.sellType==='weight'?'كيلو':p.sellType==='box'?'قطعة (من الطرد)':'قطعة';
+    let br=`💵 سعر الشراء: <b>${p.buyPrice.toFixed(1)} ل.س</b>`;
+    if(p.boughtInUsd&&p.buyPriceUsd)br+=` <span style="color:var(--gold)">($${p.buyPriceUsd.toFixed(2)})</span>`;
+    let un='';
+    if(p.boughtInUsd&&p.buyPriceUsd&&r>0){
+        const cb=p.buyPriceUsd*r,d=cb-p.buyPrice;
+        if(Math.abs(d)>1)un=`<div class="alert alert-warning" style="margin-top:12px;margin-bottom:0"><div class="alert-icon">⚠️</div><div class="alert-content"><div class="alert-title">تنبيه الصرف</div><div class="alert-text">بسعر الصرف الحالي: <b>${cb.toFixed(1)} ل.س</b> (${d>0?'أعلى':'أقل'} بـ ${Math.abs(d).toFixed(1)})</div></div></div>`;
+    }
+    document.getElementById('productDetailsTitle').textContent=p.name;
+    document.getElementById('productDetailsContent').innerHTML=`
+        <div class="info-row"><span>📁 التصنيف:</span><b>${p.category||'بدون'}</b></div>
+        <div class="info-row"><span>🏷️ نوع البيع:</span><b>${unit}</b></div>
+        <div class="info-row"><span>${br}</span></div>
+        <div class="info-row"><span>💰 سعر البيع:</span><b>${p.sellPrice.toLocaleString()} ل.س</b></div>
+        <div class="info-row"><span>📈 ربح الوحدة:</span><b>${(p.sellPrice-p.buyPrice).toFixed(1)} ل.س</b></div>
+        ${p.sellType==='box'?`<div class="info-row"><span>📦 القطع/طرد:</span><b>${p.piecesPerBox}</b></div>`:''}
+        <div class="info-row"><span>📊 المخزون:</span><b>${getStockDisplay(p)}</b></div>
+        <hr style="margin:15px 0;border-color:var(--border)">
+        <div class="info-row"><span>🛒 إجمالي المبيع:</span><b>${p.sellType==='weight'?ts.toFixed(3)+' كغ':ts+' قطعة'}</b></div>
+        <div class="info-row"><span>💎 إجمالي الربح:</span><b style="color:var(--success)">${tp.toLocaleString(undefined,{maximumFractionDigits:0})} ل.س</b></div>
+        ${tpUsd>0?`<div class="info-row"><span>💵 الربح بالدولار:</span><b style="color:var(--gold)">$${tpUsd.toFixed(2)}</b></div>`:''}
+        <div class="info-row"><span>🕐 آخر بيع:</span><b>${ls?formatDateTime(ls):'لم يُبع'}</b></div>
+        ${un}`;
+    document.getElementById('productDetailsModal').classList.add('show');
+    document.getElementById('productDetailsModal').dataset.productId=id;
+}
+function editFromDetails(){
+    const id=document.getElementById('productDetailsModal').dataset.productId;
+    closeModal('productDetailsModal');
+    openEditProduct(parseInt(id));
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ══════════════ المشتريات ══════════════
+// ═══════════════════════════════════════════════════════════════
+function renderPurchases(){
+    const c=document.getElementById('purchasesList');if(!c)return;
+    const list=data.purchases.slice().reverse().slice(0,50);
+    const tU=data.purchases.reduce((s,p)=>s+(p.usdAmount||0),0);
+    const tL=data.purchases.reduce((s,p)=>{if(p.usdAmount&&p.rateAtPurchase)return s+(p.usdAmount*p.rateAtPurchase);return s},0);
+    document.getElementById('totalUsdPurchases').textContent='$'+tU.toFixed(2);
+    document.getElementById('totalUsdPurchasesLira').textContent=tL>0?'≈ '+tL.toLocaleString()+' ل.س':'';
+    if(list.length===0){c.innerHTML='<div class="empty"><div class="icon">📥</div><div class="text">لا توجد مشتريات</div></div>';return}
+    c.innerHTML=list.map(pu=>{
+        const u=pu.currency==='usd';
+        const cd=u?`$${pu.usdAmount.toFixed(2)}`:`${pu.totalCost.toLocaleString()} ل.س`;
+        const unitLabel=pu.purchaseType==='weight'?'كغ':pu.piecesPerBox?'طرد':'قطعة';
+        return`<div class="invoice">
+            <div class="top">
+                <div><div style="font-weight:700">${esc(pu.productName)}</div><div style="font-size:12px;color:var(--dim);margin-top:4px">${formatDateTime(pu.date)}${pu.wasNewProduct?' <span style="color:var(--success)">(جديد)</span>':''}</div></div>
+                <div class="total" style="color:${u?'var(--gold)':'var(--danger)'}">- ${cd}</div>
+            </div>
+            <div style="font-size:13px;color:var(--text2);line-height:1.7">
+                📦 ${pu.pieces} ${unitLabel} ${pu.piecesPerBox?`(${pu.boxes} طرد × ${pu.piecesPerBox})`:''}
+                ${u?`<br>💵 الصرف: ${pu.rateAtPurchase.toLocaleString()} ل.س`:''}
+                ${u?`<br>💰 بالليرة: ${pu.totalCost.toLocaleString()} ل.س`:''}
+                ${pu.supplier?`<br>👤 ${esc(pu.supplier)}`:''}
+                ${pu.notes?`<br>📝 ${esc(pu.notes)}`:''}
+            </div>
+        </div>`;
+    }).join('');
+}
+function openPurchaseModal(){
+    document.getElementById('purchaseProductName').value='';
+    document.getElementById('purchaseProductInfo').style.display='none';
+    selectedPurchaseProductId=null;
+    updateProductCategorySelect();
+    document.getElementById('purchasePiecesPerBox').value='';
+    document.getElementById('purchaseBoxCount').value='';
+    document.getElementById('purchasePieceCount').value='';
+    document.getElementById('purchaseWeightCount').value='';
+    document.getElementById('purchaseSellPrice').value='';
+    document.getElementById('purchaseTotal').value='';
+    document.getElementById('purchaseSupplier').value='';
+    document.getElementById('purchaseNotes').value='';
+    document.getElementById('purchaseCalcBox').style.display='none';
+    setPurchaseCurrency('lira');
+    setPurchaseType('piece');
+    document.getElementById('purchaseModal').classList.add('show');
+    setTimeout(()=>document.getElementById('purchaseProductName').focus(),300);
+}
+function showSuggestions(){
+    const inp=document.getElementById('purchaseProductName');
+    const sb=document.getElementById('productSuggestions');
+    const q=inp.value.toLowerCase().trim();
+    if(!q){
+        const all=data.products.slice(0,10);
+        if(all.length===0){sb.classList.remove('show');return}
+        sb.innerHTML=all.map(p=>`<div class="suggestion-item" onclick="selectProduct(${p.id})">${esc(p.name)}<div class="sub">${getStockDisplay(p)} • بيع: ${p.sellPrice}</div></div>`).join('');
+        sb.classList.add('show');
+        return;
+    }
+    const m=data.products.filter(p=>p.name.toLowerCase().includes(q)).slice(0,8);
+    let html='';
+    const ex=data.products.find(p=>p.name.toLowerCase()===q);
+    if(!ex)html+=`<div class="suggestion-item new" onclick="createNewProduct()">✨ إضافة: "${esc(inp.value)}"</div>`;
+    html+=m.map(p=>`<div class="suggestion-item" onclick="selectProduct(${p.id})">${esc(p.name)}<div class="sub">${getStockDisplay(p)} • بيع: ${p.sellPrice}</div></div>`).join('');
+    if(html){sb.innerHTML=html;sb.classList.add('show')}
+    else sb.classList.remove('show');
+}
+function selectProduct(id){
+    const p=data.products.find(x=>x.id===id);if(!p)return;
+    selectedPurchaseProductId=id;
+    document.getElementById('purchaseProductName').value=p.name;
+    document.getElementById('productSuggestions').classList.remove('show');
+    if(p.category)document.getElementById('purchaseCategory').value=p.category;
+    const info=document.getElementById('purchaseProductInfo');
+    info.style.display='block';
+    info.innerHTML=`✅ <b style="color:var(--success)">موجود</b> • بيع: ${p.sellPrice.toLocaleString()} ل.س • ${getStockDisplay(p)}`;
+    info.style.background='rgba(16,185,129,.15)';
+    info.style.color='var(--success-l)';
+    info.style.border='1.5px solid var(--success)';
+    document.getElementById('purchaseSellPrice').value=p.sellPrice;
+    if(p.sellType==='weight')setPurchaseType('weight');
+    else if(p.hasBox){setPurchaseType('box');document.getElementById('purchasePiecesPerBox').value=p.piecesPerBox}
+    else setPurchaseType('piece');
+    if(p.boughtInUsd)setPurchaseCurrency('usd');else setPurchaseCurrency('lira');
+    calcPurchase();
+}
+function createNewProduct(){
+    selectedPurchaseProductId=null;
+    document.getElementById('productSuggestions').classList.remove('show');
+    const info=document.getElementById('purchaseProductInfo');
+    info.style.display='block';
+    info.innerHTML=`✨ <b>منتج جديد</b> • سيُضاف عند الحفظ`;
+    info.style.background='rgba(168,85,247,.15)';
+    info.style.color='var(--purple)';
+    info.style.border='1.5px solid var(--purple)';
+    document.getElementById('purchaseSellPrice').value='';
+    calcPurchase();
+}
+document.addEventListener('click',e=>{
+    const sb=document.getElementById('productSuggestions');
+    if(sb&&!e.target.closest('.product-input-wrap'))sb.classList.remove('show');
+});
+function setPurchaseCurrency(c){
+    currentPurchaseCurrency=c;
+    document.getElementById('purchaseLira').classList.toggle('active',c==='lira');
+    document.getElementById('purchaseUsd').classList.toggle('active',c==='usd');
+    document.getElementById('purchaseTotalLabel').innerHTML=c==='usd'?'سعر الشراء الإجمالي (دولار) <span class="label-req">*</span>':'سعر الشراء الإجمالي (ل.س) <span class="label-req">*</span>';
+    calcPurchase();
+}
+function setPurchaseType(t){
+    currentPurchaseType=t;
+    document.getElementById('purchaseTypePiece').classList.toggle('active',t==='piece');
+    document.getElementById('purchaseTypeBox').classList.toggle('active',t==='box');
+    document.getElementById('purchaseTypeWeight').classList.toggle('active',t==='weight');
+    document.getElementById('purchasePiecesPerBoxField').style.display=t==='box'?'block':'none';
+    document.getElementById('purchaseBoxField').style.display=t==='box'?'block':'none';
+    document.getElementById('purchasePieceField').style.display=t==='piece'?'block':'none';
+    document.getElementById('purchaseWeightField').style.display=t==='weight'?'block':'none';
+    const lbl=document.getElementById('purchaseSellPriceLabel');
+    if(t==='weight')lbl.innerHTML='سعر البيع للكيلو (ل.س) <span class="label-req">*</span>';
+    else lbl.innerHTML='سعر البيع للقطعة (ل.س) <span class="label-req">*</span>';
+    calcPurchase();
+}
+function calcPurchase(){
+    const cb=document.getElementById('purchaseCalcBox');
+    const r=getRate();
+    const u=currentPurchaseCurrency==='usd';
+    const ti=parseFloat(document.getElementById('purchaseTotal').value)||0;
+    const sp=parseFloat(document.getElementById('purchaseSellPrice').value)||0;
+    if(ti<=0){cb.style.display='none';return}
+    if(u&&r<=0){cb.style.display='none';return}
+    let tl;if(u)tl=ti*r;else tl=ti;
+    let pc=0;
+    if(currentPurchaseType==='box'){
+        const b=parseInt(document.getElementById('purchaseBoxCount').value)||0;
+        const ppb=parseInt(document.getElementById('purchasePiecesPerBox').value)||0;
+        pc=b*ppb;
+    }else if(currentPurchaseType==='weight'){
+        pc=parseFloat(document.getElementById('purchaseWeightCount').value)||0;
+    }else pc=parseInt(document.getElementById('purchasePieceCount').value)||0;
+    const cost=pc>0?tl/pc:0;
+    const pp=sp-cost;
+    document.getElementById('purchaseRate').textContent=r>0?r.toLocaleString()+' ل.س':'-';
+    document.getElementById('purchasePieceCost').textContent=cost>0?cost.toFixed(2)+' ل.س':'-';
+    document.getElementById('purchasePieceProfit').textContent=pc>0&&sp>0?pp.toFixed(2)+' ل.س':'-';
+    document.getElementById('purchaseTotalPieces').textContent=pc>0?pc.toFixed(3)+' وحدة':'-';
+    cb.style.display='block';
+}
+function savePurchase(){
+    const n=document.getElementById('purchaseProductName').value.trim();
+    const cat=document.getElementById('purchaseCategory').value;
+    const ti=parseFloat(document.getElementById('purchaseTotal').value);
+    const sp=parseFloat(document.getElementById('purchaseSellPrice').value);
+    const sup=document.getElementById('purchaseSupplier').value.trim();
+    const no=document.getElementById('purchaseNotes').value.trim();
+    const u=currentPurchaseCurrency==='usd',r=getRate();
+    if(!n){toast('اكتب الاسم!','error');return}
+    if(!ti||ti<=0){toast('أدخل سعر الشراء!','error');return}
+    if(!sp||sp<=0){toast('أدخل سعر البيع!','error');return}
+    if(u&&r<=0){toast('حدد سعر الصرف!','error');return}
+    let pa=0,bx=0,ppb=0;
+    if(currentPurchaseType==='box'){
+        bx=parseInt(document.getElementById('purchaseBoxCount').value)||0;
+        ppb=parseInt(document.getElementById('purchasePiecesPerBox').value)||0;
+        if(bx<=0){toast('أدخل عدد الطرود!','error');return}
+        if(ppb<=0){toast('أدخل عدد القطع بالطرد!','error');return}
+        pa=bx*ppb;
+    }else if(currentPurchaseType==='weight'){
+        pa=parseFloat(document.getElementById('purchaseWeightCount').value)||0;
+        if(pa<=0){toast('أدخل عدد الكيلوات!','error');return}
+    }else{
+        pa=parseInt(document.getElementById('purchasePieceCount').value)||0;
+        if(pa<=0){toast('أدخل عدد القطع!','error');return}
+    }
+    let tl,tu;
+    if(u){tu=ti;tl=ti*r}else{tl=ti;tu=r>0?ti/r:0}
+    const nbp=tl/pa,nbu=r>0?nbp/r:0;
+    if(sp<nbp){
+        const loss=nbp-sp;
+        if(!confirm(`⚠️ تحذير!\n\nسعر البيع (${sp.toLocaleString()}) أقل من سعر الشراء (${nbp.toFixed(2)}).\nستخسر ${loss.toFixed(2)} ل.س لكل وحدة!\n\nمتابعة؟`))return;
+    }
+    let p=null,wn=false;
+    if(selectedPurchaseProductId)p=data.products.find(x=>x.id===selectedPurchaseProductId);
+    else p=data.products.find(x=>x.name.toLowerCase()===n.toLowerCase());
+    if(!p){
+        wn=true;
+        p={
+            id:Date.now(),name:n,category:cat,
+            sellType:currentPurchaseType==='weight'?'weight':currentPurchaseType==='box'?'box':'piece',
+            hasBox:currentPurchaseType==='box',
+            piecesPerBox:ppb||1,
+            buyPrice:nbp,buyPriceUsd:nbu,boughtInUsd:u,
+            sellPrice:sp,
+            boxCount:0,loosePieces:0,qty:0,weightQty:0
+        };
+        data.products.push(p);
+    }
+    if(p.sellType==='weight'){
+        p.weightQty=(p.weightQty||0)+pa;
+    }else if(p.hasBox){
+        let t=getTotalPieces(p);
+        t+=pa;
+        p.boxCount=Math.floor(t/p.piecesPerBox);
+        p.loosePieces=t%p.piecesPerBox;
+    }else{
+        p.qty=(p.qty||0)+pa;
+    }
+    p.buyPrice=nbp;
+    p.buyPriceUsd=nbu;
+    p.sellPrice=sp;
+    if(u)p.boughtInUsd=true;
+    if(cat)p.category=cat;
+    data.purchases.push({
+        id:Date.now(),date:new Date().toISOString(),
+        productId:p.id,productName:p.name,
+        pieces:pa,boxes:bx,piecesPerBox:ppb||null,
+        purchaseType:currentPurchaseType,
+        totalCost:tl,usdAmount:tu,
+        currency:u?'usd':'lira',rateAtPurchase:r,
+        supplier:sup,notes:no,wasNewProduct:wn
+    });
+    addLog('purchase','تسجيل بضاعة',`${n}: ${pa} ${currentPurchaseType==='weight'?'كغ':'قطعة'} ${wn?'(جديد)':''} • ${tl.toLocaleString()} ل.س`);
+    save();
+    closeModal('purchaseModal');
+    renderPurchases();
+    renderProducts();
+    renderSell();
+    renderQuickButtons();
+    toast(wn?'✓ تم إضافة منتج جديد':'✓ تم التحديث');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ══════════════ صفحة الدولار ══════════════
+// ═══════════════════════════════════════════════════════════════
+function renderCurrencyPage(){
+    updateRateDisplay();
+    const m=new Date().toISOString().substring(0,7);
+    const mp=data.purchases.filter(p=>p.date.startsWith(m));
+    let mu=0,ml=0;
+    mp.forEach(p=>{if(p.currency==='usd'&&p.usdAmount){mu+=p.usdAmount;ml+=p.totalCost}});
+    const ue=document.getElementById('monthUsdPurchases'),le=document.getElementById('monthLiraPurchases');
+    if(ue)ue.textContent='$'+mu.toFixed(2);
+    if(le)le.textContent=ml.toLocaleString();
+    const ab=document.getElementById('rateAlertBox');
+    if(ab){
+        if(data.rateLastUpdated){
+            const d=Math.floor((Date.now()-new Date(data.rateLastUpdated).getTime())/86400000);
+            if(d>=2)ab.innerHTML=`<div class="alert alert-warning"><div class="alert-icon">⚠️</div><div class="alert-content"><div class="alert-title">لم تحدّث السعر منذ ${d} أيام!</div><div class="alert-text">حدّثه لدقة الحسابات.</div></div></div>`;
+            else ab.innerHTML='';
+        }else ab.innerHTML=`<div class="alert alert-danger"><div class="alert-icon">🔴</div><div class="alert-content"><div class="alert-title">لم تحدّد السعر!</div><div class="alert-text">اضغط الزر أعلاه.</div></div></div>`;
+    }
+    const h=[...data.rateHistory].reverse().slice(0,30);
+    const he=document.getElementById('rateHistory');
+    if(h.length===0)he.innerHTML='<div class="empty" style="padding:30px"><div class="text">لا توجد سجلات</div></div>';
+    else he.innerHTML=h.map((r,i)=>{
+        const p=h[i+1];
+        let a='';
+        if(p){if(r.rate>p.rate)a='<span style="color:var(--danger)">↑</span>';else if(r.rate<p.rate)a='<span style="color:var(--success)">↓</span>';else a='<span style="color:var(--dim)">=</span>'}
+        return`<div class="info-row"><span>${new Date(r.date).toLocaleDateString('ar-EG',{weekday:'short',day:'numeric',month:'short'})}</span><span>${a} <b>${r.rate.toLocaleString()} ل.س</b></span></div>`;
+    }).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ══════════════ الديون ═══════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════
+function renderDebts(){
+    const c=document.getElementById('debtsList');if(!c)return;
+    let list=data.debts;
+    if(currentDebtTab==='unpaid')list=list.filter(d=>d.paid<d.amount);
+    else list=list.filter(d=>d.paid>=d.amount);
+    const tu=data.debts.filter(d=>d.paid<d.amount).reduce((s,d)=>s+(d.amount-d.paid),0);
+    const el=document.getElementById('totalDebts');
+    if(el)el.textContent=tu.toLocaleString()+' ل.س';
+    if(list.length===0){c.innerHTML=`<div class="empty"><div class="icon">💸</div><div class="text">${currentDebtTab==='unpaid'?'لا ديون':'لا يوجد'}</div></div>`;return}
+    c.innerHTML=list.map(d=>{
+        const rem=d.amount-d.paid,ip=rem<=0;
+        return`<div class="debt-item ${ip?'paid':''}">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
+                <div><div style="font-weight:800;font-size:16px">👤 ${esc(d.customer)}</div><div style="font-size:12px;color:var(--dim);margin-top:4px">${formatDateTime(d.date)}</div></div>
+                <div style="text-align:left"><div style="color:${ip?'var(--success)':'var(--danger)'};font-weight:800;font-size:18px">${rem.toLocaleString()} ل.س</div>${d.paid>0?`<div style="font-size:11px;color:var(--dim)">مسدد: ${d.paid.toLocaleString()}</div>`:''}</div>
+            </div>
+            ${d.notes?`<div style="font-size:13px;color:var(--dim);margin-bottom:10px">📝 ${esc(d.notes)}</div>`:''}
+            <div style="display:flex;gap:6px">
+                ${!ip?`<button class="btn btn-success btn-sm" style="flex:1" onclick="openPayDebt(${d.id})">💵 تسديد</button>`:''}
+                <button class="btn btn-danger btn-sm" style="flex:1" onclick="deleteDebt(${d.id})">🗑️ حذف</button>
+            </div>
+        </div>`;
+    }).join('');
+}
+function showDebtsTab(t,b){currentDebtTab=t;document.querySelectorAll('#page-debts .tab-inner').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderDebts()}
+function openAddDebt(){document.getElementById('debtCustomer').value='';document.getElementById('debtAmount').value='';document.getElementById('debtNotes').value='';document.getElementById('debtModal').classList.add('show')}
+function saveDebt(){
+    const c=document.getElementById('debtCustomer').value.trim();
+    const a=parseFloat(document.getElementById('debtAmount').value);
+    const n=document.getElementById('debtNotes').value.trim();
+    if(!c){toast('أدخل الاسم!','error');return}
+    if(!a||a<=0){toast('أدخل مبلغ!','error');return}
+    const existing=data.debts.find(d=>d.customer===c&&d.paid<d.amount);
+    if(existing){
+        const rem=existing.amount-existing.paid;
+        if(!confirm(`⚠️ "${c}" عنده دين سابق: ${rem.toLocaleString()} ل.س\n\nهل تريد إضافة دين جديد؟`))return;
+    }
+    data.debts.push({id:Date.now(),customer:c,amount:a,paid:0,date:new Date().toISOString(),notes:n});
+    addLog('create','إضافة دين',`${c}: ${a.toLocaleString()}`);
+    save();
+    closeModal('debtModal');
+    renderDebts();
+    toast('✓ تمت الإضافة');
+}
+function openPayDebt(id){
+    const d=data.debts.find(x=>x.id===id);if(!d)return;
+    document.getElementById('payDebtId').value=id;
+    document.getElementById('payDebtInfo').innerHTML=`<b>👤 ${esc(d.customer)}</b><br>المتبقي: <b style="color:var(--danger);font-size:18px">${(d.amount-d.paid).toLocaleString()} ل.س</b>`;
+    document.getElementById('payDebtAmount').value='';
+    document.getElementById('payDebtModal').classList.add('show');
+    setTimeout(()=>document.getElementById('payDebtAmount').focus(),300);
+}
+function savePayDebt(){
+    const id=parseInt(document.getElementById('payDebtId').value);
+    const a=parseFloat(document.getElementById('payDebtAmount').value);
+    if(!a||a<=0){toast('أدخل مبلغ!','error');return}
+    const d=data.debts.find(x=>x.id===id);if(!d)return;
+    const rem=d.amount-d.paid,p=Math.min(a,rem);
+    d.paid+=p;
+    addLog('update','تسديد دين',`${d.customer}: ${p.toLocaleString()}`);
+    save();
+    closeModal('payDebtModal');
+    renderDebts();
+    toast('✓ تم التسديد');
+}
+function deleteDebt(id){
+    const d=data.debts.find(x=>x.id===id);if(!d)return;
+    if(!confirm(`حذف دين "${d.customer}"؟`))return;
+    data.debts=data.debts.filter(x=>x.id!==id);
+    addLog('delete','حذف دين',d.customer);
+    save();
+    renderDebts();
+    toast('تم الحذف');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ══════════════ التقارير ══════════════
+// ═══════════════════════════════════════════════════════════════
+function showReportTab(t,b){
+    currentReportTab=t;
+    document.querySelectorAll('#page-reports .tab-inner').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    renderReports();
+}
+function renderReports(){
+    const c=document.getElementById('reportContent');if(!c)return;
+    if(currentReportTab==='today')c.innerHTML=reportToday();
+    else if(currentReportTab==='week')c.innerHTML=reportWeek();
+    else if(currentReportTab==='month')c.innerHTML=reportMonth();
+    else if(currentReportTab==='compare')c.innerHTML=reportCompare();
+    else if(currentReportTab==='product')c.innerHTML=reportProducts();
+    else if(currentReportTab==='invoices')c.innerHTML=reportInvoices();
+}
+function getInvoicesByDateRange(f,t){return data.invoices.filter(inv=>{const d=inv.date.split('T')[0];return d>=f&&d<=t})}
+function calculateStats(inv){return{sales:inv.reduce((s,i)=>s+i.total,0),profit:inv.reduce((s,i)=>s+i.profit,0),count:inv.length}}
+function reportToday(){
+    const t=new Date().toISOString().split('T')[0];
+    const inv=getInvoicesByDateRange(t,t);
+    const s=calculateStats(inv);
+    const purchases=data.purchases.filter(p=>p.date.startsWith(t));
+    const e=purchases.reduce((s,p)=>s+p.totalCost,0);
+    const eu=purchases.reduce((s,p)=>s+(p.usdAmount||0),0);
+    const salesUsd=calcUsdFromInvoices(inv,'total');
+    const profitUsd=calcUsdFromInvoices(inv,'profit');
+    return`<div class="stats">
+        <div class="stat green"><div class="v">${s.sales.toLocaleString(undefined,{maximumFractionDigits:0})}</div><div class="l">المبيعات</div>${usdLine(salesUsd)}</div>
+        <div class="stat"><div class="v">${s.profit.toLocaleString(undefined,{maximumFractionDigits:0})}</div><div class="l">الأرباح</div>${usdLine(profitUsd)}</div>
+        <div class="stat purple"><div class="v">${s.count}</div><div class="l">الفواتير</div></div>
+        <div class="stat orange"><div class="v">${e.toLocaleString()}</div><div class="l">مشتريات</div>${eu>0?`<div style="font-size:11px;color:var(--gold);margin-top:2px">منها $${eu.toFixed(2)}</div>`:''}</div>
+    </div>
+    <div class="card">
+        <div class="card-title"><span class="icon">📋</span><span>فواتير اليوم</span></div>
+        ${inv.length===0?'<div class="empty" style="padding:30px"><div class="text">لا توجد فواتير</div></div>':
+            inv.slice().reverse().map((i,x)=>{
+                const invRate=i.rateAtSale||getRate();
+                const invProfitUsd=invRate>0?i.profit/invRate:0;
+                return`<div class="invoice">
+                    <div class="top">
+                        <div><div style="font-weight:700">فاتورة ${inv.length-x}</div><div style="font-size:11px;color:var(--dim);margin-top:4px">${new Date(i.date).toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'})}</div></div>
+                        <div class="total">${i.total.toLocaleString(undefined,{maximumFractionDigits:0})} ل.س</div>
+                    </div>
+                    <div style="font-size:12px;color:var(--success-l);font-weight:700;margin-bottom:8px">💰 الربح: ${i.profit.toLocaleString(undefined,{maximumFractionDigits:0})} ل.س${invProfitUsd>0?` (≈ $${invProfitUsd.toFixed(2)})`:''}</div>
+                    ${i.items.map(it=>{
+                        const unit=it.type==='box'?'طرد':it.type==='weight'?'كغ':'قطعة';
+                        const qty=it.type==='weight'?it.qty.toFixed(3):it.qty;
+                        return`<div class="invoice-item">
+                            <div><div class="name">${esc(it.name)}</div><div class="detail">${qty} ${unit} × ${it.sell.toLocaleString()}</div></div>
+                            <div class="price">${(it.sell*it.qty).toLocaleString(undefined,{maximumFractionDigits:0})}</div>
+                        </div>`;
+                    }).join('')}
+                </div>`;
+            }).join('')}
+    </div>`;
+}
+function reportWeek(){
+    const now=new Date(),dw=now.getDay(),sw=new Date(now);
+    sw.setDate(now.getDate()-dw);
+    const ss=sw.toISOString().split('T')[0],es=now.toISOString().split('T')[0];
+    const inv=getInvoicesByDateRange(ss,es);
+    const s=calculateStats(inv);
+    const e=data.purchases.filter(p=>{const d=p.date.split('T')[0];return d>=ss&&d<=es}).reduce((s,p)=>s+p.totalCost,0);
+    const salesUsd=calcUsdFromInvoices(inv,'total');
+    const profitUsd=calcUsdFromInvoices(inv,'profit');
+    const dd=[];
+    for(let i=0;i<=dw;i++){
+        const d=new Date(sw);d.setDate(sw.getDate()+i);
+        const ds=d.toISOString().split('T')[0];
+        const di=getInvoicesByDateRange(ds,ds),st=calculateStats(di);
+        dd.push({day:['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'][i],sales:st.sales,profit:st.profit,profitUsd:calcUsdFromInvoices(di,'profit')});
+    }
+    const mx=Math.max(...dd.map(x=>x.sales),1);
+    return`<div class="stats">
+        <div class="stat green"><div class="v">${s.sales.toLocaleString(undefined,{maximumFractionDigits:0})}</div><div class="l">مبيعات الأسبوع</div>${usdLine(salesUsd)}</div>
+        <div class="stat"><div class="v">${s.profit.toLocaleString(undefined,{maximumFractionDigits:0})}</div><div class="l">أرباح الأسبوع</div>${usdLine(profitUsd)}</div>
+        <div class="stat purple"><div class="v">${s.count}</div><div class="l">الفواتير</div></div>
+        <div class="stat orange"><div class="v">${e.toLocaleString()}</div><div class="l">المشتريات</div></div>
+    </div>
+    <div class="card">
+        <div class="card-title"><span class="icon">📈</span><span>المبيعات اليومية</span></div>
+        <div class="chart-wrap">${dd.map(d=>{const h=(d.sales/mx)*100,b=d.sales===mx&&d.sales>0;return`<div class="chart-bar ${b?'best':''}" style="height:${Math.max(h,5)}%"><span class="val">${d.sales>0?Math.round(d.sales/1000)+'ك':''}</span><span class="lbl">${d.day}</span></div>`}).join('')}</div>
+    </div>
+    <div class="card">
+        <div class="card-title"><span class="icon">📊</span><span>التفصيل</span></div>
+        ${dd.map(d=>`<div class="info-row"><span>${d.day}</span><span style="text-align:left"><b style="color:var(--primary-l)">${d.sales.toLocaleString(undefined,{maximumFractionDigits:0})}</b><div style="font-size:11px;color:var(--success-l);font-weight:700">ربح: ${d.profit.toLocaleString(undefined,{maximumFractionDigits:0})}${d.profitUsd>0?` (≈ $${d.profitUsd.toFixed(2)})`:''}</div></span></div>`).join('')}
+    </div>`;
+}
+function reportMonth(){
+    const now=new Date(),m=now.toISOString().substring(0,7);
+    const inv=data.invoices.filter(i=>i.date.startsWith(m));
+    const s=calculateStats(inv);
+    const purchases=data.purchases.filter(p=>p.date.startsWith(m));
+    const e=purchases.reduce((s,p)=>s+p.totalCost,0);
+    const eu=purchases.reduce((s,p)=>s+(p.usdAmount||0),0);
+    const salesUsd=calcUsdFromInvoices(inv,'total');
+    const profitUsd=calcUsdFromInvoices(inv,'profit');
+    const np=s.profit-e, npu=profitUsd-eu;
+    const dm={};inv.forEach(i=>{const d=i.date.split('T')[0];if(!dm[d])dm[d]=0;dm[d]+=i.total});
+    const bd=Object.entries(dm).sort((a,b)=>b[1]-a[1])[0];
+    const ad=Object.keys(dm).length,avg=ad>0?s.sales/ad:0;
+    return`<div class="stats">
+        <div class="stat green"><div class="v">${s.sales.toLocaleString(undefined,{maximumFractionDigits:0})}</div><div class="l">مبيعات الشهر</div>${usdLine(salesUsd)}</div>
+        <div class="stat"><div class="v">${s.profit.toLocaleString(undefined,{maximumFractionDigits:0})}</div><div class="l">أرباح الشهر</div>${usdLine(profitUsd)}</div>
+        <div class="stat purple"><div class="v">${s.count}</div><div class="l">الفواتير</div></div>
+        <div class="stat orange"><div class="v">${e.toLocaleString()}</div><div class="l">المشتريات</div>${eu>0?`<div style="font-size:11px;color:var(--gold);margin-top:2px">منها $${eu.toFixed(2)}</div>`:''}</div>
+    </div>
+    <div class="card">
+        <div class="card-title"><span class="icon">💰</span><span>صافي الربح</span></div>
+        <div class="stat ${np>=0?'green':'red'}" style="margin:0"><div class="v" style="color:${np>=0?'var(--success-l)':'var(--danger)'}">${np.toLocaleString(undefined,{maximumFractionDigits:0})}</div><div class="l">الربح - المشتريات</div>${npu>0?`<div style="font-size:12px;color:var(--gold);margin-top:6px;font-weight:800">≈ $${npu.toFixed(2)}</div>`:''}</div>
+    </div>
+    <div class="card">
+        <div class="card-title"><span class="icon">📊</span><span>إحصائيات</span></div>
+        <div class="info-row"><span>📈 متوسط يومي</span><b>${avg.toFixed(0)} ل.س</b></div>
+        <div class="info-row"><span>🏆 أفضل يوم</span><b>${bd?new Date(bd[0]).toLocaleDateString('ar-EG'):'-'}</b></div>
+        <div class="info-row"><span>🎯 توقع نهاية الشهر</span><b style="color:var(--warning)">${(avg*30).toFixed(0)} ل.س</b></div>
+    </div>`;
+}
+function reportCompare(){
+    const now=new Date(),dw=now.getDay();
+    const tws=new Date(now);tws.setDate(now.getDate()-dw);
+    const twss=tws.toISOString().split('T')[0],ts=now.toISOString().split('T')[0];
+    const lws=new Date(tws);lws.setDate(lws.getDate()-7);
+    const lwss=lws.toISOString().split('T')[0];
+    const lwe=new Date(tws);lwe.setDate(lwe.getDate()-1);
+    const lwes=lwe.toISOString().split('T')[0];
+    const tw=getInvoicesByDateRange(twss,ts),lw=getInvoicesByDateRange(lwss,lwes);
+    const tS=calculateStats(tw),lS=calculateStats(lw);
+    const sd=tS.sales-lS.sales,pd=tS.profit-lS.profit,cd=tS.count-lS.count;
+    const sp=lS.sales>0?((sd/lS.sales)*100).toFixed(1):0;
+    const pp=lS.profit>0?((pd/lS.profit)*100).toFixed(1):0;
+    const dc=d=>d>0?'positive':d<0?'negative':'neutral';
+    const dt=(d,p)=>d>0?`+${d.toLocaleString(undefined,{maximumFractionDigits:0})} (${p}%)`:d<0?`${d.toLocaleString(undefined,{maximumFractionDigits:0})} (${p}%)`:'0';
+    const di=d=>d>0?'↑':d<0?'↓':'=';
+    return`<div class="card">
+        <div class="card-title"><span class="icon">📊</span><span>مقارنة الأسبوعين</span></div>
+        <div style="margin-bottom:20px"><div style="text-align:center;margin-bottom:14px;color:var(--dim);font-size:13px;font-weight:700">💰 المبيعات</div>
+            <div class="comparison-grid">
+                <div class="comparison-card current"><div class="label">هذا الأسبوع</div><div class="value" style="color:var(--primary-l)">${tS.sales.toLocaleString(undefined,{maximumFractionDigits:0})}</div></div>
+                <div class="comparison-card previous"><div class="label">الماضي</div><div class="value">${lS.sales.toLocaleString(undefined,{maximumFractionDigits:0})}</div></div>
+            </div><div style="text-align:center"><div class="diff-badge ${dc(sd)}">${di(sd)} ${dt(sd,sp)}</div></div>
+        </div>
+        <div style="margin-bottom:20px"><div style="text-align:center;margin-bottom:14px;color:var(--dim);font-size:13px;font-weight:700">💎 الأرباح</div>
+            <div class="comparison-grid">
+                <div class="comparison-card current"><div class="label">هذا الأسبوع</div><div class="value" style="color:var(--success-l)">${tS.profit.toLocaleString(undefined,{maximumFractionDigits:0})}</div></div>
+                <div class="comparison-card previous"><div class="label">الماضي</div><div class="value">${lS.profit.toLocaleString(undefined,{maximumFractionDigits:0})}</div></div>
+            </div><div style="text-align:center"><div class="diff-badge ${dc(pd)}">${di(pd)} ${dt(pd,pp)}</div></div>
+        </div>
+        <div><div style="text-align:center;margin-bottom:14px;color:var(--dim);font-size:13px;font-weight:700">🧾 الفواتير</div>
+            <div class="comparison-grid">
+                <div class="comparison-card current"><div class="label">هذا الأسبوع</div><div class="value" style="color:var(--primary-l)">${tS.count}</div></div>
+                <div class="comparison-card previous"><div class="label">الماضي</div><div class="value">${lS.count}</div></div>
+            </div><div style="text-align:center"><div class="diff-badge ${dc(cd)}">${di(cd)} ${cd>0?'+':''}${cd}</div></div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-title"><span class="icon">💡</span><span>تحليل</span></div>
+        ${sd>0?'<div class="alert alert-success"><div class="alert-icon">📈</div><div class="alert-content"><div class="alert-title">تحسن!</div><div class="alert-text">مبيعاتك ارتفعت.</div></div></div>':sd<0?'<div class="alert alert-warning"><div class="alert-icon">📉</div><div class="alert-content"><div class="alert-title">انخفاض</div><div class="alert-text">فكّر في عروض.</div></div></div>':'<div class="alert alert-info"><div class="alert-icon">➡️</div><div class="alert-content"><div class="alert-title">مستقر</div><div class="alert-text">نفس المستوى.</div></div></div>'}
+    </div>`;
+}
+function reportProducts(){
+    const ps={};
+    data.invoices.forEach(inv=>{
+        const rate=inv.rateAtSale||getRate();
+        inv.items.forEach(item=>{
+            if(!ps[item.id])ps[item.id]={id:item.id,name:item.name,totalQty:0,totalSales:0,totalProfit:0,totalProfitUsd:0};
+            const profit=(item.sell-item.buy)*item.qty;
+            ps[item.id].totalQty+=item.qty;
+            ps[item.id].totalSales+=item.sell*item.qty;
+            ps[item.id].totalProfit+=profit;
+            if(rate>0)ps[item.id].totalProfitUsd+=profit/rate;
+        });
+    });
+    const sorted=Object.values(ps).sort((a,b)=>b.totalProfit-a.totalProfit);
+    if(sorted.length===0)return'<div class="empty"><div class="icon">📊</div><div class="text">لا مبيعات</div></div>';
+    const bp=sorted[0],ms=[...sorted].sort((a,b)=>b.totalQty-a.totalQty)[0];
+    return`<div class="card">
+        <div class="card-title"><span class="icon">🏆</span><span>الأفضل</span></div>
+        <div class="info-row"><span>💎 الأكثر ربحاً</span><b style="color:var(--success)">${esc(bp.name)}</b></div>
+        <div class="info-row"><span>📦 الأكثر مبيعاً</span><b>${esc(ms.name)} (${ms.totalQty.toFixed(2)})</b></div>
+    </div>
+    <div class="card">
+        <div class="card-title"><span class="icon">📊</span><span>الترتيب حسب الربح</span></div>
+        ${sorted.slice(0,20).map((p,i)=>`<div style="padding:12px 0;border-bottom:1px solid var(--border)">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><b>${i+1}. ${esc(p.name)}</b><b style="color:var(--success-l);font-size:15px">${p.totalProfit.toLocaleString(undefined,{maximumFractionDigits:0})}</b></div>
+            <div style="font-size:12px;color:var(--dim);display:flex;justify-content:space-between"><span>🛒 ${p.totalQty.toFixed(2)}</span><span>💰 ${p.totalSales.toLocaleString(undefined,{maximumFractionDigits:0})} ل.س</span></div>
+            ${p.totalProfitUsd>0?`<div style="font-size:10px;color:var(--gold);text-align:left;margin-top:3px">≈ $${p.totalProfitUsd.toFixed(2)}</div>`:''}
+        </div>`).join('')}
+    </div>`;
+}
+function reportInvoices(){
+    const filters=[{key:'today',label:'📅 اليوم'},{key:'yesterday',label:'📆 أمس'},{key:'week',label:'📊 هذا الأسبوع'},{key:'month',label:'🗓️ هذا الشهر'},{key:'all',label:'📚 الكل'}];
+    let invoices=[],title='';
+    const today=new Date().toISOString().split('T')[0];
+    if(currentInvoiceFilter==='today'){invoices=getInvoicesByDateRange(today,today);title='فواتير اليوم'}
+    else if(currentInvoiceFilter==='yesterday'){const yd=new Date();yd.setDate(yd.getDate()-1);const yds=yd.toISOString().split('T')[0];invoices=getInvoicesByDateRange(yds,yds);title='فواتير أمس'}
+    else if(currentInvoiceFilter==='week'){const now=new Date(),dw=now.getDay();const sw=new Date(now);sw.setDate(now.getDate()-dw);invoices=getInvoicesByDateRange(sw.toISOString().split('T')[0],today);title='فواتير الأسبوع'}
+    else if(currentInvoiceFilter==='month'){const m=today.substring(0,7);invoices=data.invoices.filter(i=>i.date.startsWith(m));title='فواتير الشهر'}
+    else{invoices=[...data.invoices];title='كل الفواتير'}
+    const total=invoices.reduce((s,i)=>s+i.total,0);
+    const totalProfit=invoices.reduce((s,i)=>s+i.profit,0);
+    const totalUsd=calcUsdFromInvoices(invoices,'total');
+    const profitUsd=calcUsdFromInvoices(invoices,'profit');
+    return`<div class="invoice-filters">${filters.map(f=>`<button class="${currentInvoiceFilter===f.key?'active':''}" onclick="setInvoiceFilter('${f.key}')">${f.label}</button>`).join('')}</div>
+    <div class="stats">
+        <div class="stat green"><div class="v">${total.toLocaleString(undefined,{maximumFractionDigits:0})}</div><div class="l">إجمالي المبيعات</div>${usdLine(totalUsd)}</div>
+        <div class="stat"><div class="v">${totalProfit.toLocaleString(undefined,{maximumFractionDigits:0})}</div><div class="l">إجمالي الأرباح</div>${usdLine(profitUsd)}</div>
+        <div class="stat purple"><div class="v">${invoices.length}</div><div class="l">عدد الفواتير</div></div>
+        <div class="stat cyan"><div class="v">${invoices.length>0?(total/invoices.length).toFixed(0):0}</div><div class="l">متوسط الفاتورة</div></div>
+    </div>
+    <div class="card">
+        <div class="card-title"><span class="icon">📄</span><span>${title} (${invoices.length})</span></div>
+        ${invoices.length===0?'<div class="empty" style="padding:30px"><div class="text">لا توجد فواتير</div></div>':
+            invoices.slice().reverse().map((inv,i)=>{
+                const invRate=inv.rateAtSale||getRate();
+                const invProfitUsd=invRate>0?inv.profit/invRate:0;
+                const invTotalUsd=invRate>0?inv.total/invRate:0;
+                return`<div class="invoice">
+                    <div class="top">
+                        <div><div style="font-weight:700">فاتورة #${invoices.length-i}</div><div style="font-size:11px;color:var(--dim);margin-top:4px">${formatDateTime(inv.date)}</div></div>
+                        <div class="total">${inv.total.toLocaleString(undefined,{maximumFractionDigits:0})} ل.س</div>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--dim);padding-bottom:8px;border-bottom:1px solid var(--border);margin-bottom:8px">
+                        <span>💵 ≈ $${invTotalUsd.toFixed(2)}</span>
+                        <span style="color:var(--success-l);font-weight:700">💰 ربح: ${inv.profit.toLocaleString(undefined,{maximumFractionDigits:0})} ل.س${invProfitUsd>0?` (≈ $${invProfitUsd.toFixed(2)})`:''}</span>
+                    </div>
+                    ${inv.items.map(it=>{
+                        const unit=it.type==='box'?'📦 طرد':it.type==='weight'?'⚖️ كغ':'🔹 قطعة';
+                        const qty=it.type==='weight'?it.qty.toFixed(3):it.qty;
+                        return`<div class="invoice-item">
+                            <div><div class="name">${esc(it.name)}</div><div class="detail">${qty} × ${it.sell.toLocaleString()} ل.س</div></div>
+                            <div class="price">${(it.sell*it.qty).toLocaleString(undefined,{maximumFractionDigits:0})} ل.س</div>
+                        </div>`;
+                    }).join('')}
+                </div>`;
+            }).join('')}
+    </div>`;
+}
+function setInvoiceFilter(filter){currentInvoiceFilter=filter;renderReports()}
+
+// ═══════════════════════════════════════════════════════════════
+// ══════════════ التنبيهات ══════════════
+// ═══════════════════════════════════════════════════════════════
+function renderAlerts(){
+    const c=document.getElementById('alertsContent');if(!c)return;
+    const alerts=[];
+    const ls=data.products.filter(p=>{const t=getTotalPieces(p);if(p.sellType==='weight')return t>0&&t<=1;return t>0&&t<=5});
+    ls.forEach(p=>alerts.push({type:'warning',icon:'⚠️',title:`مخزون منخفض: ${p.name}`,text:`متبقي ${getStockDisplay(p)}`}));
+    const os=data.products.filter(p=>getTotalPieces(p)<=0);
+    os.forEach(p=>alerts.push({type:'danger',icon:'🔴',title:`نفد: ${p.name}`,text:'اشترِ المزيد!'}));
+    if(data.rateLastUpdated){
+        const d=Math.floor((Date.now()-new Date(data.rateLastUpdated).getTime())/86400000);
+        if(d>=2)alerts.push({type:'warning',icon:'💵',title:'سعر الصرف قديم',text:`منذ ${d} أيام.`});
+    }else alerts.push({type:'danger',icon:'💵',title:'سعر الصرف غير محدد',text:'اضبط السعر.'});
+    const od=data.debts.filter(d=>{if(d.paid>=d.amount)return false;const days=Math.floor((Date.now()-new Date(d.date).getTime())/86400000);return days>=14});
+    od.forEach(d=>{const days=Math.floor((Date.now()-new Date(d.date).getTime())/86400000);alerts.push({type:'warning',icon:'💸',title:`دين قديم: ${d.customer}`,text:`منذ ${days} يوم • ${(d.amount-d.paid).toLocaleString()} ل.س`})});
+    const lb=localStorage.getItem('last_backup_date');
+    if(lb){
+        const d=Math.floor((Date.now()-new Date(lb).getTime())/86400000);
+        if(d>=7)alerts.push({type:'danger',icon:'💾',title:`نسخة احتياطية قديمة`,text:`منذ ${d} أيام! اعمل نسخة`});
+        else if(d>=3)alerts.push({type:'warning',icon:'💾',title:'نسخة احتياطية',text:`منذ ${d} أيام`});
+    }else alerts.push({type:'danger',icon:'💾',title:'لا توجد نسخة احتياطية',text:'اعمل نسخة الآن!'});
+    const t=new Date().toISOString().split('T')[0];
+    const ti=data.invoices.filter(i=>i.date.startsWith(t));
+    const ts=ti.reduce((s,i)=>s+i.total,0);
+    const tp=ti.reduce((s,i)=>s+i.profit,0);
+    if(alerts.length===0)c.innerHTML='<div class="alert alert-success"><div class="alert-icon">✅</div><div class="alert-content"><div class="alert-title">كل شيء تمام!</div><div class="alert-text">لا تنبيهات.</div></div></div>';
+    else c.innerHTML=alerts.map(a=>`<div class="alert alert-${a.type}"><div class="alert-icon">${a.icon}</div><div class="alert-content"><div class="alert-title">${esc(a.title)}</div><div class="alert-text">${esc(a.text)}</div></div></div>`).join('');
+    c.innerHTML+=`<div class="card" style="margin-top:14px">
+        <div class="card-title"><span class="icon">📊</span><span>ملخص اليوم</span></div>
+        <div class="info-row"><span>💰 المبيعات</span><b>${ts.toLocaleString(undefined,{maximumFractionDigits:0})} ل.س</b></div>
+        <div class="info-row"><span>💎 الأرباح</span><b>${tp.toLocaleString(undefined,{maximumFractionDigits:0})} ل.س</b></div>
+        <div class="info-row"><span>🧾 الفواتير</span><b>${ti.length}</b></div>
+    </div>`;
+}
+function checkAlertsOnStartup(){
+    if(data.settings.alertsEnabled===false)return;
+    const a=[];
+    const os=data.products.filter(p=>getTotalPieces(p)<=0);
+    if(os.length>0)a.push(`⚠️ ${os.length} منتج نفد`);
+    if(data.rateLastUpdated){
+        const d=Math.floor((Date.now()-new Date(data.rateLastUpdated).getTime())/86400000);
+        if(d>=3)a.push(`💵 الدولار منذ ${d} أيام`);
+    }
+    if(a.length>0)setTimeout(()=>showToastMulti(a),1500);
+}
+function showToastMulti(messages){
+    if(messages.length===0)return;
+    const t=document.getElementById('toast');
+    t.innerHTML=messages.join('<br>');
+    t.className='toast show warning';
+    t.style.padding='16px 24px';
+    t.style.borderRadius='20px';
+    t.style.textAlign='right';
+    setTimeout(()=>{t.className='toast';t.style.padding='';t.style.borderRadius='';t.style.textAlign=''},4000);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ══════════════ الأصناف الراكدة ═══════════════════════════════════════════════════════════════
+function renderDeadStock(){
+    const c=document.getElementById('deadStockContent');if(!c)return;
+    const now=Date.now(),di=[];
+    data.products.forEach(p=>{
+        let ls=null,sc=0;
+        data.invoices.forEach(inv=>inv.items.forEach(item=>{if(item.id===p.id){if(!ls||inv.date>ls)ls=inv.date;sc+=item.qty}}));
+        const tp=getTotalPieces(p);
+        if(tp<=0)return;
+        let ds=null;
+        if(ls)ds=Math.floor((now-new Date(ls).getTime())/86400000);
+        if(!ls||ds>=30)di.push({product:p,daysSinceSold:ds,lastSoldDate:ls,totalPieces:tp,soldCount:sc});
+    });
+    di.sort((a,b)=>{const ad=a.daysSinceSold===null?9999:a.daysSinceSold;const bd=b.daysSinceSold===null?9999:b.daysSinceSold;return bd-ad});
+    if(di.length===0){c.innerHTML='<div class="alert alert-success"><div class="alert-icon">🎉</div><div class="alert-content"><div class="alert-title">ممتاز!</div><div class="alert-text">كل منتجاتك تتحرك.</div></div></div>';return}
+    const tv=di.reduce((s,i)=>s+(i.product.buyPrice*i.totalPieces),0);
+    c.innerHTML=`<div class="stats" style="margin-bottom:14px">
+        <div class="stat orange"><div class="v">${di.length}</div><div class="l">منتج راكد</div></div>
+        <div class="stat red"><div class="v">${tv.toFixed(0)}</div><div class="l">قيمة راكدة (ل.س)</div></div>
+    </div>
+    ${di.map(i=>{const p=i.product;const dt=i.daysSinceSold===null?'لم يُبع أبداً':`منذ ${i.daysSinceSold} يوم`;return`<div class="dead-item">
+        <div class="name">${esc(p.name)}</div>
+        <div class="info">${getStockDisplay(p)}<br>💰 قيمة الشراء: ${(p.buyPrice*i.totalPieces).toLocaleString()} ل.س<br>🛒 إجمالي المبيع: ${i.soldCount.toFixed(2)}</div>
+        <div class="days">⏰ ${dt}</div>
+        <div style="display:flex;gap:6px;margin-top:10px">
+            <button class="btn btn-warning btn-sm" style="flex:1" onclick="openQuickPrice(${p.id})">⚡ تعديل السعر</button>
+            <button class="btn btn-primary btn-sm" style="flex:1" onclick="showProductDetails(${p.id})">👁️ تفاصيل</button>
+        </div>
+    </div>`}).join('')}`;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ══════════════ الإعدادات ══════════════
+// ═══════════════════════════════════════════════════════════════
+function renderSettings(){
+    document.getElementById('shopName').value=data.settings.shopName||'';
+    document.getElementById('shopPhone').value=data.settings.shopPhone||'';
+    document.getElementById('alertsEnabled').checked=data.settings.alertsEnabled!==false;
+    document.getElementById('soundEnabled').checked=data.settings.soundEnabled!==false;
+    document.getElementById('backupReminderEnabled').checked=data.settings.backupReminderEnabled!==false;
+}
+function saveShopInfo(){
+    data.settings.shopName=document.getElementById('shopName').value.trim();
+    data.settings.shopPhone=document.getElementById('shopPhone').value.trim();
+    addLog('update','تعديل معلومات المحل','');
+    save();
+    toast('✓ تم الحفظ');
+}
+function saveAlertsSetting(){data.settings.alertsEnabled=document.getElementById('alertsEnabled').checked;save();toast('✓ تم الحفظ')}
+function saveSoundSetting(){data.settings.soundEnabled=document.getElementById('soundEnabled').checked;save();toast('✓ تم الحفظ')}
+function saveBackupSetting(){data.settings.backupReminderEnabled=document.getElementById('backupReminderEnabled').checked;save();toast('✓ تم الحفظ')}
+function resetData(){
+    if(!confirm('⚠️ سيتم حذف جميع البيانات!\n\nمتابعة؟'))return;
+    if(!confirm('تأكيد أخير: لا يمكن التراجع!'))return;
+    localStorage.removeItem(STORAGE_KEY);
+    location.reload();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ══════════════ المساعد الذكي ══════════════
+// ═══════════════════════════════════════════════════════════════
+function openAssistant(){
+    document.getElementById('assistantWindow').classList.add('show');
+    if(assistantHistory.length===0){
+        const hour=new Date().getHours();
+        let g='أهلاً!';
+        if(hour<12)g='صباح الخير! ☀️';
+        else if(hour<18)g='مساء الخير! 🌤️';
+        else g='مساء الخير! 🌙';
+        const today=new Date().toISOString().split('T')[0];
+        const ti=data.invoices.filter(i=>i.date.startsWith(today));
+        const ts=ti.reduce((s,i)=>s+i.total,0);
+        const tp=ti.reduce((s,i)=>s+i.profit,0);
+        let welcome=`${g} 👋\n\nأنا مساعدك الذكي.\n\n`;
+        if(ts>0){
+            welcome+=`📊 مبيعاتك اليوم:\n`;
+            welcome+=`• ${ts.toLocaleString(undefined,{maximumFractionDigits:0})} ل.س\n`;
+            welcome+=`• ربح: ${tp.toLocaleString(undefined,{maximumFractionDigits:0})} ل.س\n\n`;
+        }
+        welcome+=`💬 اسألني:\n• "شو صار اليوم؟"\n• "ليش مبيعاتي نزلت؟"\n• "متى ينفد [منتج]؟"\n• "شو أشتري؟"\n• "تحليل شامل"`;
+        addAssistantMessage('bot',welcome);
+    }
+    setTimeout(()=>document.getElementById('assistantInput').focus(),300);
+}
+function closeAssistant(){document.getElementById('assistantWindow').classList.remove('show')}
+function addAssistantMessage(role,text){
+    const m=document.getElementById('assistantMessages');
+    const now=new Date().toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'});
+    const d=document.createElement('div');
+    d.className='msg '+role;
+    d.innerHTML=text.replace(/\n/g,'<br>')+`<span class="msg-time">${now}</span>`;
+    m.appendChild(d);
+    m.scrollTop=m.scrollHeight;
+    assistantHistory.push({role,text,time:now});
+}
+function showTyping(){
+    const m=document.getElementById('assistantMessages');
+    const d=document.createElement('div');
+    d.className='msg bot';d.id='typingIndicator';
+    d.innerHTML='<div class="typing"><span></span><span></span><span></span></div>';
+    m.appendChild(d);m.scrollTop=m.scrollHeight;
+}
+function hideTyping(){const e=document.getElementById('typingIndicator');if(e)e.remove()}
+function sendAssistant(){
+    const inp=document.getElementById('assistantInput');
+    const text=inp.value.trim();
+    if(!text)return;
+    addAssistantMessage('user',text);
+    inp.value='';
+    showTyping();
+    setTimeout(()=>{hideTyping();addAssistantMessage('bot',getAssistantResponse(text))},600+Math.random()*800);
+}
+function askAssistant(q){document.getElementById('assistantInput').value=q;sendAssistant()}
+
+function getAssistantResponse(q){
+    const query=q.toLowerCase().trim();
+    const r=getRate();
+    const today=new Date().toISOString().split('T')[0];
+    const month=today.substring(0,7);
+    
+    if(/^(سلام|السلام|مرحب|أهل|هلا|هاي)/.test(query)){
+        const h=new Date().getHours();
+        let g=h<12?'صباح الخير! ☀️':h<18?'مساء الخير! 🌤️':'مساء الخير! 🌙';
+        const ti=data.invoices.filter(i=>i.date.startsWith(today));
+        const ts=ti.reduce((s,i)=>s+i.total,0);
+        return`${g}\n\n${ts>0?`مبيعاتك اليوم: ${ts.toLocaleString(undefined,{maximumFractionDigits:0})} ل.س 💰\n\n`:''}كيف أساعدك؟`;
+    }
+    if(/(شكرا|مشكور|يسلمو)/.test(query))return'على الرحب! 😊';
+    if(/(من أنت|شو انت|مين انت)/.test(query))return'أنا مساعدك الذكي 🤖\n\nأعرف كل شي عن محلك!\n\nاسألني أي شي!';
+    if(/(ساعدني|مساعدة|help|شو تعرف)/.test(query))return`🤖 أستطيع مساعدتك في:\n\n📊 المبيعات والأرباح\n🏆 المنتجات\n💵 الدولار\n💸 الديون\n🔮 التوقعات\n💡 النصائح\n\nاسأل بلغتك!`;
+    if(/(بع|بيع|مبيعات)/.test(query)&&/(اليوم|هاليوم)/.test(query)){
+        const ti=data.invoices.filter(i=>i.date.startsWith(today));
+        const ts=ti.reduce((s,i)=>s+i.total,0);
+        const tp=ti.reduce((s,i)=>s+i.profit,0);
+        if(ts===0)return'📊 لا مبيعات اليوم بعد.';
+        const salesUsd=calcUsdFromInvoices(ti,'total');
+        const profitUsd=calcUsdFromInvoices(ti,'profit');
+        let rp=`📊 ملخص اليوم:\n\n💰 ${ts.toLocaleString(undefined,{maximumFractionDigits:0})} ل.س\n💎 ربح: ${tp.toLocaleString(undefined,{maximumFractionDigits:0})} ل.س\n🧾 ${ti.length} فواتير\n`;
+        if(salesUsd>0)rp+=`💵 مبيعات: $${salesUsd.toFixed(2)}\n💵 ربح: $${profitUsd.toFixed(2)}`;
+        return rp;
+    }
+    if(/(ربح|أرباح)/.test(query)&&/(اليوم|هاليوم)/.test(query)){
+        const ti=data.invoices.filter(i=>i.date.startsWith(today));
+        const tp=ti.reduce((s,i)=>s+i.profit,0);
+        const ts=ti.reduce((s,i)=>s+i.total,0);
+        if(tp===0)return'💎 لا أرباح اليوم.';
+        const profitUsd=calcUsdFromInvoices(ti,'profit');
+        const margin=ts>0?((tp/ts)*100).toFixed(1):0;
+        let rp=`💎 ربح اليوم: ${tp.toLocaleString(undefined,{maximumFractionDigits:0})} ل.س\n`;
+        if(profitUsd>0)rp+=`💵 ≈ $${profitUsd.toFixed(2)}\n`;
+        rp+=`📊 هامش الربح: ${margin}%`;
+        return rp;
+    }
+    if(/(بع|مبيعات)/.test(query)&&/(أمس|امبارح)/.test(query)){
+        const yd=new Date();yd.setDate(yd.getDate()-1);
+        const yi=data.invoices.filter(i=>i.date.startsWith(yd.toISOString().split('T')[0]));
+        const ys=yi.reduce((s,i)=>s+i.total,0);
+        const yp=yi.reduce((s,i)=>s+i.profit,0);
+        if(ys===0)return'📊 أمس ما كان في مبيعات.';
+        return`📊 مبيعات أمس:\n\n💰 ${ys.toLocaleString(undefined,{maximumFractionDigits:0})} ل.س\n💎 ${yp.toLocaleString(undefined,{maximumFractionDigits:0})} ل.س\n🧾 ${yi.length} فواتير`;
+    }
+    if(/(بع|مبيعات|ربح)/.test(query)&&/(أسبوع|هالأسبوع)/.test(query)){
+        const now=new Date(),dw=now.getDay();
+        const sw=new Date(now);sw.setDate(now.getDate()-dw);
+        const wi=getInvoicesByDateRange(sw.toISOString().split('T')[0],today);
+        const ws=wi.reduce((s,i)=>s+i.total,0);
+        const wp=wi.reduce((s,i)=>s+i.profit,0);
+        if(ws===0)return'📊 لا مبيعات هذا الأسبوع.';
+        const salesUsd=calcUsdFromInvoices(wi,'total');
+        return`📈 مبيعات الأسبوع:\n\n💰 ${ws.toLocaleString(undefined,{maximumFractionDigits:0})} ل.س\n💎 ${wp.toLocaleString(undefined,{maximumFractionDigits:0})} ل.س\n🧾 ${wi.length} فواتير${salesUsd>0?`\n💵 ≈ $${salesUsd.toFixed(2)}`:''}`;
+    }
+    if(/(بع|مبيعات|ربح)/.test(query)&&/(شهر|هالشهر)/.test(query)){
+        const mi=data.invoices.filter(i=>i.date.startsWith(month));
+        const ms=mi.reduce((s,i)=>s+i.total,0);
+        const mp=mi.reduce((s,i)=>s+i.profit,0);
+        const me=data.purchases.filter(p=>p.date.startsWith(month)).reduce((s,p)=>s+p.totalCost,0);
+        if(ms===0)return'📊 لا مبيعات هذا الشهر.';
+        const salesUsd=calcUsdFromInvoices(mi,'total');
+        let rp=`📅 مبيعات الشهر:\n\n💰 ${ms.toLocaleString(undefined,{maximumFractionDigits:0})} ل.س\n💎 ربح: ${mp.toLocaleString(undefined,{maximumFractionDigits:0})} ل.س\n💸 مشتريات: ${me.toLocaleString(undefined,{maximumFractionDigits:0})} ل.س\n📈 صافي: ${(mp-me).toLocaleString(undefined,{maximumFractionDigits:0})} ل.س`;
+        if(salesUsd>0)rp+=`\n💵 ≈ $${salesUsd.toFixed(2)}`;
+        return rp;
+    }
+    if(/(قارن|مقارنة)/.test(query)&&/(أسبوع|أسبوعين)/.test(query)){
+        const now=new Date(),dw=now.getDay();
+        const tws=new Date(now);tws.setDate(now.getDate()-dw);
+        const lws=new Date(tws);lws.setDate(lws.getDate()-7);
+        const lwe=new Date(tws);lwe.setDate(lwe.getDate()-1);
+        const tw=getInvoicesByDateRange(tws.toISOString().split('T')[0],today);
+        const lw=getInvoicesByDateRange(lws.toISOString().split('T')[0],lwe.toISOString().split('T')[0]);
+        const tS=calculateStats(tw),lS=calculateStats(lw);
+        const sd=tS.sales-lS.sales,pd=tS.profit-lS.profit;
+        const sp=lS.sales>0?((sd/lS.sales)*100).toFixed(1):0;
+        let rp=`📊 مقارنة الأسبوعين:\n\n💰 هذا: ${tS.sales.toLocaleString(undefined,{maximumFractionDigits:0})}\n💰 الماضي: ${lS.sales.toLocaleString(undefined,{maximumFractionDigits:0})}\n`;
+        if(sd>0)rp+=`📈 +${sd.toLocaleString(undefined,{maximumFractionDigits:0})} (${sp}%)\n`;
+        else if(sd<0)rp+=`📉 ${sd.toLocaleString(undefined,{maximumFractionDigits:0})} (${sp}%)\n`;
+        rp+=`\n💎 هذا: ${tS.profit.toLocaleString(undefined,{maximumFractionDigits:0})}\n💎 الماضي: ${lS.profit.toLocaleString(undefined,{maximumFractionDigits:0})}`;
+        return rp;
+    }
+    if(/(أفضل|أكثر)/.test(query)&&/(منتج|سلعة|صنف)/.test(query)){
+        const ps={};
+        data.invoices.forEach(inv=>inv.items.forEach(item=>{if(!ps[item.id])ps[item.id]={name:item.name,qty:0,profit:0};ps[item.id].qty+=item.qty;ps[item.id].profit+=(item.sell-item.buy)*item.qty}));
+        const arr=Object.values(ps);
+        if(arr.length===0)return'📊 لا مبيعات بعد.';
+        const tq=[...arr].sort((a,b)=>b.qty-a.qty)[0];
+        const tp=[...arr].sort((a,b)=>b.profit-a.profit)[0];
+        return`🏆 الأفضل:\n\n📦 الأكثر مبيعاً: ${tq.name} (${tq.qty.toFixed(2)})\n💰 الأكثر ربحاً: ${tp.name} (${tp.profit.toLocaleString(undefined,{maximumFractionDigits:0})} ل.س)`;
+    }
+    if(/(منتج|سلعة|بضاعة)/.test(query)&&/(كم|عدد)/.test(query)){
+        const tv=data.products.reduce((s,p)=>s+(p.buyPrice*getTotalPieces(p)),0);
+        const tr=data.products.reduce((s,p)=>s+(p.sellPrice*getTotalPieces(p)),0);
+        return`📦 عندك ${data.products.length} منتج\n\n💰 قيمة الشراء: ${tv.toLocaleString(undefined,{maximumFractionDigits:0})} ل.س\n💵 قيمة البيع: ${tr.toLocaleString(undefined,{maximumFractionDigits:0})} ل.س\n📈 الربح: ${(tr-tv).toLocaleString(undefined,{maximumFractionDigits:0})} ل.س`;
+    }
+    if(/(راكد|ما يتحرك|متوقف)/.test(query)){
+        const now=Date.now();
+        const dead=data.products.filter(p=>{
+            let ls=null;
+            data.invoices.forEach(inv=>inv.items.forEach(item=>{if(item.id===p.id&&(!ls||inv.date>ls))ls=inv.date}));
+            if(getTotalPieces(p)<=0)return false;
+            const ds=ls?Math.floor((now-new Date(ls).getTime())/86400000):null;
+            return !ls||ds>=30;
+        });
+        if(dead.length===0)return'🎉 لا أصناف راكدة!';
+        let rp=`📉 الأصناف الراكدة: ${dead.length}\n\n`;
+        dead.slice(0,8).forEach(p=>rp+=`• ${p.name}\n`);
+        return rp;
+    }
+    if(/(ينفد|يخلص|قرب|ناقص|نفد|خلص)/.test(query)){
+        const ls=data.products.filter(p=>{const t=getTotalPieces(p);if(p.sellType==='weight')return t>0&&t<=1;return t>0&&t<=5});
+        const os=data.products.filter(p=>getTotalPieces(p)<=0);
+        if(ls.length===0&&os.length===0)return'✅ كل المنتجات متوفرة!';
+        let rp='';
+        if(os.length>0){rp+=`🔴 نفدت (${os.length}):\n`;os.slice(0,8).forEach(p=>rp+=`• ${p.name}\n`);rp+='\n'}
+        if(ls.length>0){rp+=`⚠️ قربت تخلص (${ls.length}):\n`;ls.slice(0,8).forEach(p=>rp+=`• ${p.name} (${getStockDisplay(p)})\n`)}
+        return rp;
+    }
+    if(/(شتري|أشتري|شراء|أطلب|قائمة تسوق)/.test(query)){
+        const ls=data.products.filter(p=>{const t=getTotalPieces(p);if(p.sellType==='weight')return t>0&&t<=1;return t>0&&t<=5});
+        const os=data.products.filter(p=>getTotalPieces(p)<=0);
+        if(ls.length===0&&os.length===0)return'✅ لا تحتاج تشتري شي!';
+        let rp='🛒 قائمة التسوق:\n\n';
+        if(os.length>0){rp+='🔴 نفدت:\n';os.slice(0,10).forEach(p=>rp+=`☐ ${p.name}\n`);rp+='\n'}
+        if(ls.length>0){rp+='⚠️ قربت تخلص:\n';ls.slice(0,10).forEach(p=>rp+=`☐ ${p.name}\n`)}
+        return rp;
+    }
+    if(/(متى|امتى).*(ينفد|يخلص)/.test(query)){
+        const productName=query.replace(/متى|امتى|ينفد|يخلص|سيخلص|سينفد|من|ال/g,'').trim();
+        let product=null;
+        if(productName.length>1)product=data.products.find(p=>p.name.toLowerCase().includes(productName));
+        if(!product)return'❓ حدد اسم المنتج.\n\nمثال: "متى ينفد شيبس ليز؟"';
+        const total=getTotalPieces(product);
+        const now=Date.now(),last14=now-(14*24*60*60*1000);
+        let sold=0;
+        data.invoices.forEach(inv=>{if(new Date(inv.date).getTime()<last14)return;inv.items.forEach(item=>{if(item.id===product.id)sold+=item.qty})});
+        const avg=sold/14;
+        if(avg===0)return`📊 ${product.name}\n\nما بعت منه شي آخر 14 يوم.\n📦 ${getStockDisplay(product)}`;
+        const days=Math.floor(total/avg);
+        const fin=new Date();fin.setDate(fin.getDate()+days);
+        return`⏰ ${product.name}\n\n📦 ${getStockDisplay(product)}\n📊 متوسط: ${avg.toFixed(2)}/يوم\n\n⏳ سينفد خلال ${days} يوم\n📅 ${fin.toLocaleDateString('ar-EG')}`;
+    }
+    if(/(دولار|صرف)/.test(query)){
+        if(r===0)return'💵 لم تحدّد سعر الصرف!';
+        let rp=`💵 1$ = ${r.toLocaleString()} ل.س\n\n`;
+        if(data.rateLastUpdated){
+            const d=Math.floor((Date.now()-new Date(data.rateLastUpdated).getTime())/86400000);
+            if(d===0)rp+='✅ محدّث اليوم';
+            else if(d===1)rp+='⚠️ آخر تحديث أمس';
+            else rp+=`🔴 منذ ${d} أيام`;
+        }
+        const up=data.products.filter(p=>p.boughtInUsd);
+        if(up.length>0){
+            const cu=up.reduce((s,p)=>s+(p.buyPriceUsd||0)*getTotalPieces(p),0);
+            rp+=`\n\n📦 ${up.length} منتج بالدولار\n💵 رأس المال: $${cu.toFixed(2)}`;
+        }
+        return rp;
+    }
+    if(/(دين|ديون)/.test(query)){
+        const up=data.debts.filter(d=>d.paid<d.amount);
+        const t=up.reduce((s,d)=>s+(d.amount-d.paid),0);
+        if(up.length===0)return'✅ لا ديون!';
+        let rp=`💸 الديون:\n\n💰 ${t.toLocaleString(undefined,{maximumFractionDigits:0})} ل.س\n👥 ${up.length} شخص\n\n`;
+        up.slice(0,8).forEach(d=>rp+=`• ${d.customer}: ${(d.amount-d.paid).toLocaleString()} ل.س\n`);
+        return rp;
+    }
+    if(/(توقع|نهاية الشهر)/.test(query)){
+        const now=new Date();
+        const mi=data.invoices.filter(i=>i.date.startsWith(month));
+        const dm={};mi.forEach(i=>{const d=i.date.split('T')[0];if(!dm[d])dm[d]=0;dm[d]+=i.total});
+        const days=Object.keys(dm).length;
+        if(days===0)return'🔮 لا بيانات كافية.';
+        const total=Object.values(dm).reduce((a,b)=>a+b,0);
+        const avg=total/days;
+        const dim=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
+        const remaining=dim-now.getDate();
+        const expected=total+(avg*remaining);
+        return`🔮 توقعات نهاية الشهر:\n\n📅 ${now.getDate()}/${dim}\n📊 متوسط: ${avg.toFixed(0)} ل.س\n⏳ باقي ${remaining} يوم\n\n🎯 المتوقع: ${expected.toFixed(0)} ل.س`;
+    }
+    if(/(نسخة|احتياط|backup)/.test(query)){
+        const lb=localStorage.getItem('last_backup_date');
+        if(!lb)return'💾 لا توجد نسخة احتياطية!\n\nاضغط ☰ → نسخة احتياطية';
+        const d=Math.floor((Date.now()-new Date(lb).getTime())/86400000);
+        return`💾 آخر نسخة: منذ ${d} يوم\n\n${d>=7?'🚨 متأخرة! اعمل نسخة الآن':'✅ جيدة'}\n\n☰ → نسخة احتياطية`;
+    }
+    if(/(نصائح|نصيحة|اقتراح)/.test(query)){
+        const tips=[];
+        const now=Date.now();
+        const dead=data.products.filter(p=>{let ls=null;data.invoices.forEach(inv=>inv.items.forEach(item=>{if(item.id===p.id&&(!ls||inv.date>ls))ls=inv.date}));if(getTotalPieces(p)<=0)return false;const ds=ls?Math.floor((now-new Date(ls).getTime())/86400000):null;return !ls||ds>=30});
+        if(dead.length>0)tips.push(`📉 ${dead.length} منتج راكد`);
+        const os=data.products.filter(p=>getTotalPieces(p)<=0);
+        if(os.length>0)tips.push(`🔴 ${os.length} منتج نفد`);
+        const od=data.debts.filter(d=>{if(d.paid>=d.amount)return false;return Math.floor((Date.now()-new Date(d.date).getTime())/86400000)>=30});
+        if(od.length>0)tips.push(`💸 ${od.length} دين قديم`);
+        const lb=localStorage.getItem('last_backup_date');
+        if(!lb||Math.floor((Date.now()-new Date(lb).getTime())/86400000)>=7)tips.push('💾 اعمل نسخة احتياطية');
+        if(tips.length===0)tips.push('✅ كل شي تمام!');
+        let rp='💡 نصائح:\n\n';
+        tips.forEach((t,i)=>rp+=`${i+1}. ${t}\n`);
+        return rp;
+    }
+    if(/(حلل|تحليل|تقرير شامل)/.test(query)){
+        const ti=data.invoices.filter(i=>i.date.startsWith(today));
+        const mi=data.invoices.filter(i=>i.date.startsWith(month));
+        const tS=ti.reduce((s,i)=>s+i.total,0);
+        const tP=ti.reduce((s,i)=>s+i.profit,0);
+        const mS=mi.reduce((s,i)=>s+i.total,0);
+        const mP=mi.reduce((s,i)=>s+i.profit,0);
+        const mE=data.purchases.filter(p=>p.date.startsWith(month)).reduce((s,p)=>s+p.totalCost,0);
+        return`📋 تحليل شامل:\n\n━━━ اليوم ━━━\n💰 ${tS.toLocaleString(undefined,{maximumFractionDigits:0})}\n💎 ربح: ${tP.toLocaleString(undefined,{maximumFractionDigits:0})}\n🧾 ${ti.length} فواتير\n\n━━━ الشهر ━━━\n💰 ${mS.toLocaleString(undefined,{maximumFractionDigits:0})}\n💎 ${mP.toLocaleString(undefined,{maximumFractionDigits:0})}\n💸 مشتريات: ${mE.toLocaleString(undefined,{maximumFractionDigits:0})}\n📈 صافي: ${(mP-mE).toLocaleString(undefined,{maximumFractionDigits:0})}`;
+    }
+    if(/(شو صار|ملخص|وضع|حالة|أخبار)/.test(query)){
+        const ti=data.invoices.filter(i=>i.date.startsWith(today));
+        const ts=ti.reduce((s,i)=>s+i.total,0);
+        const tp=ti.reduce((s,i)=>s+i.profit,0);
+        let rp=`📊 ملخص اليوم:\n\n💰 ${ts.toLocaleString(undefined,{maximumFractionDigits:0})} ل.س\n💎 ${tp.toLocaleString(undefined,{maximumFractionDigits:0})} ل.س\n🧾 ${ti.length} فواتير`;
+        const os=data.products.filter(p=>getTotalPieces(p)<=0);
+        if(os.length>0)rp+=`\n\n⚠️ ${os.length} منتج نفد`;
+        return rp;
+    }
+    const pm=data.products.find(p=>query.includes(p.name.toLowerCase()));
+    if(pm){
+        const total=getTotalPieces(pm);
+        let sold=0,profit=0;
+        data.invoices.forEach(inv=>inv.items.forEach(item=>{if(item.id===pm.id){sold+=item.qty;profit+=(item.sell-item.buy)*item.qty}}));
+        return`📦 ${pm.name}\n\n💰 ${pm.sellPrice.toLocaleString()} ل.س\n📊 ${getStockDisplay(pm)}\n🛒 إجمالي: ${sold.toFixed(2)}\n💎 ربح: ${profit.toLocaleString(undefined,{maximumFractionDigits:0})} ل.س`;
+    }
+    return`🤔 لم أفهم.\n\n💡 جرّب:\n• "كم بعت اليوم؟"\n• "ما أفضل منتج؟"\n• "تحليل شامل"\n• "شو أشتري؟"\n• "أعطني نصائح"\n• "قارن الأسبوعين"`;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ══════════════ البدء ══════════════
+// ═══════════════════════════════════════════════════════════════
+function init(){
+    load();
+    updateRateDisplay();
+    updateClock();
+    setInterval(updateClock,30000);
+    setInterval(save,60000);
+    renderQuickButtons();
+    renderCategories();
+    renderSell();
+    renderProducts();
+    renderPurchases();
+    renderCurrencyPage();
+    renderDebts();
+    if(data.products.length===0&&!localStorage.getItem('seeded_v9'))seedInitialData();
+    checkAlertsOnStartup();
+    checkBackupReminder();
+}
+function seedInitialData(){
+    data.currentRate=13500;
+    data.rateHistory.push({date:new Date().toISOString().split('T')[0],rate:13500});
+    data.rateLastUpdated=new Date().toISOString();
+    const samples=[
+        {name:'بسكوت أوريو',category:'بسكوت وحلويات',sellType:'box',hasBox:true,piecesPerBox:24,buyPrice:8000/24,buyPriceUsd:(8000/24)/13500,boughtInUsd:true,sellPrice:450,boxCount:3,loosePieces:0},
+        {name:'شيبس ليز كبير',category:'شيبس ومقرمشات',sellType:'piece',hasBox:false,buyPrice:800,buyPriceUsd:800/13500,boughtInUsd:false,sellPrice:1200,qty:50},
+        {name:'كوكا كولا 330مل',category:'مشروبات',sellType:'box',hasBox:true,piecesPerBox:12,buyPrice:14400/12,buyPriceUsd:(14400/12)/13500,boughtInUsd:false,sellPrice:1500,boxCount:2,loosePieces:5},
+        {name:'سكر',category:'مواد غذائية',sellType:'weight',buyPrice:7000,buyPriceUsd:7000/13500,boughtInUsd:false,sellPrice:8500,weightQty:15},
+        {name:'أرز',category:'مواد غذائية',sellType:'weight',buyPrice:9000,buyPriceUsd:9000/13500,boughtInUsd:false,sellPrice:11000,weightQty:20}
+    ];
+    samples.forEach((s,i)=>data.products.push({id:Date.now()+i,...s}));
+    data.quickButtons=data.products.slice(0,4).map(p=>p.id);
+    save();
+    localStorage.setItem('seeded_v9','1');
+    renderQuickButtons();
+    renderSell();
+    setTimeout(()=>toast('✓ جاهز! سعر الدولار: 13,500'),1000);
+}
+window.addEventListener('beforeunload',e=>{if(cart.length>0){e.preventDefault();e.returnValue=''}});
+</script>
+</body>
+</html>
+</body>
+</html>
